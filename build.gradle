@@ -1,0 +1,78 @@
+/**
+ * Build setup
+ */
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.javafxports:jfxmobile-plugin:1.0.0-b10'
+        classpath 'org.flywaydb:flyway-gradle-plugin:3.2.1'
+    }
+}
+
+apply plugin: 'org.javafxports.jfxmobile'
+apply plugin: 'org.flywaydb.flyway'
+
+repositories {
+    jcenter()
+}
+
+/**
+ * Compile setup
+ */
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    compile(
+            [group: 'com.airhacks', name: 'afterburner.fx', version: '1.6.2'],
+            [group: 'javax.inject', name: 'javax.inject', version: '1'],
+            [group: 'com.j256.ormlite', name: 'ormlite-core', version: '4.23'],
+            [group: 'com.j256.ormlite', name: 'ormlite-jdbc', version: '4.23'],
+            [group: 'org.xerial', name: 'sqlite-jdbc', version: '3.8.11.1'],
+            [group: 'com.offbytwo', name: 'docopt', version: '0.6.0.20150202'],
+            [group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'],
+            [group: 'org.projectlombok', name: 'lombok', version: '1.16.6'],
+    )
+}
+
+sourceSets {
+    main {
+        resources.srcDirs = [
+            "src/main/resources",
+            "src/main/java",
+        ]
+    }
+}
+
+mainClassName = 'com.urosjarc.headhunt.App'
+
+/**
+ * Porting javafx
+ */
+jfxmobile {
+    android {
+        manifest = 'src/android/AndroidManifest.xml'
+    }
+    ios {
+        infoPList = file('src/ios/Default-Info.plist')
+    }
+}
+
+/**
+ * Migration
+ */
+flyway {
+    url = 'jdbc:sqlite:src/main/resources/db/headhunt.db'
+    locations = ['filesystem:src/main/resources/db/migration']
+}
+
+/**
+ * Run configuration
+ */
+run {
+    if (project.hasProperty('ENV')) {
+        systemProperties['ENV'] = getProperty('ENV')
+    } else {
+        systemProperties['ENV'] = 'developer'
+    }
+}
