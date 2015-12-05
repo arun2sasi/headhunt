@@ -73,4 +73,6 @@ run {
     } else {
         systemProperties['ENV'] = 'developer'
     }
+
+    println "ENV: ${systemProperties['ENV']}"
 }
