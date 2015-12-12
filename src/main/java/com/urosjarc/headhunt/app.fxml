@@ -32,14 +32,14 @@
             </MenuBar>
          </top>
          <center>
-            <TableView fx:id="tableView" editable="true" BorderPane.alignment="CENTER">
+            <TableView fx:id="resultsTable" editable="true" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn prefWidth="140.00003051757812" text="Stats." />
-                  <TableColumn prefWidth="139.0" text="Image" />
-                  <TableColumn prefWidth="189.0" text="Username" />
-                  <TableColumn minWidth="5.0" prefWidth="230.0" text="Location" />
-                  <TableColumn maxWidth="628.0" minWidth="-1.0" prefWidth="193.0" text="Account" />
-                  <TableColumn prefWidth="190.0" text="Created" />
+                <TableColumn fx:id="resultsTableStats" prefWidth="140.00003051757812" text="Stats." />
+                  <TableColumn fx:id="resultsTableImage" prefWidth="139.0" text="Image" />
+                  <TableColumn fx:id="resultsUsername" prefWidth="189.0" text="Username" />
+                  <TableColumn fx:id="resultsTableLocation" minWidth="5.0" prefWidth="230.0" text="Location" />
+                  <TableColumn fx:id="resultsTableAccount" maxWidth="628.0" minWidth="-1.0" prefWidth="193.0" text="Account" />
+                  <TableColumn fx:id="resultsTableCreated" prefWidth="190.0" text="Created" />
               </columns>
             </TableView>
          </center>

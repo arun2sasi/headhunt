@@ -1,13 +1,12 @@
 package com.urosjarc.headhunt;
 
-import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
+import lombok.Getter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.InterruptedIOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +16,7 @@ import com.urosjarc.headhunt.schemas.TwitterUser;
 
 public class AppModel {
 
+    @Getter
     private static OObjectDatabaseTx db;
 
     @PostConstruct
@@ -40,6 +40,7 @@ public class AppModel {
 
         //Seeding
         TwitterUser user = db.newInstance(TwitterUser.class);
+
         user.setUri("http://google.com");
         user.setName("Uros Jarc");
         user.setLink("http://google.com/urosjarc");
@@ -65,8 +66,6 @@ public class AppModel {
         user.setStatistics(stats);
 
         db.save(user);
-
-        ArrayList<TwitterUser> result = db.query( new OSQLSynchQuery<TwitterUser>("select * from TwitterUser"));
 
     }
 

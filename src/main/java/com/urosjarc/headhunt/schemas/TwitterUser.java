@@ -1,5 +1,6 @@
 package com.urosjarc.headhunt.schemas;
-import lombok.Data;
+import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
+import javafx.beans.property.SimpleStringProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,11 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import com.urosjarc.headhunt.App
+import com.urosjarc.headhunt.AppModel;
 
-/**
- * Created by urosjarc on 12/5/15.
- */
 public class TwitterUser {
 
     @Getter @Setter private String uri;
@@ -28,7 +26,8 @@ public class TwitterUser {
     public TwitterUser() {
     }
 
-    public ArrayList<String> getAll(){
-
+    static public ArrayList<TwitterUser> getAll(){
+        return AppModel.getDb().query(new OSQLSynchQuery<TwitterUser>("select * from TwitterUser"));
     }
+
 }
