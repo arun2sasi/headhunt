@@ -32,7 +32,7 @@
             </MenuBar>
          </top>
          <center>
-            <TableView id="resultsTable" BorderPane.alignment="CENTER">
+            <TableView fx:id="tableView" editable="true" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn prefWidth="140.00003051757812" text="Stats." />
                   <TableColumn prefWidth="139.0" text="Image" />
