@@ -7,7 +7,11 @@ import org.json.simple.parser.JSONParser;
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import com.urosjarc.headhunt.schemas.TwitterUser;
 
@@ -36,12 +40,33 @@ public class AppModel {
 
         //Seeding
         TwitterUser user = db.newInstance(TwitterUser.class);
-        user.setName("Antoni");
-        user.setSurname("Gaudi");
+        user.setUri("http://google.com");
+        user.setName("Uros Jarc");
+        user.setLink("http://google.com/urosjarc");
+        user.setLocation("Ljubljana");
+        user.setBio("This is my bio\nand this is new line.");
+        user.setAccount("Pro account");
+
+        List<String> portraits = new ArrayList<String>();
+        portraits.add("portraits0");
+        portraits.add("portraits1");
+        portraits.add("portraits2");
+        user.setPortraits(portraits);
+
+        List<String> websites = new ArrayList<String>();
+        websites.add("websites0");
+        websites.add("websites1");
+        websites.add("websites2");
+        user.setWebsites(portraits);
+
+        Map<String,Integer> stats = new HashMap<String, Integer>();
+        stats.put("stats0", 34);
+        stats.put("stats1", 200);
+        user.setStatistics(stats);
+
         db.save(user);
 
         ArrayList<TwitterUser> result = db.query( new OSQLSynchQuery<TwitterUser>("select * from TwitterUser"));
-        System.out.println(result.get(0).getName());
 
     }
 

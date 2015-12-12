@@ -1,6 +1,11 @@
 package com.urosjarc.headhunt.schemas;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -8,8 +13,16 @@ import lombok.Setter;
  */
 public class TwitterUser {
 
-    @Setter @Getter private String name;
-    @Setter @Getter private String surname;
+    @Getter @Setter private String uri;
+    @Getter @Setter private String name;
+    @Getter @Setter private String link;
+    @Getter @Setter private String location;
+    @Getter @Setter private String bio;
+    @Getter @Setter private Date createdTime = new Date();
+    @Getter @Setter private String account;
+    @Getter @Setter private List<String> portraits;
+    @Getter @Setter private List<String> websites;
+    @Getter @Setter private Map<String,Integer> statistics;
 
     public TwitterUser() {
     }
