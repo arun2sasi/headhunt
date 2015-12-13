@@ -5,18 +5,27 @@ package com.urosjarc.headhunt;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import com.urosjarc.headhunt.modules.result.ResultPresenter;
+import com.urosjarc.headhunt.modules.result.ResultView;
 import com.urosjarc.headhunt.schemas.TwitterUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.inject.Inject;
 
@@ -28,28 +37,49 @@ public class AppPresenter implements Initializable {
     //INJECTING-NODE
     @FXML
     private TableView<TwitterUser> resultsTable;
-
+    @FXML
+    private TableColumn<TwitterUser,Integer> resultsStats;
     @FXML
     private TableColumn<TwitterUser,String> resultsUsername;
+    @FXML
+    private TableColumn<TwitterUser,String> resultsLocation;
+    @FXML
+    private TableColumn<TwitterUser,String> resultsAccount;
+    @FXML
+    private TableColumn<TwitterUser,Date> resultsCreated;
     //INJECTING-END
-
-    public ObservableList<TwitterUser> results;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("AppPresenter.initialize()");
 
-        //INJECTING-VIEW
-        TwitterUser user = new TwitterUser();
-        user.setName("Uros");
-        List<TwitterUser> listUser = new ArrayList<TwitterUser>();
-        listUser.add(user);
+        initResultsTable();
 
-        System.out.println(resultsUsername);
-        resultsUsername.setCellValueFactory(new PropertyValueFactory<TwitterUser, String>("name"));
-        resultsTable.setItems(FXCollections.observableArrayList(listUser));
+        //INJECTING-VIEW
         //INJECTING-END
 
     }
+
+    private void initResultsTable(){
+        resultsStats.setCellValueFactory(new PropertyValueFactory<TwitterUser, Integer>("activity"));
+        resultsUsername.setCellValueFactory(new PropertyValueFactory<TwitterUser, String>("name"));
+        resultsLocation.setCellValueFactory(new PropertyValueFactory<TwitterUser, String>("location"));
+        resultsAccount.setCellValueFactory(new PropertyValueFactory<TwitterUser, String>("account"));
+        resultsCreated.setCellValueFactory(new PropertyValueFactory<TwitterUser, Date>("createdTime"));
+        resultsTable.setItems(FXCollections.observableArrayList(TwitterUser.getAll()));
+    }
+
+    public void showResult(MouseEvent event){
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+            TwitterUser user = resultsTable.getSelectionModel().getSelectedItem();
+            if(user != null){
+                System.out.println(user.getName());
+
+                ResultPresenter.show();
+
+            }
+        }
+    }
+
 
 }

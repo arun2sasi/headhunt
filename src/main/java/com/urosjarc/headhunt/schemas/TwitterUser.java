@@ -30,4 +30,12 @@ public class TwitterUser {
         return AppModel.getDb().query(new OSQLSynchQuery<TwitterUser>("select * from TwitterUser"));
     }
 
+    public Integer getActivity(){
+        return 1;
+    }
+
+    public String getPortrait(){
+        return portraits.get(0);
+    }
+
 }
