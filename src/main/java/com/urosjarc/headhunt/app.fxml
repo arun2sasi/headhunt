@@ -34,8 +34,9 @@
          <center>
             <TableView fx:id="resultsTable" editable="true" onMousePressed="#showResult" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="resultsStats" prefWidth="140.00003051757812" text="Stats." />
-                  <TableColumn fx:id="resultsUsername" prefWidth="189.0" text="Username" />
+                <TableColumn fx:id="resultsRank" prefWidth="93.00003051757812" text="Rank" />
+                  <TableColumn fx:id="resultsPoints" prefWidth="149.0" text="Points" />
+                  <TableColumn fx:id="resultsUsername" prefWidth="164.0" text="Username" />
                   <TableColumn fx:id="resultsLocation" minWidth="5.0" prefWidth="230.0" text="Location" />
                   <TableColumn fx:id="resultsCreated" prefWidth="190.0" text="Created" />
                   <TableColumn fx:id="resultsAccount" maxWidth="628.0" minWidth="-1.0" prefWidth="193.0" text="Account" />

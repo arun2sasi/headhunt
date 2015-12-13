@@ -12,6 +12,8 @@ import java.util.ResourceBundle;
 import com.urosjarc.headhunt.modules.result.ResultPresenter;
 import com.urosjarc.headhunt.modules.result.ResultView;
 import com.urosjarc.headhunt.schemas.TwitterUser;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -38,7 +40,7 @@ public class AppPresenter implements Initializable {
     @FXML
     private TableView<TwitterUser> resultsTable;
     @FXML
-    private TableColumn<TwitterUser,Integer> resultsStats;
+    private TableColumn<TwitterUser,Integer> resultsPoints;
     @FXML
     private TableColumn<TwitterUser,String> resultsUsername;
     @FXML
@@ -47,6 +49,8 @@ public class AppPresenter implements Initializable {
     private TableColumn<TwitterUser,String> resultsAccount;
     @FXML
     private TableColumn<TwitterUser,Date> resultsCreated;
+    @FXML
+    private TableColumn<TwitterUser,Integer> resultsRank;
     //INJECTING-END
 
     @Override
@@ -61,7 +65,8 @@ public class AppPresenter implements Initializable {
     }
 
     private void initResultsTable(){
-        resultsStats.setCellValueFactory(new PropertyValueFactory<TwitterUser, Integer>("activity"));
+        resultsRank.setCellValueFactory(column -> new ReadOnlyObjectWrapper<Integer>(1 + resultsTable.getItems().indexOf(column.getValue())));
+        resultsPoints.setCellValueFactory(new PropertyValueFactory<TwitterUser, Integer>("points"));
         resultsUsername.setCellValueFactory(new PropertyValueFactory<TwitterUser, String>("name"));
         resultsLocation.setCellValueFactory(new PropertyValueFactory<TwitterUser, String>("location"));
         resultsAccount.setCellValueFactory(new PropertyValueFactory<TwitterUser, String>("account"));
@@ -75,7 +80,7 @@ public class AppPresenter implements Initializable {
             if(user != null){
                 System.out.println(user.getName());
 
-                ResultPresenter.show();
+                ResultPresenter.show(1,user);
 
             }
         }

@@ -33,7 +33,7 @@ public class AppModel {
 
     public static void openDB(String databaseUrl) {
         //Open connection
-        db = new OObjectDatabaseTx("memory:headhunt").create();
+        db = new OObjectDatabaseTx(databaseUrl).create();
 
         //Register tables
         db.getEntityManager().registerEntityClass(TwitterUser.class);
@@ -43,15 +43,14 @@ public class AppModel {
 
         user.setUri("http://google.com");
         user.setName("Uros Jarc");
-        user.setLink("http://google.com/urosjarc");
+        user.setLink("http://google.com");
         user.setLocation("Ljubljana");
         user.setBio("This is my bio\nand this is new line.");
         user.setAccount("Pro account");
 
         List<String> portraits = new ArrayList<String>();
-        portraits.add("portraits0");
-        portraits.add("portraits1");
-        portraits.add("portraits2");
+        portraits.add("http://newshour.s3.amazonaws.com/photos/2011/01/05/portrait-walken_slideshow.jpg");
+        portraits.add("http://newshour.s3.amazonaws.com/photos/2011/01/05/portrait-walken_slideshow.jpg");
         user.setPortraits(portraits);
 
         List<String> websites = new ArrayList<String>();

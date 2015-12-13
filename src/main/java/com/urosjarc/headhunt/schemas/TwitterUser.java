@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import com.urosjarc.headhunt.AppModel;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 public class TwitterUser {
 
     @Getter @Setter private String uri;
@@ -30,12 +32,13 @@ public class TwitterUser {
         return AppModel.getDb().query(new OSQLSynchQuery<TwitterUser>("select * from TwitterUser"));
     }
 
-    public Integer getActivity(){
-        return 1;
+    public Integer getPoints(){
+        int points = 3;
+        return points;
     }
 
     public String getPortrait(){
-        return portraits.get(0);
+        return portraits.get(1);
     }
 
 }
