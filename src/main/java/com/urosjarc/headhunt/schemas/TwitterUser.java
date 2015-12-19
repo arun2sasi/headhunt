@@ -4,11 +4,19 @@ import javafx.beans.property.SimpleStringProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import com.urosjarc.headhunt.AppModel;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import javax.persistence.criteria.CriteriaBuilder;
 
@@ -26,6 +34,22 @@ public class TwitterUser {
     @Getter @Setter private Map<String,Integer> statistics;
 
     public TwitterUser() {
+    }
+
+    static public void importJsonFile(File file){
+
+        JSONParser parser = new JSONParser();
+        try {
+            JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(file));
+            System.out.println(jsonArray.get(0));
+            //Todo: Import one by one in to the database...
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     static public ArrayList<TwitterUser> getAll(){

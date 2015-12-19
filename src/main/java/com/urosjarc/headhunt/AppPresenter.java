@@ -3,31 +3,28 @@ package com.urosjarc.headhunt;
 //INJECTING-CHILD
 //INJECTING-END
 
+import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import com.urosjarc.headhunt.modules.result.ResultPresenter;
-import com.urosjarc.headhunt.modules.result.ResultView;
 import com.urosjarc.headhunt.schemas.TwitterUser;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import javax.inject.Inject;
 
@@ -36,22 +33,20 @@ public class AppPresenter implements Initializable {
     @Inject
     AppModel appModel;
 
-    //INJECTING-NODE
     @FXML
     private TableView<TwitterUser> resultsTable;
     @FXML
-    private TableColumn<TwitterUser,Integer> resultsPoints;
+    private TableColumn<TwitterUser, Integer> resultsPoints;
     @FXML
-    private TableColumn<TwitterUser,String> resultsUsername;
+    private TableColumn<TwitterUser, String> resultsUsername;
     @FXML
-    private TableColumn<TwitterUser,String> resultsLocation;
+    private TableColumn<TwitterUser, String> resultsLocation;
     @FXML
-    private TableColumn<TwitterUser,String> resultsAccount;
+    private TableColumn<TwitterUser, String> resultsAccount;
     @FXML
-    private TableColumn<TwitterUser,Date> resultsCreated;
+    private TableColumn<TwitterUser, Date> resultsCreated;
     @FXML
-    private TableColumn<TwitterUser,Integer> resultsRank;
-    //INJECTING-END
+    private TableColumn<TwitterUser, Integer> resultsRank;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -84,6 +79,20 @@ public class AppPresenter implements Initializable {
 
             }
         }
+    }
+
+    public void importTwitterUsers(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Json files", "*.json"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+        File file = fileChooser.showOpenDialog(new Stage());
+        TwitterUser.importJsonFile(file);
+    }
+
+    public void exit(){
+        Platform.exit();
     }
 
 

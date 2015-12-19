@@ -13,8 +13,19 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Open" />
-                    <MenuItem mnemonicParsing="false" text="Exit" />
+                        <Menu mnemonicParsing="false" text="Open...">
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Database" />
+                          </items>
+                        </Menu>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <Menu mnemonicParsing="false" text="Import...">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#importTwitterUsers" text="Twitter users" />
+                          </items>
+                        </Menu>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                    <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">

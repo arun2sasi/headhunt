@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
