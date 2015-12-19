@@ -40,7 +40,7 @@ public class AppModel {
         db.getEntityManager().registerEntityClass(TwitterUser.class);
 
         //Seeding
-        TwitterUser user = db.newInstance(TwitterUser.class);
+        TwitterUser user = new TwitterUser();
 
         user.setUri("http://google.com");
         user.setName("Uros Jarc");
@@ -65,7 +65,7 @@ public class AppModel {
         stats.put("stats1", 200);
         user.setStatistics(stats);
 
-        db.save(user);
+        user.save();
 
     }
 

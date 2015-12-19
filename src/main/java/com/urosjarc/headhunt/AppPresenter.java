@@ -6,7 +6,10 @@ package com.urosjarc.headhunt;
 import java.io.*;
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import com.urosjarc.headhunt.modules.result.ResultPresenter;
 import com.urosjarc.headhunt.schemas.TwitterUser;
@@ -22,6 +25,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -82,13 +86,38 @@ public class AppPresenter implements Initializable {
     }
 
     public void importTwitterUsers(){
+        /**
+         * Get file from dialog
+         */
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Json files", "*.json"),
                 new FileChooser.ExtensionFilter("All Files", "*.*"));
         File file = fileChooser.showOpenDialog(new Stage());
-        TwitterUser.importJsonFile(file);
+
+        /**
+         * Get json array from file
+         */
+        JSONParser parser = new JSONParser();
+        try {
+            JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(file));
+            jsonArray.forEach(new Consumer() {
+                @Override
+                public void accept(Object object) {
+                    TwitterUser user = new TwitterUser(object);
+                    user.save();
+                }
+            });
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        resultsTable.setItems(FXCollections.observableArrayList(TwitterUser.getAll()));
     }
 
     public void exit(){

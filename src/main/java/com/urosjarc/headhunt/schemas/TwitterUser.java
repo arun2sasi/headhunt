@@ -1,26 +1,16 @@
 package com.urosjarc.headhunt.schemas;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-import javafx.beans.property.SimpleStringProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import com.urosjarc.headhunt.AppModel;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import javax.persistence.criteria.CriteriaBuilder;
-
-public class TwitterUser {
+public class TwitterUser extends Schema {
 
     @Getter @Setter private String uri;
     @Getter @Setter private String name;
@@ -36,20 +26,17 @@ public class TwitterUser {
     public TwitterUser() {
     }
 
-    static public void importJsonFile(File file){
-
-        JSONParser parser = new JSONParser();
-        try {
-            JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(file));
-            System.out.println(jsonArray.get(0));
-            //Todo: Import one by one in to the database...
-        } catch (ParseException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public TwitterUser(Object o) {
+        JSONObject json = (JSONObject) o;
+        this.uri = (String) json.get("uri");
+        this.name = (String) json.get("name");
+        this.link = (String) json.get("link");
+        this.location = (String) json.get("location");
+        this.bio = (String) json.get("bio");
+        this.account = (String) json.get("account");
+//        this.portraits = (List<String>) json.get("portraits");
+//        this.websites = (List<String>) json.get("websites");
+//        this.statistics = (Map<String, Integer>) json.get("statistics");
     }
 
     static public ArrayList<TwitterUser> getAll(){
