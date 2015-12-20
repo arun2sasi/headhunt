@@ -40,7 +40,6 @@ public class TwitterUser extends Schema {
 
         if(users.size() == 1){
             //Update
-            System.out.println("update");
             user = users.get(0);
         } else if(users.size() > 1){
             //Exit
@@ -48,7 +47,6 @@ public class TwitterUser extends Schema {
             return;
         } else {
             //New
-            System.out.println("new");
             user = new TwitterUser();
         }
 

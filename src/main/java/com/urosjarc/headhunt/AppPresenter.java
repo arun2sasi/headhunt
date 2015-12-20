@@ -23,6 +23,9 @@ import com.urosjarc.headhunt.schemas.TwitterUser;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -114,28 +117,39 @@ public class AppPresenter implements Initializable {
                 LoadingDialogView loadingDialogView = new LoadingDialogView("Loading...");
                 loadingDialogView.setText("Importing twitter users...");
 
-                new Thread(){
-                    public void run(){
+                Task<Void> task = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
 
                         ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
-
                         jsonArray.forEach(new Consumer() {
-                            public int index = 1;
-                            public final int size =jsonArray.size();
+                            private int index = 0;
+                            private int size = jsonArray.size();
                             @Override
                             public void accept(Object object) {
+
+                                if(loadingDialogView.shouldClose()) return;
 
                                 TwitterUser.insertOrUpdate(object);
                                 loadingDialogView.setProgress(index/(double) size);
                                 index++;
                             }
                         });
-
-                        System.out.println("Finish");
+                        resultsTable.setItems(FXCollections.observableArrayList(TwitterUser.getAll()));
+                        return null;
                     }
-                }.start();
+                };
 
-                loadingDialogView.setText("Objects imported with success.");
+                task.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+                    @Override
+                    public void handle(WorkerStateEvent event) {
+                        loadingDialogView.close();
+                    }
+                });
+
+                Thread th = new Thread(task);
+                th.setDaemon(true);
+                th.start();
             }
 
 
@@ -147,10 +161,6 @@ public class AppPresenter implements Initializable {
             e.printStackTrace();
         }
 
-        while(TwitterUser.getAll().size() != 4){
-            //Todo: Thread is running after you update items
-        }
-        resultsTable.setItems(FXCollections.observableArrayList(TwitterUser.getAll()));
     }
 
     public void exit(){

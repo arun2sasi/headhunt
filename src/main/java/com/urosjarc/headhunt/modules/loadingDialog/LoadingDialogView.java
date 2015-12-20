@@ -11,11 +11,12 @@ import lombok.Getter;
 public class LoadingDialogView extends FXMLView {
 
     private LoadingDialogPresenter presenter;
+    private Stage stage;
 
     public LoadingDialogView(String title) {
         presenter = (LoadingDialogPresenter) this.getPresenter();
 
-        Stage stage = new Stage();
+        stage = new Stage();
         Scene scene = new Scene(this.getView());
         stage.setScene(scene);
         stage.setResizable(false);
@@ -26,13 +27,18 @@ public class LoadingDialogView extends FXMLView {
     }
 
     public void setProgress(double progress){
-        if((int) progress % 5 == 0) {
-            presenter.progressBar.setProgress(progress);
-        }
+        presenter.progressBar.setProgress(progress);
     }
 
     public void setText(String text){
         presenter.textLabel.setText(text);
     }
 
+    public boolean shouldClose(){
+        return presenter.shouldClose;
+    }
+
+    public void close() {
+        stage.close();
+    }
 }
