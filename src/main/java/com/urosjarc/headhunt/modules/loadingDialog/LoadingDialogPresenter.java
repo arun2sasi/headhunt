@@ -32,7 +32,7 @@ public class LoadingDialogPresenter implements Initializable {
     @FXML
     public ProgressBar progressBar;
     @FXML
-    public Button cancelButton;
+    public Button exitButton;
     //INJECTING-END
 
     @Inject
@@ -47,11 +47,9 @@ public class LoadingDialogPresenter implements Initializable {
 
     }
 
-    public void cancel(){
-        model.setShouldClose(true);
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
-        Injector.forgetAll();
+    public void exit(){
+        Task<Void> task = model.getTask();
+        task.cancel();
     }
 
     public void ok(){
@@ -59,6 +57,14 @@ public class LoadingDialogPresenter implements Initializable {
 
         progressBar.progressProperty().bind(task.progressProperty());
         textLabel.textProperty().bind(task.messageProperty());
+
+        task.setOnCancelled(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent event) {
+                ((Stage) exitButton.getScene().getWindow()).close();
+                Injector.forgetAll();
+            }
+        });
 
         Thread th = new Thread(task);
         th.setDaemon(true);

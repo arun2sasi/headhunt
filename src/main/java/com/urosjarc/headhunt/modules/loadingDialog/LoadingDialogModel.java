@@ -8,7 +8,6 @@ import javax.annotation.PostConstruct;
 
 public class LoadingDialogModel {
 
-    @Getter @Setter private boolean shouldClose = false;
     @Setter @Getter private Task<Void> task;
 
     @PostConstruct

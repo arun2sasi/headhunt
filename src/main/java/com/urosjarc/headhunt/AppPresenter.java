@@ -5,35 +5,24 @@ package com.urosjarc.headhunt;
 
 import java.io.*;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.Date;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
-import com.orientechnologies.orient.core.db.document.ODatabaseDocumentPool;
-import com.orientechnologies.orient.object.db.OObjectDatabasePool;
-import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
-import com.orientechnologies.orient.object.db.OObjectDatabaseTxPooled;
-import com.urosjarc.headhunt.modules.loadingDialog.LoadingDialogPresenter;
 import com.urosjarc.headhunt.modules.loadingDialog.LoadingDialogView;
-import com.urosjarc.headhunt.modules.result.ResultPresenter;
 import com.urosjarc.headhunt.modules.result.ResultView;
 import com.urosjarc.headhunt.schemas.TwitterUser;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -110,29 +99,32 @@ public class AppPresenter implements Initializable {
             LoadingDialogView loadingDialog = new LoadingDialogView("Loading...");
 
             loadingDialog.setTask(
-                "Confirm to import: " + jsonArray.size() + "elements...",
+                "Confirm to import: " + jsonArray.size() + " elements...",
+                "Importing twitter users: " + index + "/" + size,
                 new Task<Void>() {
+                    private int index = 0;
+                    private int size;
                     @Override
                     protected Void call() throws Exception {
                         ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
 
+                        index = 0;
+                        size = jsonArray.size();
+
                         jsonArray.forEach(new Consumer() {
-                            private int index = 0;
-                            private int size = jsonArray.size();
                             @Override
                             public void accept(Object object) {
 
-                                //Todo: Get message if thread should close...
+                                if (isCancelled()) {
+                                    return;
+                                }
 
                                 TwitterUser.insertOrUpdate(object);
                                 updateProgress((double) index,size);
-                                updateMessage("Importing twitter users: " + new DecimalFormat("#.##").format((double) index*100 / size) + " %");
                                 index++;
+                                updateMessage("Importing twitter users: " + index + "/" + size);
                             }
                         });
-
-                        updateProgress(1,1);
-                        updateMessage("Importing twitter users: SUCCESS");
 
                         resultsTable.setItems(FXCollections.observableArrayList(TwitterUser.getAll()));
                         return null;
