@@ -99,17 +99,16 @@ public class AppPresenter implements Initializable {
             LoadingDialogView loadingDialog = new LoadingDialogView("Loading...");
 
             loadingDialog.setTask(
-                "Confirm to import: " + jsonArray.size() + " elements...",
-                "Importing twitter users: " + index + "/" + size,
+                "Importing twitter users: " + jsonArray.size() + " users...",
                 new Task<Void>() {
                     private int index = 0;
-                    private int size;
+                    private final int size = jsonArray.size();
+
                     @Override
                     protected Void call() throws Exception {
                         ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
 
                         index = 0;
-                        size = jsonArray.size();
 
                         jsonArray.forEach(new Consumer() {
                             @Override
@@ -126,7 +125,9 @@ public class AppPresenter implements Initializable {
                             }
                         });
 
+                        updateMessage("Importing twitter users: " + index + "/" + size + " SUCCESS");
                         resultsTable.setItems(FXCollections.observableArrayList(TwitterUser.getAll()));
+
                         return null;
                     }
             });

@@ -34,4 +34,8 @@ public class LoadingDialogView extends FXMLView {
         ctrl.textLabel.setText(text);
         ctrl.model.setTask(task);
     }
+
+    public void setText(String text) {
+        ctrl.textLabel.setText(text);
+    }
 }
