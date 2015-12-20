@@ -1,4 +1,5 @@
 package com.urosjarc.headhunt.schemas;
+import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,24 +20,49 @@ public class TwitterUser extends Schema {
     @Getter @Setter private String bio;
     @Getter @Setter private Date createdTime = new Date();
     @Getter @Setter private String account;
-    @Getter @Setter private List<String> portraits;
+    @Getter @Setter private String portrait;
     @Getter @Setter private List<String> websites;
     @Getter @Setter private Map<String,Integer> statistics;
 
     public TwitterUser() {
     }
 
-    public TwitterUser(Object o) {
+    public static void insertOrUpdate(Object o) {
+
+        TwitterUser user;
+
         JSONObject json = (JSONObject) o;
-        this.uri = (String) json.get("uri");
-        this.name = (String) json.get("name");
-        this.link = (String) json.get("link");
-        this.location = (String) json.get("location");
-        this.bio = (String) json.get("bio");
-        this.account = (String) json.get("account");
-//        this.portraits = (List<String>) json.get("portraits");
-//        this.websites = (List<String>) json.get("websites");
-//        this.statistics = (Map<String, Integer>) json.get("statistics");
+        String uri = (String) json.get("uri");
+
+        List<TwitterUser> users = AppModel.getDb().query(new OSQLSynchQuery<TwitterUser>(
+            "select * from TwitterUser where uri = '" + uri + "'"
+        ));
+
+        if(users.size() == 1){
+            //Update
+            System.out.println("update");
+            user = users.get(0);
+        } else if(users.size() > 1){
+            //Exit
+            System.out.println("Multiple duplicates in twitter users!");
+            return;
+        } else {
+            //New
+            System.out.println("new");
+            user = new TwitterUser();
+        }
+
+        user.setUri(uri);
+        user.setName((String) json.get("name"));
+        user.setLink((String) json.get("link"));
+        user.setLocation((String) json.get("location"));
+        user.setBio((String) json.get("bio"));
+        user.setAccount((String) json.get("account"));
+        user.setPortrait((String) json.get("portrait"));
+        user.setWebsites((List<String>) json.get("websites"));
+        user.setStatistics((Map<String, Integer>) json.get("statistics"));
+
+        user.save();
     }
 
     static public ArrayList<TwitterUser> getAll(){
@@ -46,10 +72,6 @@ public class TwitterUser extends Schema {
     public Integer getPoints(){
         int points = 3;
         return points;
-    }
-
-    public String getPortrait(){
-        return portraits.get(1);
     }
 
 }

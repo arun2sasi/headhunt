@@ -19,13 +19,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.Setter;
 
 import javax.inject.Inject;
 
 public class ResultPresenter implements Initializable {
 
-    static private TwitterUser user;
-    static private int rankPosition;
+    @Setter static private TwitterUser user;
+    @Setter static private int rankPosition;
 
     //INJECTING-NODE
     @FXML
@@ -85,20 +86,4 @@ public class ResultPresenter implements Initializable {
         bio.setText(user.getBio());
     }
 
-    static public void show(int rank,TwitterUser user) {
-        ResultPresenter.rankPosition = rank;
-        ResultPresenter.user = user;
-
-        Stage stage = new Stage();
-
-        ResultView resultView = new ResultView();
-        Scene scene = new Scene(resultView.getView());
-
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setTitle("New task");
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.showAndWait();
-
-    }
 }

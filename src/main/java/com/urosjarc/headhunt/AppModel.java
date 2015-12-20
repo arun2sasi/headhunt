@@ -1,7 +1,10 @@
 package com.urosjarc.headhunt;
 
+import com.orientechnologies.orient.core.db.document.ODatabaseDocumentPool;
+import com.orientechnologies.orient.object.db.OObjectDatabasePool;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import lombok.Getter;
+import lombok.Setter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import javax.annotation.PostConstruct;
@@ -48,17 +51,13 @@ public class AppModel {
         user.setLocation("Ljubljana");
         user.setBio("This is my bio\nand this is new line.");
         user.setAccount("Pro account");
-
-        List<String> portraits = new ArrayList<String>();
-        portraits.add("http://newshour.s3.amazonaws.com/photos/2011/01/05/portrait-walken_slideshow.jpg");
-        portraits.add("http://newshour.s3.amazonaws.com/photos/2011/01/05/portrait-walken_slideshow.jpg");
-        user.setPortraits(portraits);
+        user.setPortrait("http://newshour.s3.amazonaws.com/photos/2011/01/05/portrait-walken_slideshow.jpg");
 
         List<String> websites = new ArrayList<String>();
         websites.add("websites0");
         websites.add("websites1");
         websites.add("websites2");
-        user.setWebsites(portraits);
+        user.setWebsites(websites);
 
         Map<String,Integer> stats = new HashMap<String, Integer>();
         stats.put("stats0", 34);
