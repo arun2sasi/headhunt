@@ -63,8 +63,8 @@ jfxmobile {
  * Migration
  */
 flyway {
-    url = 'jdbc:sqlite:src/main/resources/db/headhunt.db'
-    locations = ['filesystem:src/main/resources/db/migration']
+    url = null
+    locations = null
 }
 
 /**
@@ -74,7 +74,7 @@ run {
     if (project.hasProperty('ENV')) {
         systemProperties['ENV'] = getProperty('ENV')
     } else {
-        systemProperties['ENV'] = 'developer'
+        systemProperties['ENV'] = 'development'
     }
 
     println "ENV: ${systemProperties['ENV']}"

@@ -15,10 +15,15 @@ import java.util.Map;
 
 public class App extends Application {
 
+    private static @Getter String env;
     private static @Getter JSONObject config;
 
     @Override
     public void start(Stage stage) throws Exception {
+        /**
+         * ENV
+         */
+        env = System.getProperty("ENV") == null ? "production" : System.getProperty("ENV");
 
         /**
          * CONFIG
@@ -29,6 +34,13 @@ public class App extends Application {
          * DATABASE
          */
         AppModel.openDB((String) config.get("databaseUrl"));
+
+        /**
+         * SEEDING
+         */
+        if(env == "development"){
+            AppModel.seed();
+        }
 
         /**
          * LOAD FXML STRUCTURE
