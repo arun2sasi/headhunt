@@ -6,6 +6,9 @@
 ### Java template
 *.class
 
+#Android files
+gen
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
