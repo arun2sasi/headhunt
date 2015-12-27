@@ -1,8 +1,10 @@
 package com.urosjarc.headhunt;
 
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentPool;
+import com.orientechnologies.orient.core.exception.OStorageException;
 import com.orientechnologies.orient.object.db.OObjectDatabasePool;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
+import com.orientechnologies.orient.object.db.OObjectNotManagedException;
 import com.urosjarc.headhunt.schemas.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,10 +40,18 @@ public class AppModel {
 
     public static void openDB(String databaseUrl) {
         //Open connection
-        db = new OObjectDatabaseTx(databaseUrl).create();
+        try{
+            db = new OObjectDatabaseTx(databaseUrl).open("admin","admin");
+        } catch (OStorageException e){
+            db = new OObjectDatabaseTx(databaseUrl).create();
+            seed();
+        }
 
         //Register tables
         db.getEntityManager().registerEntityClass(TwitterUser.class);
+    }
+
+    public static void seed(){
 
         //Seeding
         TwitterUser user = new TwitterUser();
