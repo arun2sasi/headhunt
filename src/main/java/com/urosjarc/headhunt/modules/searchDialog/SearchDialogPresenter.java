@@ -3,10 +3,12 @@ package com.urosjarc.headhunt.modules.searchDialog;
 //INJECTING-CHILD
 //INJECTING-END
 
+import com.airhacks.afterburner.injection.Injector;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import java.net.URL;
@@ -16,9 +18,9 @@ public class SearchDialogPresenter implements Initializable {
 
     //INJECTING-NODE
     @FXML
-    public TextField locations;
+    public TextField location;
     @FXML
-    public TextField keywords;
+    public TextField keyword;
     @FXML
     public Button searchButton;
     @FXML
@@ -42,7 +44,8 @@ public class SearchDialogPresenter implements Initializable {
     }
 
     public void cancel(){
-        System.out.println("Cancel");
+        ((Stage) cancelButton.getScene().getWindow()).close();
+        Injector.forgetAll();
     }
 
 }

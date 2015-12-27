@@ -6,6 +6,7 @@ package com.urosjarc.headhunt.modules.result;
 import java.net.URL;
 import java.util.*;
 
+import com.urosjarc.headhunt.schemas.Schema;
 import com.urosjarc.headhunt.schemas.TwitterUser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

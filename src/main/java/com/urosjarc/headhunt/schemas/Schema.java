@@ -11,7 +11,8 @@ public class Schema {
         AppModel.getDb().save(this);
     }
 
-    public static List<Schema> query(String queryString){
+    public static List<TwitterUser> query(String queryString){
+        System.out.println(queryString);
         return AppModel.getDb().query(new OSQLSynchQuery<Schema>(queryString));
     }
 

@@ -2,11 +2,10 @@ package com.urosjarc.headhunt.schemas;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import com.urosjarc.headhunt.AppModel;
+import org.json.simple.JSONObject;
 
 public class TwitterUser extends Schema {
 
@@ -26,12 +25,12 @@ public class TwitterUser extends Schema {
 
     public static void insertOrUpdate(Object o) {
 
-        Schema user;
+        TwitterUser user;
 
         JSONObject json = (JSONObject) o;
         String uri = (String) json.get("uri");
 
-        List<Schema> users = query(
+        List<TwitterUser> users = query(
             "select * from TwitterUser where uri = '" + uri + "'"
         );
 
@@ -60,7 +59,7 @@ public class TwitterUser extends Schema {
         user.save();
     }
 
-    static public List<Schema> getAll(){
+    static public List<TwitterUser> getAll(){
         return query("select * from TwitterUser");
     }
 
@@ -69,7 +68,8 @@ public class TwitterUser extends Schema {
         return points;
     }
 
-    public static List<Schema> search(List<String> locations, List<String> keywords) {
-        return query("select * from TwitterUser");
+    public static List<TwitterUser> search(String location, String keyword) {
+        return query("select * from TwitterUser where bio like '" + keyword + "' and location like '" + location + "'");
     }
+
 }

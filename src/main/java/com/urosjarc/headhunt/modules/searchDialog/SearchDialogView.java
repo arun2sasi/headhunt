@@ -1,14 +1,11 @@
 package com.urosjarc.headhunt.modules.searchDialog;
 
 import com.airhacks.afterburner.views.FXMLView;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Getter;
-
-import java.util.Arrays;
-import java.util.List;
-
 
 public class SearchDialogView extends FXMLView {
 
@@ -25,17 +22,19 @@ public class SearchDialogView extends FXMLView {
         stage.setResizable(false);
         stage.setTitle(title);
         stage.initModality(Modality.APPLICATION_MODAL);
-        stage.showAndWait();
+        stage.show();
     }
 
-    public List<String> getLocations() {
-        String locationsStr = ctrl.locations.getText();
-        return Arrays.asList(locationsStr.split(","));
+    public void onSearchEvent(EventHandler event){
+        ctrl.searchButton.setOnAction(event);
     }
 
-    public List<String> getKeywords() {
-        String keywords = ctrl.keywords.getText();
-        return Arrays.asList(keywords.split(","));
+    public String getLocation() {
+        return ctrl.location.getText();
+    }
+
+    public String getKeyword() {
+        return ctrl.keyword.getText();
     }
 }
 

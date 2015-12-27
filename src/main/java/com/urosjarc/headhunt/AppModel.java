@@ -3,6 +3,7 @@ package com.urosjarc.headhunt;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentPool;
 import com.orientechnologies.orient.object.db.OObjectDatabasePool;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
+import com.urosjarc.headhunt.schemas.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONObject;

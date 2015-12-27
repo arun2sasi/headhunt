@@ -29,8 +29,8 @@
          <children>
             <Label text="Locations: " GridPane.rowIndex="1" />
             <Label text="Keywords:" />
-            <TextField fx:id="locations" promptText="Locations..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="keywords" promptText="Keywords..." GridPane.columnIndex="1" />
+            <TextField fx:id="location" promptText="Location..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="keyword" promptText="Keyword..." GridPane.columnIndex="1" />
             <HBox alignment="TOP_RIGHT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
                   <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" text="Cancel">

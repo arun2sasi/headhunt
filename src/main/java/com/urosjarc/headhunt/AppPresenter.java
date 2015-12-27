@@ -12,14 +12,14 @@ import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import com.urosjarc.headhunt.modules.loadDialog.LoadDialogView;
 import com.urosjarc.headhunt.modules.result.ResultView;
 import com.urosjarc.headhunt.modules.searchDialog.SearchDialogView;
+import com.urosjarc.headhunt.schemas.Schema;
 import com.urosjarc.headhunt.schemas.TwitterUser;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -27,6 +27,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -39,19 +40,19 @@ public class AppPresenter implements Initializable {
     AppModel appModel;
 
     @FXML
-    private TableView<TwitterUser> resultsTable;
+    private TableView<Schema> resultsTable;
     @FXML
-    private TableColumn<TwitterUser, Integer> resultsPoints;
+    private TableColumn<Schema, Integer> resultsPoints;
     @FXML
-    private TableColumn<TwitterUser, String> resultsUsername;
+    private TableColumn<Schema, String> resultsUsername;
     @FXML
-    private TableColumn<TwitterUser, String> resultsLocation;
+    private TableColumn<Schema, String> resultsLocation;
     @FXML
-    private TableColumn<TwitterUser, String> resultsAccount;
+    private TableColumn<Schema, String> resultsAccount;
     @FXML
-    private TableColumn<TwitterUser, Date> resultsCreated;
+    private TableColumn<Schema, Date> resultsCreated;
     @FXML
-    private TableColumn<TwitterUser, Integer> resultsRank;
+    private TableColumn<Schema, Integer> resultsRank;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,22 +67,19 @@ public class AppPresenter implements Initializable {
 
     private void initResultsTable(){
         resultsRank.setCellValueFactory(column -> new ReadOnlyObjectWrapper<Integer>(1 + resultsTable.getItems().indexOf(column.getValue())));
-        resultsPoints.setCellValueFactory(new PropertyValueFactory<TwitterUser, Integer>("points"));
-        resultsUsername.setCellValueFactory(new PropertyValueFactory<TwitterUser, String>("name"));
-        resultsLocation.setCellValueFactory(new PropertyValueFactory<TwitterUser, String>("location"));
-        resultsAccount.setCellValueFactory(new PropertyValueFactory<TwitterUser, String>("account"));
-        resultsCreated.setCellValueFactory(new PropertyValueFactory<TwitterUser, Date>("createdTime"));
+        resultsPoints.setCellValueFactory(new PropertyValueFactory<Schema, Integer>("points"));
+        resultsUsername.setCellValueFactory(new PropertyValueFactory<Schema, String>("name"));
+        resultsLocation.setCellValueFactory(new PropertyValueFactory<Schema, String>("location"));
+        resultsAccount.setCellValueFactory(new PropertyValueFactory<Schema, String>("account"));
+        resultsCreated.setCellValueFactory(new PropertyValueFactory<Schema, Date>("createdTime"));
         resultsTable.setItems(FXCollections.observableArrayList(TwitterUser.getAll()));
     }
 
     public void showResult(MouseEvent event){
         if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-            TwitterUser user = resultsTable.getSelectionModel().getSelectedItem();
+            Schema user = resultsTable.getSelectionModel().getSelectedItem();
             if(user != null){
-                System.out.println(user.getName());
-
-                new ResultView(1,user);
-
+                new ResultView(1, user);
             }
         }
     }
@@ -149,12 +147,16 @@ public class AppPresenter implements Initializable {
 
     public void findUsers(){
         SearchDialogView searchDialog = new SearchDialogView("Find users");
-        resultsTable.setItems(FXCollections.observableArrayList(
-            TwitterUser.search(
-                searchDialog.getLocations(),
-                searchDialog.getKeywords()
-            )
-        ));
+
+        searchDialog.onSearchEvent(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                resultsTable.setItems(FXCollections.observableArrayList(
+                        TwitterUser.search(searchDialog.getLocation(),searchDialog.getKeyword())
+                ));
+            }
+
+        });
 
     }
 
