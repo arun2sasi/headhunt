@@ -6,6 +6,9 @@
 ### Java template
 *.class
 
+#Android files
+gen
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -26,6 +29,3 @@ gradle-app.setting
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
-
-#Generated sqlite files
-*.sqlite

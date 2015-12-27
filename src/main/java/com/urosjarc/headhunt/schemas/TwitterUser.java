@@ -1,14 +1,10 @@
 package com.urosjarc.headhunt.schemas;
-import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
-import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import com.urosjarc.headhunt.AppModel;
 import org.json.simple.JSONObject;
 
 public class TwitterUser extends Schema {
@@ -34,9 +30,9 @@ public class TwitterUser extends Schema {
         JSONObject json = (JSONObject) o;
         String uri = (String) json.get("uri");
 
-        List<TwitterUser> users = AppModel.getDb().query(new OSQLSynchQuery<TwitterUser>(
+        List<TwitterUser> users = query(
             "select * from TwitterUser where uri = '" + uri + "'"
-        ));
+        );
 
         if(users.size() == 1){
             //Update
@@ -63,13 +59,17 @@ public class TwitterUser extends Schema {
         user.save();
     }
 
-    static public ArrayList<TwitterUser> getAll(){
-        return AppModel.getDb().query(new OSQLSynchQuery<TwitterUser>("select * from TwitterUser"));
+    static public List<TwitterUser> getAll(){
+        return query("select * from TwitterUser");
     }
 
     public Integer getPoints(){
         int points = 3;
         return points;
+    }
+
+    public static List<TwitterUser> search(String location, String keyword) {
+        return query("select * from TwitterUser where bio like '" + keyword + "' and location like '" + location + "'");
     }
 
 }

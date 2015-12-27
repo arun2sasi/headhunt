@@ -11,7 +11,7 @@
          <top>
             <MenuBar BorderPane.alignment="CENTER">
               <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu mnemonicParsing="false" text="Database">
                   <items>
                         <Menu mnemonicParsing="false" text="Open...">
                           <items>
@@ -30,7 +30,11 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Find" />
+                        <Menu mnemonicParsing="false" text="Find...">
+                          <items>
+                              <MenuItem mnemonicParsing="false" onAction="#findUsers" text="Users" />
+                          </items>
+                        </Menu>
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

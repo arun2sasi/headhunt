@@ -1,4 +1,4 @@
-package com.urosjarc.headhunt.modules.loadingDialog;
+package com.urosjarc.headhunt.modules.loadDialog;
 
 import com.airhacks.afterburner.views.FXMLView;
 import javafx.concurrent.Task;
@@ -8,14 +8,14 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 
-public class LoadingDialogView extends FXMLView {
+public class LoadDialogView extends FXMLView {
 
     @Getter
-    private LoadingDialogPresenter ctrl;
+    private LoadDialogPresenter ctrl;
 
-    public LoadingDialogView(String title) {
+    public LoadDialogView(String title) {
 
-        ctrl = (LoadingDialogPresenter) this.getPresenter();
+        ctrl = (LoadDialogPresenter) this.getPresenter();
 
         Scene scene = new Scene(this.getView());
         Stage stage = new Stage();
