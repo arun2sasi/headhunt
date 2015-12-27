@@ -1,4 +1,4 @@
-package com.urosjarc.headhunt.modules.loadingDialog;
+package com.urosjarc.headhunt.modules.loadDialog;
 
 import javafx.concurrent.Task;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.annotation.PostConstruct;
 
-public class LoadingDialogModel {
+public class LoadDialogModel {
 
     @Setter @Getter private Task<Void> task;
 

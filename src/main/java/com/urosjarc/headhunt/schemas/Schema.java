@@ -1,8 +1,9 @@
 package com.urosjarc.headhunt.schemas;
 
-import com.sun.jna.platform.win32.ObjBase;
+import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import com.urosjarc.headhunt.AppModel;
-import org.json.simple.JSONObject;
+
+import java.util.List;
 
 public class Schema {
 
@@ -10,5 +11,8 @@ public class Schema {
         AppModel.getDb().save(this);
     }
 
+    public static List<Schema> query(String queryString){
+        return AppModel.getDb().query(new OSQLSynchQuery<Schema>(queryString));
+    }
 
 }

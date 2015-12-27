@@ -5,17 +5,20 @@ package com.urosjarc.headhunt;
 
 import java.io.*;
 import java.net.URL;
-import java.util.Date;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.function.Consumer;
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
-import com.urosjarc.headhunt.modules.loadingDialog.LoadingDialogView;
+import com.urosjarc.headhunt.modules.loadDialog.LoadDialogView;
 import com.urosjarc.headhunt.modules.result.ResultView;
+import com.urosjarc.headhunt.modules.searchDialog.SearchDialogView;
 import com.urosjarc.headhunt.schemas.TwitterUser;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -96,7 +99,7 @@ public class AppPresenter implements Initializable {
         try {
             JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(file));
 
-            LoadingDialogView loadingDialog = new LoadingDialogView("Loading...");
+            LoadDialogView loadingDialog = new LoadDialogView("Loading...");
 
             loadingDialog.setTask(
                 "Importing twitter users: " + jsonArray.size() + " users...",
@@ -141,6 +144,17 @@ public class AppPresenter implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void findUsers(){
+        SearchDialogView searchDialog = new SearchDialogView("Find users");
+        resultsTable.setItems(FXCollections.observableArrayList(
+            TwitterUser.search(
+                searchDialog.getLocations(),
+                searchDialog.getKeywords()
+            )
+        ));
 
     }
 

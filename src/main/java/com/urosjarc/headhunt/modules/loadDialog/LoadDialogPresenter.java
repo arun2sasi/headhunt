@@ -1,4 +1,4 @@
-package com.urosjarc.headhunt.modules.loadingDialog;
+package com.urosjarc.headhunt.modules.loadDialog;
 
 //INJECTING-CHILD
 //INJECTING-END
@@ -6,7 +6,6 @@ package com.urosjarc.headhunt.modules.loadingDialog;
 import com.airhacks.afterburner.injection.Injector;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,7 +18,7 @@ import javax.inject.Inject;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoadingDialogPresenter implements Initializable {
+public class LoadDialogPresenter implements Initializable {
 
     //INJECTING-NODE
     @FXML
@@ -33,7 +32,7 @@ public class LoadingDialogPresenter implements Initializable {
     //INJECTING-END
 
     @Inject
-    LoadingDialogModel model;
+    LoadDialogModel model;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
