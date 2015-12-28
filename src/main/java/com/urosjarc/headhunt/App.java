@@ -33,7 +33,10 @@ public class App extends Application {
         /**
          * DATABASE
          */
-        AppModel.openDB((String) config.get("databaseUrl"));
+        AppModel.openDB(
+                (String) ((JSONObject) config.get("database")).get("type"),
+                (String) ((JSONObject) config.get("database")).get("url")
+        );
 
         /**
          * SEEDING

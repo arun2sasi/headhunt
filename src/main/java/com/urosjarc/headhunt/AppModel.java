@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import javax.annotation.PostConstruct;
+import javax.xml.bind.SchemaOutputResolver;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,12 +41,21 @@ public class AppModel {
         return jsonObject.get(App.getEnv());
     }
 
-    public static void openDB(String databaseUrl) {
+    public static void openDB(String dbType,String dbUrl) {
         //Open connection
+        String dbInfo = dbType + ":";
+        if(dbType.equals("plocal")){
+            //Todo: Make splash screen with configuring application for the first time...
+            dbInfo = dbInfo + System.getProperty("user.home") + "/" + dbUrl;
+        } else {
+            dbInfo = dbInfo + dbUrl;
+        }
+
+        System.out.println(dbInfo);
         try{
-            db = new OObjectDatabaseTx(databaseUrl).open("admin","admin");
+            db = new OObjectDatabaseTx(dbInfo).open("admin","admin");
         } catch (OStorageException e){
-            db = new OObjectDatabaseTx(databaseUrl).create();
+            db = new OObjectDatabaseTx(dbInfo).create();
         }
 
         //Register tables
