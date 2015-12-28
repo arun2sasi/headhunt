@@ -1,4 +1,4 @@
-package com.urosjarc.headhunt;
+package com.urosjarc.headhunt.app;
 
 //INJECTING-CHILD
 //INJECTING-END
@@ -9,9 +9,9 @@ import java.util.*;
 import java.util.function.Consumer;
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
-import com.urosjarc.headhunt.modules.loadDialog.LoadDialogView;
-import com.urosjarc.headhunt.modules.result.ResultView;
-import com.urosjarc.headhunt.modules.searchDialog.SearchDialogView;
+import com.urosjarc.headhunt.app.modules.loadDialog.LoadDialogView;
+import com.urosjarc.headhunt.app.modules.result.ResultView;
+import com.urosjarc.headhunt.app.modules.searchDialog.SearchDialogView;
 import com.urosjarc.headhunt.schemas.Schema;
 import com.urosjarc.headhunt.schemas.TwitterUser;
 import javafx.application.Platform;
@@ -27,7 +27,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;

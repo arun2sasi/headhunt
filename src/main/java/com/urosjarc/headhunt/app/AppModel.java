@@ -1,22 +1,13 @@
-package com.urosjarc.headhunt;
+package com.urosjarc.headhunt.app;
 
-import com.orientechnologies.orient.core.db.document.ODatabaseDocumentPool;
 import com.orientechnologies.orient.core.exception.OStorageException;
-import com.orientechnologies.orient.object.db.OObjectDatabasePool;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
-import com.orientechnologies.orient.object.db.OObjectNotManagedException;
-import com.urosjarc.headhunt.schemas.Schema;
 import lombok.Getter;
-import lombok.Setter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import javax.annotation.PostConstruct;
-import javax.xml.bind.SchemaOutputResolver;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

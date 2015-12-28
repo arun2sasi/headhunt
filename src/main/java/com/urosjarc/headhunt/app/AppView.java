@@ -1,4 +1,4 @@
-package com.urosjarc.headhunt;
+package com.urosjarc.headhunt.app;
 
 import com.airhacks.afterburner.views.FXMLView;
 

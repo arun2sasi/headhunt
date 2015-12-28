@@ -49,7 +49,7 @@ sourceSets {
     }
 }
 
-mainClassName = 'com.urosjarc.headhunt.App'
+mainClassName = 'com.urosjarc.headhunt.Main'
 
 /**
  * Porting javafx

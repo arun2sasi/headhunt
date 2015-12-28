@@ -1,11 +1,11 @@
-package com.urosjarc.headhunt;
+package com.urosjarc.headhunt.app;
 
 import com.airhacks.afterburner.injection.Injector;
 
+import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import org.docopt.Docopt;
 import org.json.simple.JSONObject;
 import lombok.Getter;
-import lombok.Setter;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -19,7 +19,7 @@ public class App extends Application {
     private static @Getter JSONObject config;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void init() throws Exception {
         /**
          * ENV
          */
@@ -41,9 +41,19 @@ public class App extends Application {
         /**
          * SEEDING
          */
-        if(env == "development"){
+        if(env.equals("development") == true){
             AppModel.seed();
         }
+
+
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        /**
+         * DEFINE DB
+         */
+        ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
 
         /**
          * LOAD FXML STRUCTURE
