@@ -14,6 +14,8 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +37,7 @@ public class AppModel {
         JSONParser parser = new JSONParser();
         InputStream is = AppModel.class.getResourceAsStream(configUrl);
         JSONObject jsonObject = (JSONObject) parser.parse(new InputStreamReader(is));
-        return jsonObject.get(System.getProperty("ENV"));
+        return jsonObject.get(App.getEnv());
     }
 
     public static void openDB(String databaseUrl) {
@@ -44,7 +46,6 @@ public class AppModel {
             db = new OObjectDatabaseTx(databaseUrl).open("admin","admin");
         } catch (OStorageException e){
             db = new OObjectDatabaseTx(databaseUrl).create();
-            seed();
         }
 
         //Register tables
@@ -52,6 +53,7 @@ public class AppModel {
     }
 
     public static void seed(){
+        System.out.println("SEEDING");
 
         //Seeding
         TwitterUser user = new TwitterUser();
