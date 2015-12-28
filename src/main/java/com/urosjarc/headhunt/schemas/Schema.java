@@ -1,7 +1,7 @@
 package com.urosjarc.headhunt.schemas;
 
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
-import com.urosjarc.headhunt.AppModel;
+import com.urosjarc.headhunt.app.AppModel;
 
 import java.util.List;
 

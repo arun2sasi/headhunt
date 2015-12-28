@@ -1,4 +1,4 @@
-package com.urosjarc.headhunt.modules.loadDialog;
+package com.urosjarc.headhunt.app.modules.loadDialog;
 
 //INJECTING-CHILD
 //INJECTING-END

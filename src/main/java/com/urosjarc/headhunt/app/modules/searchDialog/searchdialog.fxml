@@ -9,7 +9,7 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="57.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.urosjarc.headhunt.modules.searchDialog.SearchDialogPresenter">
+<AnchorPane prefHeight="57.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.urosjarc.headhunt.app.modules.searchDialog.SearchDialogPresenter">
    <children>
       <GridPane hgap="5.0" maxHeight="-Infinity" vgap="5.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>

@@ -1,8 +1,8 @@
-package com.urosjarc.headhunt.modules.result;
+package com.urosjarc.headhunt.app.modules.searchDialog;
 
 import javax.annotation.PostConstruct;
 
-public class ResultModel{
+public class SearchDialogModel {
 
     @PostConstruct
     public void init() {

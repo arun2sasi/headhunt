@@ -1,4 +1,4 @@
-package com.urosjarc.headhunt.modules.loadDialog;
+package com.urosjarc.headhunt.app.modules.loadDialog;
 
 import com.airhacks.afterburner.views.FXMLView;
 import javafx.concurrent.Task;
