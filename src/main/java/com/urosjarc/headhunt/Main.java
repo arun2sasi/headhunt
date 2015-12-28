@@ -2,16 +2,13 @@ package com.urosjarc.headhunt;
 
 import com.sun.javafx.application.LauncherImpl;
 import com.urosjarc.headhunt.app.App;
-import com.urosjarc.headhunt.preloader.PreloaderView;
+import com.urosjarc.headhunt.preloader.Preloader;
 import org.docopt.Docopt;
 
-import java.util.Arrays;
 import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(args));
-
         Map<String, Object> opts = new Docopt(
             "Description:\n"
             + "  Put description in here...\n"
@@ -27,6 +24,6 @@ public class Main {
             + "\n"
         ).withVersion("Headhunt v0.1.0").parse(args);
 
-        LauncherImpl.launchApplication(App.class, PreloaderView.class, args);
+        LauncherImpl.launchApplication(App.class, Preloader.class, args);
     }
 }

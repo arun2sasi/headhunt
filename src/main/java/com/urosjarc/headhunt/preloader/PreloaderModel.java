@@ -8,8 +8,6 @@ import javax.annotation.PostConstruct;
 
 public class PreloaderModel {
 
-    @Setter @Getter private Task<Void> task;
-
     @PostConstruct
     public void init() {
         System.out.println("NewTaskModel.init()");

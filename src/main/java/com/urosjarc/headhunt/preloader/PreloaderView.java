@@ -1,41 +1,20 @@
 package com.urosjarc.headhunt.preloader;
 
-import javafx.application.Preloader;
-import javafx.application.Preloader.StateChangeNotification.Type;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import com.airhacks.afterburner.views.FXMLView;
+import lombok.Getter;
 
-public class PreloaderView extends Preloader {
-    private Stage preloaderStage;
+public class PreloaderView extends FXMLView {
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        this.preloaderStage = primaryStage;
+    @Getter
+    private static PreloaderPresenter ctrl;
 
-        VBox loading = new VBox(20);
-        loading.setMaxWidth(Region.USE_PREF_SIZE);
-        loading.setMaxHeight(Region.USE_PREF_SIZE);
-        loading.getChildren().add(new ProgressBar());
-        loading.getChildren().add(new Label("Please wait..."));
-
-        BorderPane root = new BorderPane(loading);
-        Scene scene = new Scene(root);
-
-        primaryStage.setWidth(800);
-        primaryStage.setHeight(600);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public PreloaderView(String title) {
+        PreloaderView.ctrl = (PreloaderPresenter) this.getPresenter();
     }
 
-    @Override
-    public void handleStateChangeNotification(StateChangeNotification stateChangeNotification) {
-        if (stateChangeNotification.getType() == Type.BEFORE_START) {
-            preloaderStage.hide();
-        }
+    public static void setProgress(String text,Double progress) {
+        PreloaderView.ctrl.textLabel.setText(text);
+        PreloaderView.ctrl.progressBar.setProgress(progress);
     }
 }
+
