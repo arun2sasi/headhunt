@@ -3,7 +3,9 @@ package com.urosjarc.headhunt.app;
 import com.airhacks.afterburner.injection.Injector;
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
-import org.docopt.Docopt;
+
+import com.urosjarc.headhunt.preloader.PreloaderView;
+import javafx.application.Preloader;
 import org.json.simple.JSONObject;
 import lombok.Getter;
 
@@ -18,6 +20,10 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
+
+
+        new Preloader.ProgressNotification(0.3);
+
         /**
          * ENV
          */
@@ -42,6 +48,7 @@ public class App extends Application {
         if(env.equals("development") == true){
             AppModel.seed();
         }
+
     }
 
     @Override

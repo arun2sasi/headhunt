@@ -18,7 +18,7 @@ public class Preloader extends javafx.application.Preloader {
         /**
          * LOAD FXML STRUCTURE
          */
-        PreloaderView preloaderView = new PreloaderView("Headhunt preloader...");
+        PreloaderView preloaderView = new PreloaderView();
         Scene scene = new Scene(preloaderView.getView());
 
         /**
@@ -35,5 +35,21 @@ public class Preloader extends javafx.application.Preloader {
             stage.close();
         }
     }
+
+    public void handleApplicationNotification(PreloaderNotification info){
+        System.out.println(info);
+
+    }
+
+    public boolean handleErrorNotification(ErrorNotification info){
+        System.out.println(info);
+        return true;
+    }
+
+    public void handleProgressNotification(ProgressNotification info){
+        System.out.println(info.getProgress());
+
+    }
+
 
 }
