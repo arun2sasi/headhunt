@@ -50,6 +50,7 @@ sourceSets {
 }
 
 mainClassName = 'com.urosjarc.headhunt.app.App'
+version = '1.0.0'
 
 /**
  * Migration
@@ -73,12 +74,15 @@ run {
 }
 
 /**
- * JAR manifest
+ * FAT-JAR
  */
 task fatJar(type: Jar) {
-    baseName = project.name + 'App'
+
+    libsDirName = 'jar'
+
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
+
     manifest {
         attributes 'Implementation-Title': 'Headhunt application'
         attributes 'Implementation-Version': '0.0.1'
