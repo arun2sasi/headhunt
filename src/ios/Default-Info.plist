@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
         <key>CFBundleIdentifier</key>
-        <string>com.urosjarc.headhunt.App</string>
+        <string>com.urosjarc.headhunt.App_test</string>
         <key>CFBundleVersion</key>
         <string>1.0</string>
         <key>CFBundleExecutable</key>

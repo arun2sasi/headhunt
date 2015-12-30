@@ -6,12 +6,12 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.javafxports:jfxmobile-plugin:1.0.0-b10'
         classpath 'org.flywaydb:flyway-gradle-plugin:3.2.1'
     }
 }
 
-apply plugin: 'org.javafxports.jfxmobile'
+apply plugin: 'java'
+apply plugin: 'application'
 apply plugin: 'org.flywaydb.flyway'
 
 repositories {
@@ -49,19 +49,6 @@ sourceSets {
     }
 }
 mainClassName = 'com.urosjarc.headhunt.Main'
-retrolambda.oldJdk = '/usr/lib/jvm/java-7-oracle/jre/bin/java'
-
-/**
- * Porting javafx
- */
-jfxmobile {
-    android {
-        manifest = 'src/android/AndroidManifest.xml'
-    }
-    ios {
-        infoPList = file('src/ios/Default-Info.plist')
-    }
-}
 
 /**
  * Migration
@@ -82,8 +69,4 @@ run {
     }
 
     println "ENV: ${systemProperties['ENV']}"
-}
-
-test {
-    include '**/*'
 }
