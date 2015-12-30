@@ -3,40 +3,18 @@ package headhunt.wizard;
 //INJECTING-CHILD
 //INJECTING-END
 
-import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
-import headhunt.app.modules.loadDialog.LoadDialogView;
-import headhunt.app.modules.result.ResultView;
-import headhunt.app.modules.searchDialog.SearchDialogView;
-import headhunt.schemas.Schema;
-import headhunt.schemas.TwitterUser;
-import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import com.airhacks.afterburner.injection.Injector;
+import com.airhacks.afterburner.views.FXMLView;
+import headhunt.wizard.views.hello.HelloView;
+import headhunt.wizard.views.path.PathView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import javafx.scene.layout.AnchorPane;
 
 import javax.inject.Inject;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 public class WizardPresenter implements Initializable {
 
@@ -52,6 +30,9 @@ public class WizardPresenter implements Initializable {
     @FXML
     private Button finishButton;
 
+    @FXML
+    private AnchorPane view;
+
     @Inject
     WizardModel model;
 
@@ -59,21 +40,60 @@ public class WizardPresenter implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("WizardPresenter.initialize()");
 
+        finishButton.setDisable(true);
+        previousButton.setDisable(true);
+
         //INJECTING-VIEW
+        view.getChildren().addAll(
+            new HelloView().getView(),
+            new PathView().getView()
+        );
         //INJECTING-END
 
     }
 
     @FXML
-    private void previous(){}
+    private void previous(){
+        nextButton.setDisable(false);
+        finishButton.setDisable(true);
+
+        if(model.viewIndex - 1 == 0 ) {
+            view.getChildren().get(model.viewIndex).setVisible(false);
+            model.viewIndex--;
+            view.getChildren().get(model.viewIndex).setVisible(true);
+        }
+
+        if (model.viewIndex == 0){
+            previousButton.setDisable(true);
+        }
+
+    }
 
     @FXML
-    private void next(){}
+    private void next(){
+        previousButton.setDisable(false);
+
+        if(model.viewIndex + 1 == view.getChildren().size() - 1) {
+            view.getChildren().get(model.viewIndex).setVisible(false);
+            model.viewIndex++;
+            view.getChildren().get(model.viewIndex).setVisible(true);
+        }
+        if(model.viewIndex == view.getChildren().size() -1){
+            nextButton.setDisable(true);
+            finishButton.setDisable(false);
+        }
+
+    }
 
     @FXML
-    private void cancel(){}
+    private void cancel(){
+        System.exit(0);
+    }
 
     @FXML
-    private void finish(){}
+    private void finish(){
+        System.out.println("Configure all elements!");
+        finishButton.getScene().getWindow().hide();
+    }
 
 }
