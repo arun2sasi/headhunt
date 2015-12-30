@@ -4,7 +4,7 @@ import com.airhacks.afterburner.injection.Injector;
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 
-import javafx.application.Preloader;
+import com.urosjarc.headhunt.preloader.Notification;
 import org.json.simple.JSONObject;
 import lombok.Getter;
 
@@ -23,19 +23,19 @@ public class App extends Application {
         /**
          * ENV
          */
-        notifyPreloader(new Preloader.ProgressNotification(0.0));
+        notifyPreloader(new Notification("Setting environment...",0.0));
         env = System.getProperty("ENV") == null ? "production" : System.getProperty("ENV");
 
         /**
          * CONFIG
          */
-        notifyPreloader(new Preloader.ProgressNotification(0.25));
+        notifyPreloader(new Notification("Reading configuration...",0.25));
         config = (JSONObject) AppModel.getConfig("/config/env.json");
 
         /**
          * DATABASE
          */
-        notifyPreloader(new Preloader.ProgressNotification(0.5));
+        notifyPreloader(new Notification("Init database...",0.5));
         AppModel.openDB(
                 (String) ((JSONObject) config.get("database")).get("type"),
                 (String) ((JSONObject) config.get("database")).get("url")
@@ -44,12 +44,12 @@ public class App extends Application {
         /**
          * SEEDING
          */
-        notifyPreloader(new Preloader.ProgressNotification(0.7));
+        notifyPreloader(new Notification("Seeding database...",0.75));
         if(env.equals("development") == true){
             AppModel.seed();
         }
 
-        notifyPreloader(new Preloader.ProgressNotification(1.0));
+        notifyPreloader(new Notification("Finishing...", 1.0));
         Thread.sleep(500);
 
     }

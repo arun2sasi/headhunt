@@ -42,21 +42,15 @@ public class Preloader extends javafx.application.Preloader {
 
     @Override
     public void handleApplicationNotification(PreloaderNotification info){
-
-        if (info instanceof ProgressNotification) {
-            ProgressNotification PN = (ProgressNotification) info;
-            ctrl.progressBar.setProgress(PN.getProgress());
-            ctrl.textLabel.setText("Loading... " + PN.getProgress() * 100 + " %");
-            sleep();
+        if (info instanceof Notification) {
+            ctrl.progressBar.setProgress(((Notification) info).getProgress());
+            ctrl.textLabel.setText(((Notification) info).getMessage());
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
-    }
-
-    public void sleep() {
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
