@@ -48,6 +48,7 @@ sourceSets {
         ]
     }
 }
+
 mainClassName = 'com.urosjarc.headhunt.Main'
 
 /**
