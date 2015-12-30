@@ -1,25 +1,23 @@
-package headhunt.wizard.views.intro;
+package headhunt.wizard.views.license;
 
 import com.airhacks.afterburner.views.FXMLView;
 import javafx.scene.Parent;
-import lombok.Getter;
 
 /**
  * Created by urosjarc on 12/30/15.
  */
-public class Intro {
-    private IntroPresenter ctrl;
+public class License {
+    private LicensePresenter ctrl;
     private FXMLView fxmlView;
 
-    public Intro(){
-        fxmlView = new IntroView();
-        ctrl = (IntroPresenter) fxmlView.getPresenter();
+    public License(){
+        fxmlView = new LicenseView();
+        ctrl = (LicensePresenter) fxmlView.getPresenter();
     }
 
-    public Parent getView(){
+    public Parent getView() {
         return fxmlView.getView();
     }
-
     public void hide(){
         fxmlView.getView().setVisible(false);
     }

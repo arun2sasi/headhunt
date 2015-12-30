@@ -4,7 +4,5 @@ import com.airhacks.afterburner.views.FXMLView;
 
 public class PathView extends FXMLView {
 
-    public PathView(){
-        this.getView().setVisible(false);
-    }
+    public PathView(){ this.getView().setVisible(false); }
 }

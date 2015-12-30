@@ -16,7 +16,7 @@
                      <children>
                         <ImageView fx:id="image" fitHeight="180.0" fitWidth="180.0" pickOnBounds="true">
                            <image>
-                              <Image url="@../../../../../../resources/media/icon.png" />
+                              <Image url="/media/icon.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="10.0" top="10.0" />

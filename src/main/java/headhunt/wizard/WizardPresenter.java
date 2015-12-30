@@ -3,8 +3,11 @@ package headhunt.wizard;
 //INJECTING-CHILD
 //INJECTING-END
 
+import headhunt.wizard.views.intro.Intro;
 import headhunt.wizard.views.intro.IntroView;
+import headhunt.wizard.views.license.License;
 import headhunt.wizard.views.license.LicenseView;
+import headhunt.wizard.views.path.Path;
 import headhunt.wizard.views.path.PathView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -46,9 +49,9 @@ public class WizardPresenter implements Initializable {
 
         //INJECTING-VIEW
         view.getChildren().addAll(
-            new Intro(),
-            new License(),
-            new Path()
+            new Intro().getView(),
+            new License().getView(),
+            new Path().getView()
         );
         //INJECTING-END
 
