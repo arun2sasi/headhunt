@@ -1,4 +1,4 @@
-package com.urosjarc.headhunt.app.modules.result;
+package com.urosjarc.headhunt.modules.result;
 
 //INJECTING-CHILD
 //INJECTING-END

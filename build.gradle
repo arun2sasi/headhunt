@@ -48,8 +48,8 @@ sourceSets {
         ]
     }
 }
-
 mainClassName = 'com.urosjarc.headhunt.Main'
+retrolambda.oldJdk = '/usr/lib/jvm/java-7-oracle/jre/bin/java'
 
 /**
  * Porting javafx
@@ -72,26 +72,6 @@ flyway {
 }
 
 /**
- * Tests
- */
-test {
-    testLogging.showStandardStreams = true
-
-    minHeapSize = "128m"
-    maxHeapSize = "512m"
-
-    jvmArgs '-XX:MaxPermSize=256m'
-
-    beforeTest { descriptor ->
-        logger.lifecycle("Running test: " + descriptor)
-    }
-
-    onOutput { descriptor, event ->
-        logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message)
-    }
-}
-
-/**
  * Run configuration
  */
 run {
@@ -102,4 +82,8 @@ run {
     }
 
     println "ENV: ${systemProperties['ENV']}"
+}
+
+test {
+    include '**/*'
 }

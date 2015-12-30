@@ -1,4 +1,4 @@
-package com.urosjarc.headhunt.app.modules.result;
+package com.urosjarc.headhunt.modules.result;
 
 import com.airhacks.afterburner.views.FXMLView;
 import com.urosjarc.headhunt.schemas.Schema;

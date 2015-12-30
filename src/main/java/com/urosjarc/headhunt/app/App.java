@@ -4,7 +4,6 @@ import com.airhacks.afterburner.injection.Injector;
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 
-import com.urosjarc.headhunt.preloader.PreloaderView;
 import javafx.application.Preloader;
 import org.json.simple.JSONObject;
 import lombok.Getter;

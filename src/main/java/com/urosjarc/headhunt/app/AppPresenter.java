@@ -9,9 +9,9 @@ import java.util.*;
 import java.util.function.Consumer;
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
-import com.urosjarc.headhunt.app.modules.loadDialog.LoadDialogView;
-import com.urosjarc.headhunt.app.modules.result.ResultView;
-import com.urosjarc.headhunt.app.modules.searchDialog.SearchDialogView;
+import com.urosjarc.headhunt.modules.loadDialog.LoadDialogView;
+import com.urosjarc.headhunt.modules.result.ResultView;
+import com.urosjarc.headhunt.modules.searchDialog.SearchDialogView;
 import com.urosjarc.headhunt.schemas.Schema;
 import com.urosjarc.headhunt.schemas.TwitterUser;
 import javafx.application.Platform;

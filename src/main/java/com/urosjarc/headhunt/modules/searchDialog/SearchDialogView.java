@@ -1,4 +1,4 @@
-package com.urosjarc.headhunt.app.modules.searchDialog;
+package com.urosjarc.headhunt.modules.searchDialog;
 
 import com.airhacks.afterburner.views.FXMLView;
 import javafx.event.EventHandler;
