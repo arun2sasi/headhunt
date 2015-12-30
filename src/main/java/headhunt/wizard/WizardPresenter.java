@@ -3,9 +3,8 @@ package headhunt.wizard;
 //INJECTING-CHILD
 //INJECTING-END
 
-import com.airhacks.afterburner.injection.Injector;
-import com.airhacks.afterburner.views.FXMLView;
-import headhunt.wizard.views.hello.HelloView;
+import headhunt.wizard.views.intro.IntroView;
+import headhunt.wizard.views.license.LicenseView;
 import headhunt.wizard.views.path.PathView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -43,10 +42,13 @@ public class WizardPresenter implements Initializable {
         finishButton.setDisable(true);
         previousButton.setDisable(true);
 
+        model.viewIndex = 0;
+
         //INJECTING-VIEW
         view.getChildren().addAll(
-            new HelloView().getView(),
-            new PathView().getView()
+            new Intro(),
+            new License(),
+            new Path()
         );
         //INJECTING-END
 
@@ -57,7 +59,7 @@ public class WizardPresenter implements Initializable {
         nextButton.setDisable(false);
         finishButton.setDisable(true);
 
-        if(model.viewIndex - 1 == 0 ) {
+        if(model.viewIndex - 1 != -1 ) {
             view.getChildren().get(model.viewIndex).setVisible(false);
             model.viewIndex--;
             view.getChildren().get(model.viewIndex).setVisible(true);
@@ -67,13 +69,14 @@ public class WizardPresenter implements Initializable {
             previousButton.setDisable(true);
         }
 
+
     }
 
     @FXML
     private void next(){
         previousButton.setDisable(false);
 
-        if(model.viewIndex + 1 == view.getChildren().size() - 1) {
+        if(model.viewIndex + 1 != view.getChildren().size()) {
             view.getChildren().get(model.viewIndex).setVisible(false);
             model.viewIndex++;
             view.getChildren().get(model.viewIndex).setVisible(true);
