@@ -29,7 +29,7 @@ public class Preloader extends javafx.application.Preloader {
          * STAGE config
          */
         stage.setScene(scene);
-        stage.setTitle("Loading... 0 %");
+        stage.setTitle("Setup application");
         stage.show();
     }
 

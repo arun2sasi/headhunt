@@ -49,7 +49,7 @@ sourceSets {
     }
 }
 
-mainClassName = 'com.urosjarc.headhunt.Main'
+mainClassName = 'com.urosjarc.headhunt.app.App'
 
 /**
  * Migration
@@ -70,4 +70,18 @@ run {
     }
 
     println "ENV: ${systemProperties['ENV']}"
+}
+
+/**
+ * JAR manifest
+ */
+task fatJar(type: Jar) {
+    baseName = project.name + 'App'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+    manifest {
+        attributes 'Implementation-Title': 'Headhunt application'
+        attributes 'Implementation-Version': '0.0.1'
+        attributes 'Main-Class': 'com.urosjarc.headhunt.Main'
+    }
 }
