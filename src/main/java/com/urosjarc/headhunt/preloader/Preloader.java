@@ -1,12 +1,15 @@
 package com.urosjarc.headhunt.preloader;
 
 import javafx.application.Preloader.StateChangeNotification.Type;
+import javafx.beans.binding.DoubleBinding;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Preloader extends javafx.application.Preloader {
 
     private Stage stage;
+    private PreloaderView view;
+    private PreloaderPresenter ctrl;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -18,14 +21,15 @@ public class Preloader extends javafx.application.Preloader {
         /**
          * LOAD FXML STRUCTURE
          */
-        PreloaderView preloaderView = new PreloaderView();
-        Scene scene = new Scene(preloaderView.getView());
+        view = new PreloaderView();
+        ctrl = (PreloaderPresenter) view.getPresenter();
+        Scene scene = new Scene(view.getView());
 
         /**
          * STAGE config
          */
         stage.setScene(scene);
-        stage.setTitle("Loading...");
+        stage.setTitle("Loading... 0 %");
         stage.show();
     }
 
@@ -36,20 +40,23 @@ public class Preloader extends javafx.application.Preloader {
         }
     }
 
+    @Override
     public void handleApplicationNotification(PreloaderNotification info){
-        System.out.println(info);
+
+        if (info instanceof ProgressNotification) {
+            ProgressNotification PN = (ProgressNotification) info;
+            ctrl.progressBar.setProgress(PN.getProgress());
+            ctrl.textLabel.setText("Loading... " + PN.getProgress() * 100 + " %");
+            sleep();
+        }
 
     }
 
-    public boolean handleErrorNotification(ErrorNotification info){
-        System.out.println(info);
-        return true;
+    public void sleep() {
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
-
-    public void handleProgressNotification(ProgressNotification info){
-        System.out.println(info.getProgress());
-
-    }
-
-
 }

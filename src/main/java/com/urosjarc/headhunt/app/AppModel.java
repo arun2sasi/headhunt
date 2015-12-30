@@ -2,6 +2,7 @@ package com.urosjarc.headhunt.app;
 
 import com.orientechnologies.orient.core.exception.OStorageException;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
+import javafx.application.Preloader;
 import lombok.Getter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.urosjarc.headhunt.schemas.TwitterUser;
+
+import static com.sun.javafx.application.LauncherImpl.notifyPreloader;
 
 public class AppModel {
 

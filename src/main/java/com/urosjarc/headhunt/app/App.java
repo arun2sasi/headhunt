@@ -20,22 +20,22 @@ public class App extends Application {
     @Override
     public void init() throws Exception {
 
-
-        new Preloader.ProgressNotification(0.3);
-
         /**
          * ENV
          */
+        notifyPreloader(new Preloader.ProgressNotification(0.0));
         env = System.getProperty("ENV") == null ? "production" : System.getProperty("ENV");
 
         /**
          * CONFIG
          */
+        notifyPreloader(new Preloader.ProgressNotification(0.25));
         config = (JSONObject) AppModel.getConfig("/config/env.json");
 
         /**
          * DATABASE
          */
+        notifyPreloader(new Preloader.ProgressNotification(0.5));
         AppModel.openDB(
                 (String) ((JSONObject) config.get("database")).get("type"),
                 (String) ((JSONObject) config.get("database")).get("url")
@@ -44,9 +44,13 @@ public class App extends Application {
         /**
          * SEEDING
          */
+        notifyPreloader(new Preloader.ProgressNotification(0.7));
         if(env.equals("development") == true){
             AppModel.seed();
         }
+
+        notifyPreloader(new Preloader.ProgressNotification(1.0));
+        Thread.sleep(500);
 
     }
 
