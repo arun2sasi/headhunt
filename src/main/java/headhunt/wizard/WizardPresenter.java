@@ -3,19 +3,24 @@ package headhunt.wizard;
 //INJECTING-CHILD
 //INJECTING-END
 
+import headhunt.app.AppModel;
 import headhunt.wizard.views.intro.Intro;
-import headhunt.wizard.views.intro.IntroView;
 import headhunt.wizard.views.license.License;
-import headhunt.wizard.views.license.LicenseView;
 import headhunt.wizard.views.path.Path;
-import headhunt.wizard.views.path.PathView;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import javax.inject.Inject;
+import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class WizardPresenter implements Initializable {
@@ -48,12 +53,15 @@ public class WizardPresenter implements Initializable {
         model.viewIndex = 0;
 
         //INJECTING-VIEW
+        Path path = new Path();
         view.getChildren().addAll(
             new Intro().getView(),
             new License().getView(),
-            new Path().getView()
+            path.getView()
         );
         //INJECTING-END
+
+        model.path = path;
 
     }
 
@@ -97,9 +105,43 @@ public class WizardPresenter implements Initializable {
     }
 
     @FXML
-    private void finish(){
-        System.out.println("Configure all elements!");
-        finishButton.getScene().getWindow().hide();
+    private void finish() throws IOException, ParseException {
+
+        //Production path
+        InputStream jsonStream = AppModel.class.getResourceAsStream("/env/production.json");
+        URL jsonURL = AppModel.class.getResource("/env/production.json");
+
+        //Make dir
+        File configDir = new File(model.path.getPath());
+        configDir.setExecutable(true, false);
+        configDir.setReadable(true, false);
+        configDir.setWritable(true, false);
+        //configDir.mkdir();
+
+        //Set resource evn data
+        JSONParser parser = new JSONParser();
+        JSONObject jsonObj = (JSONObject) parser.parse(new InputStreamReader(jsonStream));
+        JSONObject newJsonObj = new JSONObject();
+        JSONObject folderObj = (JSONObject) jsonObj.get("folder");
+        JSONObject databaseObj = (JSONObject) jsonObj.get("database");
+
+        //Setting newJsonObj
+        folderObj.put("install" , configDir.getPath());
+        newJsonObj.put("folder" , folderObj);
+        newJsonObj.put("database", databaseObj);
+
+        //Write to file
+        try {
+            java.nio.file.Path path = Paths.get(jsonURL.toURI());
+            BufferedWriter bufferedWriter = Files.newBufferedWriter(path);
+            bufferedWriter.write(newJsonObj.toJSONString());
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

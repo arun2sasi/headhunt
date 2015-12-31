@@ -22,4 +22,7 @@ public class Path {
         return fxmlView.getView();
     }
 
+    public String getPath(){
+        return ctrl.getDirField().getText();
+    }
 }

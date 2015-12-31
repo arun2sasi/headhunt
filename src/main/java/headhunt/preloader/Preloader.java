@@ -25,7 +25,7 @@ public class Preloader extends javafx.application.Preloader {
         Scene scene = new Scene(view.getView());
 
         /**
-         * STAGE config
+         * STAGE env
          */
         stage.setScene(scene);
         stage.setTitle("Setup application");

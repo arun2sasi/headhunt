@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 public class Wizard extends Application {
     @Override
     public void start(Stage stage) throws Exception {
+        /**
+         * CHECK FOR EXISTING INSTALLATION
+         */
+        //Todo: Here you check if application is allready installed...
 
         /**
          * LOAD FXML STRUCTURE
@@ -16,7 +20,7 @@ public class Wizard extends Application {
         Scene scene = new Scene(wizardView.getView());
 
         /**
-         * STAGE config
+         * STAGE env
          */
         stage.setScene(scene);
         stage.setTitle("Setup wizard");

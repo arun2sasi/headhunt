@@ -3,10 +3,12 @@ package headhunt.wizard.views.path;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.DirectoryChooser;
+import lombok.Getter;
 
 import java.io.File;
 import java.net.URL;
@@ -18,7 +20,7 @@ public class PathPresenter implements Initializable {
     private Button browseButton;
 
     @FXML
-    private TextField dirField;
+    @Getter private TextField dirField;
 
     @FXML
     private Label appSpaceLabel;
@@ -30,8 +32,7 @@ public class PathPresenter implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("PathPresenter.initialize()");
 
-        dirField.setText(System.getProperty("user.home"));
-
+        dirField.setText(new File(System.getProperty("user.home"),"headhunt").getPath());
 
         appSpaceLabel.setText("~ 10MB");
 
@@ -44,15 +45,38 @@ public class PathPresenter implements Initializable {
 
     public void browse(){
         DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setInitialDirectory(new File(dirField.getText()));
+        directoryChooser.setInitialDirectory(new File(dirField.getText()).getParentFile());
         directoryChooser.setTitle("Installation directory...");
         File selectedDir = directoryChooser.showDialog(browseButton.getScene().getWindow());
 
         if (selectedDir == null) {
-            dirField.setText("No Directory selected");
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("ERR: Selected directory");
+            alert.setContentText("Selected directory do not exist, please try again!");
+            alert.showAndWait();
+
+            dirField.setText(System.getProperty("user.home"));
+            browse();
+
         } else {
-            dirField.setText(selectedDir.getAbsolutePath());
+            File appDir = new File(selectedDir.getAbsolutePath(), "headhunt");
+            dirField.setText(appDir.getPath());
+
+            if (appDir.exists()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("ERROR");
+                alert.setHeaderText("ERR: Selected directory");
+                alert.setContentText("One or more folders with the name 'headhunt' already exist,\nselect other directory!");
+                alert.showAndWait();
+
+                dirField.setText(System.getProperty("user.home"));
+                browse();
+            }
         }
     }
+
+
 
 }

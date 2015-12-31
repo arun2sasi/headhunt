@@ -23,14 +23,14 @@ public class App extends Application {
         /**
          * ENV
          */
-        notifyPreloader(new Notification("Setting environment...",0.0));
+        notifyPreloader(new Notification("Setting env...",0.0));
         env = System.getProperty("ENV") == null ? "production" : System.getProperty("ENV");
 
         /**
          * CONFIG
          */
         notifyPreloader(new Notification("Reading configuration...",0.25));
-        config = (JSONObject) AppModel.getConfig("/config/env.json");
+        config = (JSONObject) AppModel.getConfig("/env/development.json");
 
         /**
          * DATABASE
@@ -68,7 +68,7 @@ public class App extends Application {
         Scene scene = new Scene(appView.getView());
 
         /**
-         * STAGE config
+         * STAGE env
          */
         stage.setScene(scene);
         stage.setTitle("Headhunt");
