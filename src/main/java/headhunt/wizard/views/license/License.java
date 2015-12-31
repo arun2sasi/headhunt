@@ -18,11 +18,5 @@ public class License {
     public Parent getView() {
         return fxmlView.getView();
     }
-    public void hide(){
-        fxmlView.getView().setVisible(false);
-    }
 
-    public void show(){
-        fxmlView.getView().setVisible(true);
-    }
 }

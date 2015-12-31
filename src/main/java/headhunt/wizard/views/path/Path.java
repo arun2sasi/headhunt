@@ -22,11 +22,4 @@ public class Path {
         return fxmlView.getView();
     }
 
-    public void hide(){
-        fxmlView.getView().setVisible(false);
-    }
-
-    public void show(){
-        fxmlView.getView().setVisible(true);
-    }
 }
