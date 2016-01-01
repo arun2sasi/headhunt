@@ -1,7 +1,9 @@
 package headhunt.wizard.views.license;
 
 import com.airhacks.afterburner.views.FXMLView;
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.Parent;
+import javafx.scene.control.Toggle;
 
 /**
  * Created by urosjarc on 12/30/15.
@@ -19,4 +21,12 @@ public class License {
         return fxmlView.getView();
     }
 
+    public boolean userChoice() {
+        BooleanProperty terms = ctrl.termsGroup.getSelectedToggle().selectedProperty();
+
+        if (terms.getBean() == ctrl.agreeRadioBtn) {
+            return true;
+        } else return false;
+
+    }
 }

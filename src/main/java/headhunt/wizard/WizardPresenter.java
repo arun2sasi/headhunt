@@ -4,11 +4,13 @@ package headhunt.wizard;
 //INJECTING-END
 
 import headhunt.app.AppModel;
+import headhunt.wizard.views.finish.Finish;
 import headhunt.wizard.views.intro.Intro;
 import headhunt.wizard.views.license.License;
 import headhunt.wizard.views.path.Path;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import org.json.simple.JSONObject;
@@ -52,16 +54,23 @@ public class WizardPresenter implements Initializable {
 
         model.viewIndex = 0;
 
-        //INJECTING-VIEW
+        Intro intro = new Intro();
+        License license = new License();
         Path path = new Path();
+        Finish finish = new Finish();
+
         view.getChildren().addAll(
-            new Intro().getView(),
-            new License().getView(),
-            path.getView()
+            intro.getView(),
+            license.getView(),
+            path.getView(),
+            finish.getView()
         );
         //INJECTING-END
 
-        model.path = path;
+        model.setPath(path);
+        model.setIntro(intro);
+        model.setLicense(license);
+        model.setFinish(finish);
 
     }
 
@@ -85,8 +94,17 @@ public class WizardPresenter implements Initializable {
 
     @FXML
     private void next(){
-        previousButton.setDisable(false);
 
+        if(model.viewIndex == 1 && !model.userAgreeWithTerms()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("License agreement.");
+            alert.setContentText("You must agree with the application terms to procede further.");
+            alert.showAndWait();
+            return;
+        }
+
+        previousButton.setDisable(false);
         if(model.viewIndex + 1 != view.getChildren().size()) {
             view.getChildren().get(model.viewIndex).setVisible(false);
             model.viewIndex++;
@@ -107,40 +125,6 @@ public class WizardPresenter implements Initializable {
     @FXML
     private void finish() throws IOException, ParseException {
 
-        //Production path
-        InputStream jsonStream = AppModel.class.getResourceAsStream("/env/production.json");
-        URL jsonURL = AppModel.class.getResource("/env/production.json");
-
-        //Make dir
-        File configDir = new File(model.path.getPath());
-        configDir.setExecutable(true, false);
-        configDir.setReadable(true, false);
-        configDir.setWritable(true, false);
-        //configDir.mkdir();
-
-        //Set resource evn data
-        JSONParser parser = new JSONParser();
-        JSONObject jsonObj = (JSONObject) parser.parse(new InputStreamReader(jsonStream));
-        JSONObject newJsonObj = new JSONObject();
-        JSONObject folderObj = (JSONObject) jsonObj.get("folder");
-        JSONObject databaseObj = (JSONObject) jsonObj.get("database");
-
-        //Setting newJsonObj
-        folderObj.put("install" , configDir.getPath());
-        newJsonObj.put("folder" , folderObj);
-        newJsonObj.put("database", databaseObj);
-
-        //Write to file
-        try {
-            java.nio.file.Path path = Paths.get(jsonURL.toURI());
-            BufferedWriter bufferedWriter = Files.newBufferedWriter(path);
-            bufferedWriter.write(newJsonObj.toJSONString());
-            bufferedWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
 
     }
 

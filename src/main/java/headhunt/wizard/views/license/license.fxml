@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.web.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
@@ -49,17 +50,33 @@
             <Separator prefWidth="200.0" />
             <VBox prefHeight="363.0" prefWidth="600.0" spacing="10.0">
                <children>
-                  <Label text="Press Page Down to see the rest of the agreement." />
+                  <TextFlow prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Please read the license agreement below and select &quot;I Agree&quot; if you agree with its terms and conditions." wrappingWidth="554.81591796875" />
+                     </children>
+                  </TextFlow>
                   <TextArea fx:id="license" editable="false" prefHeight="365.0" prefWidth="560.0" text="">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </TextArea>
-                  <TextFlow prefHeight="200.0" prefWidth="200.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="If you accept the terms of the agreement, click continue. You must accept the aggreement to use Headhunt application." />
+                        <RadioButton fx:id="agreeRadioBtn" mnemonicParsing="false" text="I agree with the above terms and conditions">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="termsGroup" />
+                           </toggleGroup>
+                        </RadioButton>
+                        <RadioButton mnemonicParsing="false" selected="true" text="I do not agree" toggleGroup="$termsGroup">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </RadioButton>
                      </children>
-                  </TextFlow>
+                  </VBox>
                </children>
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

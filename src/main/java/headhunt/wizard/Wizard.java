@@ -3,15 +3,24 @@ package headhunt.wizard;
 import com.airhacks.afterburner.injection.Injector;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 public class Wizard extends Application {
     @Override
     public void start(Stage stage) throws Exception {
+
         /**
-         * CHECK FOR EXISTING INSTALLATION
+         * APP INSTALLED CHECK
          */
-        //Todo: Here you check if application is allready installed...
+        if (WizardModel.isAppInstalled()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Already installed!");
+            alert.setContentText("");
+            alert.showAndWait();
+            System.exit(1);
+        }
 
         /**
          * LOAD FXML STRUCTURE

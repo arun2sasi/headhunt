@@ -2,7 +2,11 @@ package headhunt.wizard.views.license;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleGroup;
+import lombok.Getter;
 import org.apache.commons.io.IOUtils;
 
 import java.net.URL;
@@ -12,6 +16,12 @@ public class LicensePresenter implements Initializable {
 
     @FXML
     private TextArea license;
+
+    @FXML
+    public ToggleGroup termsGroup;
+
+    @FXML
+    public RadioButton agreeRadioBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
