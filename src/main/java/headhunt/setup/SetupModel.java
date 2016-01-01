@@ -1,10 +1,11 @@
-package headhunt.wizard;
+package headhunt.setup;
 
 import headhunt.app.AppModel;
-import headhunt.wizard.views.finish.Finish;
-import headhunt.wizard.views.intro.Intro;
-import headhunt.wizard.views.license.License;
-import headhunt.wizard.views.path.Path;
+import headhunt.setup.views.finish.Finish;
+import headhunt.setup.views.intro.Intro;
+import headhunt.setup.views.license.License;
+import headhunt.setup.views.path.Path;
+import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -17,13 +18,13 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class WizardModel {
+public class SetupModel {
 
     public int viewIndex = 0;
 
     @Setter
     private Path path;
-    @Setter
+    @Setter @Getter
     private Finish finish;
     @Setter
     private License license;
@@ -39,6 +40,10 @@ public class WizardModel {
         JSONObject folderObj = (JSONObject) getProdEnv().get("folder");
 
         return (String) folderObj.get("install");
+    }
+
+    public boolean pathExists(){
+        return new File(path.getPath()).exists();
     }
 
     public static JSONObject getProdEnv(){

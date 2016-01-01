@@ -1,8 +1,7 @@
-package headhunt.wizard.views.intro;
+package headhunt.setup.views.intro;
 
 import com.airhacks.afterburner.views.FXMLView;
 import javafx.scene.Parent;
-import lombok.Getter;
 
 /**
  * Created by urosjarc on 12/30/15.

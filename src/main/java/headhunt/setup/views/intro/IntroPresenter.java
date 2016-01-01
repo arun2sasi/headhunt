@@ -1,11 +1,11 @@
-package headhunt.wizard.views.finish;
+package headhunt.setup.views.intro;
 
 import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class FinishPresenter implements Initializable {
+public class IntroPresenter implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -50,7 +50,7 @@ sourceSets {
     }
 }
 
-mainClassName = 'headhunt.wizard.Wizard'
+mainClassName = 'headhunt.Main'
 version = '1.0.0'
 
 /**

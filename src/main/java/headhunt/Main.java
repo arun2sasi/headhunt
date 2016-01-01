@@ -3,9 +3,7 @@ package headhunt;
 import com.sun.javafx.application.LauncherImpl;
 import headhunt.app.App;
 import headhunt.preloader.Preloader;
-import headhunt.wizard.Wizard;
-import headhunt.wizard.WizardModel;
-import javafx.scene.control.Alert;
+import headhunt.setup.Setup;
 import org.docopt.Docopt;
 
 import java.util.Map;
@@ -27,8 +25,14 @@ public class Main {
             + "\n"
         ).withVersion("Headhunt v0.1.0").parse(args);
 
-        Wizard wizard = new Wizard();
+        Setup setup = new Setup();
 
-        LauncherImpl.launchApplication(App.class, Preloader.class, args);
+        if(setup.runApp){
+            LauncherImpl.launchApplication(App.class, Preloader.class, args);
+        }
+
+        if(setup.showReadme){
+            System.out.println("Show readme...");
+        }
     }
 }

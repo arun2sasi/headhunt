@@ -1,9 +1,8 @@
-package headhunt.wizard.views.license;
+package headhunt.setup.views.license;
 
 import com.airhacks.afterburner.views.FXMLView;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.Parent;
-import javafx.scene.control.Toggle;
 
 /**
  * Created by urosjarc on 12/30/15.

@@ -1,8 +1,7 @@
-package headhunt.wizard.views.path;
+package headhunt.setup.views.path;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,7 +31,8 @@ public class PathPresenter implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("PathPresenter.initialize()");
 
-        dirField.setText(new File(System.getProperty("user.home"),"headhunt").getPath());
+        File appDir = new File(System.getProperty("user.home"),"headhunt");
+        dirField.setText(appDir.getPath());
 
         appSpaceLabel.setText("~ 10MB");
 
@@ -49,26 +49,15 @@ public class PathPresenter implements Initializable {
         directoryChooser.setTitle("Installation directory...");
         File selectedDir = directoryChooser.showDialog(browseButton.getScene().getWindow());
 
-        if (selectedDir == null) {
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("ERROR");
-            alert.setHeaderText("ERR: Selected directory");
-            alert.setContentText("Selected directory do not exist, please try again!");
-            alert.showAndWait();
-
-            dirField.setText(System.getProperty("user.home"));
-            browse();
-
-        } else {
+        if (selectedDir != null) {
             File appDir = new File(selectedDir.getAbsolutePath(), "headhunt");
             dirField.setText(appDir.getPath());
 
             if (appDir.exists()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("ERROR");
-                alert.setHeaderText("ERR: Selected directory");
-                alert.setContentText("One or more folders with the name 'headhunt' already exist,\nselect other directory!");
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("WARNING");
+                alert.setHeaderText("Directory duplicates.");
+                alert.setContentText("One or more folders with the name 'headhunt' already exist!");
                 alert.showAndWait();
 
                 dirField.setText(System.getProperty("user.home"));

@@ -1,4 +1,4 @@
-package headhunt.wizard.views.license;
+package headhunt.setup.views.license;
 
 import com.airhacks.afterburner.views.FXMLView;
 

@@ -1,31 +1,26 @@
-package headhunt.wizard;
+package headhunt.setup;
 
 //INJECTING-CHILD
 //INJECTING-END
 
-import headhunt.app.AppModel;
-import headhunt.wizard.views.finish.Finish;
-import headhunt.wizard.views.intro.Intro;
-import headhunt.wizard.views.license.License;
-import headhunt.wizard.views.path.Path;
+import headhunt.setup.views.finish.Finish;
+import headhunt.setup.views.intro.Intro;
+import headhunt.setup.views.license.License;
+import headhunt.setup.views.path.Path;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import lombok.Getter;
 import org.json.simple.parser.ParseException;
 
 import javax.inject.Inject;
 import java.io.*;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
-public class WizardPresenter implements Initializable {
+public class SetupPresenter implements Initializable {
 
     @FXML
     private Button previousButton;
@@ -43,7 +38,7 @@ public class WizardPresenter implements Initializable {
     private AnchorPane view;
 
     @Inject
-    WizardModel model;
+    @Getter SetupModel model;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -97,10 +92,19 @@ public class WizardPresenter implements Initializable {
 
         if(model.viewIndex == 1 && !model.userAgreeWithTerms()){
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("ERROR");
+            alert.setTitle("WARNING");
             alert.setHeaderText("License agreement.");
             alert.setContentText("You must agree with the application terms to procede further.");
             alert.showAndWait();
+            return;
+        }
+
+        if(model.viewIndex == 2 && model.pathExists()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("WARNING");
+            alert.setHeaderText("ERR: Selected directory");
+            alert.setContentText("One or more folders with the name 'headhunt' already exist,\nselect other directory!");
+            alert.show();
             return;
         }
 
@@ -124,8 +128,8 @@ public class WizardPresenter implements Initializable {
 
     @FXML
     private void finish() throws IOException, ParseException {
-
-
+        model.updateProdEnv();
+        finishButton.getScene().getWindow().hide();
     }
 
 }

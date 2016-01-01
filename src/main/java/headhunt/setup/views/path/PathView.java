@@ -1,4 +1,4 @@
-package headhunt.wizard.views.path;
+package headhunt.setup.views.path;
 
 import com.airhacks.afterburner.views.FXMLView;
 

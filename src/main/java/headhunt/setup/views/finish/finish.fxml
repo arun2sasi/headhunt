@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
-<?import javafx.scene.image.*?>
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="headhunt.wizard.views.intro.IntroPresenter">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="headhunt.setup.views.finish.FinishPresenter">
    <children>
       <HBox layoutX="59.0" layoutY="120.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -21,31 +25,32 @@
                </children>
             </AnchorPane>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox prefHeight="400.0" prefWidth="436.0" spacing="30.0">
+            <VBox prefHeight="400.0" prefWidth="436.0" spacing="20.0">
                <children>
-                  <TextFlow fx:id="header" accessibleRole="TEXT_AREA" prefHeight="200.0" prefWidth="200.0">
+                  <TextFlow fx:id="header" accessibleRole="TEXT_AREA">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Headhunt Setup Wizard">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Completing the Headhunt Setup Wizard">
                            <font>
                               <Font name="System Bold" size="23.0" />
                            </font>
                         </Text>
                      </children></TextFlow>
-                  <TextFlow prefHeight="200.0" prefWidth="200.0">
+                  <TextFlow>
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This wizard will guide you through the installation of Headhunt application." />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Headhunt Application has been installed on your computer." />
                      </children>
                   </TextFlow>
-                  <TextFlow prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="It is recommended that you close all other applications before starting Setup. This will make it possible to update relevant system files without having to reboot your computer." />
-                     </children>
-                  </TextFlow>
-                  <TextFlow fx:id="info" prefHeight="385.0" prefWidth="400.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Click Next to continue." />
-                     </children>
-                  </TextFlow>
+                  <Label text="Click Finish to close this wizard." />
+                  <CheckBox fx:id="runCheckBox" mnemonicParsing="false" text="Run Headhunt application">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </CheckBox>
+                  <CheckBox fx:id="readmeCheckBox" mnemonicParsing="false" text="Show Readme">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </CheckBox>
                </children>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

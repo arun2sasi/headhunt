@@ -1,4 +1,4 @@
-package headhunt.wizard.views.finish;
+package headhunt.setup.views.finish;
 
 import com.airhacks.afterburner.views.FXMLView;
 import javafx.scene.Parent;
@@ -19,4 +19,11 @@ public class Finish {
         return fxmlView.getView();
     }
 
+    public boolean showReadme(){
+        return ctrl.readmeCheckBox.isSelected();
+    }
+
+    public boolean runApplication(){
+        return ctrl.runCheckBox.isSelected();
+    }
 }
