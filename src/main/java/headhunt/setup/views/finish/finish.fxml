@@ -41,11 +41,6 @@
                      </children>
                   </TextFlow>
                   <Label text="Click Finish to close this wizard." />
-                  <CheckBox fx:id="runCheckBox" mnemonicParsing="false" text="Run Headhunt application">
-                     <font>
-                        <Font size="12.0" />
-                     </font>
-                  </CheckBox>
                   <CheckBox fx:id="readmeCheckBox" mnemonicParsing="false" text="Show Readme">
                      <font>
                         <Font size="12.0" />

@@ -9,8 +9,6 @@ import java.util.ResourceBundle;
 
 public class FinishPresenter implements Initializable {
 
-    @FXML public CheckBox runCheckBox;
-
     @FXML public CheckBox readmeCheckBox;
 
     @Override

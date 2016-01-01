@@ -1,26 +1,16 @@
 package headhunt.setup;
 
 import com.airhacks.afterburner.injection.Injector;
-import com.sun.javafx.application.LauncherImpl;
-import headhunt.app.App;
-import headhunt.preloader.Preloader;
 import headhunt.setup.views.finish.Finish;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import org.docopt.Docopt;
-
-import java.util.Map;
 
 public class Setup extends Application {
 
     private SetupPresenter ctrl;
     private SetupView view;
-
-    public boolean runApp = true;
-    public boolean showReadme = false;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -37,7 +27,6 @@ public class Setup extends Application {
                             "Missing path: \"" + SetupModel.installFolder() + "\""
             );
             alert.showAndWait();
-            runApp = false;
             return;
         }
 
@@ -66,12 +55,9 @@ public class Setup extends Application {
     public void stop() throws Exception {
 
         Finish finish = ctrl.model.getFinish();
-        showReadme = finish.runApplication();
-        runApp = finish.runApplication();
-
-        System.out.println(showReadme);
-        System.out.println(runApp);
-
+        if(finish.showReadme()){
+            System.out.println("Show readme...");
+        }
         Injector.forgetAll();
     }
 }

@@ -23,7 +23,4 @@ public class Finish {
         return ctrl.readmeCheckBox.isSelected();
     }
 
-    public boolean runApplication(){
-        return ctrl.runCheckBox.isSelected();
-    }
 }
