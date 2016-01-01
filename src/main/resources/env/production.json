@@ -4,6 +4,6 @@
 		"url": "database"
 	},
 	"folder": {
-		"install": null
+		"install": "test"
 	}
 }

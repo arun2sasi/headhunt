@@ -13,13 +13,16 @@ public class Wizard extends Application {
         /**
          * APP INSTALLED CHECK
          */
-        if (WizardModel.isAppInstalled()) {
+        if (WizardModel.installFolder() != null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
-            alert.setHeaderText("Already installed!");
-            alert.setContentText("");
+            alert.setHeaderText("Application is installed!");
+            alert.setContentText(
+                "Application install folder has been moved!\n" +
+                "Missing path: \"" + WizardModel.installFolder() + "\""
+            );
             alert.showAndWait();
-            System.exit(1);
+            System.exit(0);
         }
 
         /**

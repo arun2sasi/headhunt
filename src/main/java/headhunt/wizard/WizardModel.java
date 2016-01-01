@@ -30,18 +30,15 @@ public class WizardModel {
     @Setter
     private Intro intro;
 
-    private JSONObject prodEnv;
-
     @PostConstruct
     public void init() {
         System.out.println("Wizard.init()");
     }
 
-    public static boolean isAppInstalled() throws IOException {
-
+    public static String installFolder(){
         JSONObject folderObj = (JSONObject) getProdEnv().get("folder");
 
-        return folderObj.get("install") != null;
+        return (String) folderObj.get("install");
     }
 
     public static JSONObject getProdEnv(){
