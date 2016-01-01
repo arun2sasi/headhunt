@@ -4,8 +4,13 @@ import com.sun.javafx.application.LauncherImpl;
 import headhunt.app.App;
 import headhunt.preloader.Preloader;
 import headhunt.setup.Setup;
+import headhunt.setup.SetupModel;
 import org.docopt.Docopt;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class Main {
@@ -25,14 +30,10 @@ public class Main {
             + "\n"
         ).withVersion("Headhunt v0.1.0").parse(args);
 
-        Setup setup = new Setup();
-
-        if(setup.runApp){
+        if (SetupModel.installFolder() != null) {
             LauncherImpl.launchApplication(App.class, Preloader.class, args);
-        }
-
-        if(setup.showReadme){
-            System.out.println("Show readme...");
+        } else {
+            LauncherImpl.launchApplication(Setup.class,args);
         }
     }
 }

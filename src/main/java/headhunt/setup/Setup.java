@@ -1,12 +1,18 @@
 package headhunt.setup;
 
 import com.airhacks.afterburner.injection.Injector;
+import com.sun.javafx.application.LauncherImpl;
+import headhunt.app.App;
+import headhunt.preloader.Preloader;
 import headhunt.setup.views.finish.Finish;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import lombok.Getter;
+import javafx.util.Callback;
+import org.docopt.Docopt;
+
+import java.util.Map;
 
 public class Setup extends Application {
 
@@ -27,8 +33,8 @@ public class Setup extends Application {
             alert.setTitle("ERROR");
             alert.setHeaderText("Application is installed!");
             alert.setContentText(
-                "Application install folder has been moved!\n" +
-                "Missing path: \"" + SetupModel.installFolder() + "\""
+                    "Application install folder has been moved!\n" +
+                            "Missing path: \"" + SetupModel.installFolder() + "\""
             );
             alert.showAndWait();
             runApp = false;
@@ -52,6 +58,7 @@ public class Setup extends Application {
         stage.setScene(scene);
         stage.setTitle("Setup");
         stage.show();
+
     }
 
 
@@ -61,6 +68,9 @@ public class Setup extends Application {
         Finish finish = ctrl.model.getFinish();
         showReadme = finish.runApplication();
         runApp = finish.runApplication();
+
+        System.out.println(showReadme);
+        System.out.println(runApp);
 
         Injector.forgetAll();
     }
