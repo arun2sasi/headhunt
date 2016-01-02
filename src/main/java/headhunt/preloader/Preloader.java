@@ -5,6 +5,7 @@ import headhunt.preloader.notifications.Update;
 import javafx.application.Preloader.StateChangeNotification.Type;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 
 public class Preloader extends javafx.application.Preloader {
@@ -53,12 +54,12 @@ public class Preloader extends javafx.application.Preloader {
                 e.printStackTrace();
             }
         } else if(info instanceof Error){
-            ctrl.textLabel.setText("ERROR");
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("Loading error.");
             alert.setContentText(((Error) info).getError());
             alert.showAndWait();
+            System.exit(0);
         }
 
     }

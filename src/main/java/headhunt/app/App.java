@@ -25,12 +25,13 @@ public class App extends Application {
         /**
          * APP PRE CHECK
          */
+        notifyPreloader(new Update("Pre loading check...",-1.0));
         preCheckErrNotification();
 
         /**
          * ENV
          */
-        notifyPreloader(new Update("Setting env...",0.0));
+        notifyPreloader(new Update("Setting env...",0.2));
         env = System.getProperty("ENV") == null ? "production" : System.getProperty("ENV");
 
         /**
