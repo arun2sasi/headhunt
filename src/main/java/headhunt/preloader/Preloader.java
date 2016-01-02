@@ -1,7 +1,10 @@
 package headhunt.preloader;
 
+import headhunt.preloader.notifications.Error;
+import headhunt.preloader.notifications.Update;
 import javafx.application.Preloader.StateChangeNotification.Type;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 public class Preloader extends javafx.application.Preloader {
@@ -41,14 +44,21 @@ public class Preloader extends javafx.application.Preloader {
 
     @Override
     public void handleApplicationNotification(PreloaderNotification info){
-        if (info instanceof Notification) {
-            ctrl.progressBar.setProgress(((Notification) info).getProgress());
-            ctrl.textLabel.setText(((Notification) info).getMessage());
+        if (info instanceof Update) {
+            ctrl.progressBar.setProgress(((Update) info).getProgress());
+            ctrl.textLabel.setText(((Update) info).getMessage());
             try {
                 Thread.sleep(300);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        } else if(info instanceof Error){
+            ctrl.textLabel.setText("ERROR");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("ERROR");
+            alert.setHeaderText("Loading error.");
+            alert.setContentText(((Error) info).getError());
+            alert.showAndWait();
         }
 
     }

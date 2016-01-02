@@ -30,7 +30,7 @@ public class Main {
             + "\n"
         ).withVersion("Headhunt v0.1.0").parse(args);
 
-        if (SetupModel.installFolder() != null) {
+        if (SetupModel.getInstallPath() != null) {
             LauncherImpl.launchApplication(App.class, Preloader.class, args);
         } else {
             LauncherImpl.launchApplication(Setup.class,args);

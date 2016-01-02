@@ -2,8 +2,5 @@
 	"database": {
 		"type": "plocal",
 		"url": "database"
-	},
-	"folder": {
-		"install": null
 	}
 }

@@ -4,13 +4,16 @@ import com.airhacks.afterburner.injection.Injector;
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 
-import headhunt.preloader.Notification;
+import headhunt.preloader.notifications.Error;
+import headhunt.preloader.notifications.Update;
 import org.json.simple.JSONObject;
 import lombok.Getter;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.File;
 
 public class App extends Application {
 
@@ -19,23 +22,27 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
+        /**
+         * APP PRE CHECK
+         */
+        preCheckErrNotification();
 
         /**
          * ENV
          */
-        notifyPreloader(new Notification("Setting env...",0.0));
+        notifyPreloader(new Update("Setting env...",0.0));
         env = System.getProperty("ENV") == null ? "production" : System.getProperty("ENV");
 
         /**
          * CONFIG
          */
-        notifyPreloader(new Notification("Reading configuration...",0.25));
-        config = (JSONObject) AppModel.getConfig("/env/development.json");
+        notifyPreloader(new Update("Reading configuration...",0.25));
+        config = (JSONObject) AppModel.getConfig(env);
 
         /**
          * DATABASE
          */
-        notifyPreloader(new Notification("Init database...",0.5));
+        notifyPreloader(new Update("Init database...",0.5));
         AppModel.openDB(
                 (String) ((JSONObject) config.get("database")).get("type"),
                 (String) ((JSONObject) config.get("database")).get("url")
@@ -44,12 +51,12 @@ public class App extends Application {
         /**
          * SEEDING
          */
-        notifyPreloader(new Notification("Seeding database...",0.75));
+        notifyPreloader(new Update("Seeding database...",0.75));
         if(env.equals("development") == true){
             AppModel.seed();
         }
 
-        notifyPreloader(new Notification("Finishing...", 1.0));
+        notifyPreloader(new Update("Finishing...", 1.0));
         Thread.sleep(500);
 
     }
@@ -79,5 +86,26 @@ public class App extends Application {
     public void stop() throws Exception {
         AppModel.closeDB();
         Injector.forgetAll();
+    }
+
+
+    public void preCheckErrNotification() throws Exception {
+        boolean pass = true;
+        String errStr = "ERRORS:\n";
+        String installPath = AppModel.getPrefs().get("installPath", null);
+
+        if (installPath == null) {
+            pass = false;
+            errStr += " - App is not installed!";
+
+        } else if (new File(installPath).exists() == false) {
+            pass = false;
+            errStr += " - Missing: \"" + installPath + "\"";
+        }
+
+        if (!pass) {
+            notifyPreloader(new Error(errStr));
+        }
+
     }
 }

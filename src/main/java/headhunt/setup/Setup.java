@@ -18,13 +18,13 @@ public class Setup extends Application {
         /**
          * APP INSTALLED CHECK
          */
-        if (SetupModel.installFolder() != null) {
+        if (SetupModel.getInstallPath() != null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("Application is installed!");
             alert.setContentText(
                     "Application install folder has been moved!\n" +
-                            "Missing path: \"" + SetupModel.installFolder() + "\""
+                            "Missing path: \"" + SetupModel.getInstallPath() + "\""
             );
             alert.showAndWait();
             return;
@@ -54,7 +54,7 @@ public class Setup extends Application {
     @Override
     public void stop() throws Exception {
 
-        Finish finish = ctrl.model.getFinish();
+        Finish finish = ctrl.model.getFinishModule();
         if(finish.showReadme()){
             System.out.println("Show readme...");
         }

@@ -2,16 +2,22 @@ package headhunt.app;
 
 import com.orientechnologies.orient.core.exception.OStorageException;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
+import headhunt.Main;
+import headhunt.setup.SetupModel;
+import javafx.application.Preloader;
+import javafx.scene.control.Alert;
 import lombok.Getter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.prefs.Preferences;
 
 import headhunt.schemas.TwitterUser;
 
@@ -20,24 +26,26 @@ public class AppModel {
     @Getter
     private static OObjectDatabaseTx db;
 
+    @Getter private static Preferences prefs = Preferences.userNodeForPackage(AppModel.class);
+
     @PostConstruct
     public void init() {
         System.out.println("AppModel.init()");
     }
 
-    public static Object getConfig(String configUrl) throws Exception{
+    public static Object getConfig(String env) throws Exception{
         JSONParser parser = new JSONParser();
-        InputStream is = AppModel.class.getResourceAsStream(configUrl);
-        JSONObject jsonObject = (JSONObject) parser.parse(new InputStreamReader(is));
-        return jsonObject.get(App.getEnv());
+        InputStream is = AppModel.class.getResourceAsStream("/env/"+env+".json");
+        return (JSONObject) parser.parse(new InputStreamReader(is));
     }
 
     public static void openDB(String dbType,String dbUrl) {
+
         //Open connection
         String dbInfo = dbType + ":";
         if(dbType.equals("plocal")){
-            //Todo: Make splash screen with configuring application for the first time...
-            dbInfo = dbInfo + System.getProperty("user.home") + "/" + dbUrl;
+            //Todo: If installPath is not setted make error obout this...
+            dbInfo = dbInfo + prefs.get("installPath",null) + "/" + dbUrl;
         } else {
             dbInfo = dbInfo + dbUrl;
         }

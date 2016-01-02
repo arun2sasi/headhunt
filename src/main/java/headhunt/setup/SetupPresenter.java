@@ -62,10 +62,10 @@ public class SetupPresenter implements Initializable {
         );
         //INJECTING-END
 
-        model.setPath(path);
-        model.setIntro(intro);
-        model.setLicense(license);
-        model.setFinish(finish);
+        model.setPathModule(path);
+        model.setIntroModule(intro);
+        model.setLicenseModule(license);
+        model.setFinishModule(finish);
 
     }
 
@@ -128,7 +128,7 @@ public class SetupPresenter implements Initializable {
 
     @FXML
     private void finish() throws IOException, ParseException {
-        model.updateProdEnv();
+        model.initFinish();
         finishButton.getScene().getWindow().hide();
     }
 

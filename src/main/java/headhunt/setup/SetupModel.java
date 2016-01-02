@@ -7,104 +7,55 @@ import headhunt.setup.views.license.License;
 import headhunt.setup.views.path.Path;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.prefs.Preferences;
 
 public class SetupModel {
 
     public int viewIndex = 0;
 
+    private static Preferences prefs = Preferences.userNodeForPackage(AppModel.class);
+
     @Setter
-    private Path path;
+    private Path pathModule;
     @Setter @Getter
-    private Finish finish;
+    private Finish finishModule;
     @Setter
-    private License license;
+    private License licenseModule;
     @Setter
-    private Intro intro;
+    private Intro introModule;
 
     @PostConstruct
     public void init() {
         System.out.println("Wizard.init()");
     }
 
-    public static String installFolder(){
-        JSONObject folderObj = (JSONObject) getProdEnv().get("folder");
-
-        return (String) folderObj.get("install");
-    }
-
     public boolean pathExists(){
-        return new File(path.getPath()).exists();
+        return new File(pathModule.getPath()).exists();
     }
 
-    public static JSONObject getProdEnv(){
-        InputStream jsonStream = AppModel.class.getResourceAsStream("/env/production.json");
-
-
-        JSONObject prodEnv = null;
-
-        try {
-            JSONParser parser = new JSONParser();
-            prodEnv = (JSONObject) parser.parse(new InputStreamReader(jsonStream));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return prodEnv;
-
-    }
-
-    public void updateProdEnv() {
-
-        //Production path
-        URL jsonURL = this.getClass().getResource("/env/production.json");
-
-        //Make dir
-        File configDir = new File(path.getPath());
-        configDir.setExecutable(true, false);
-        configDir.setReadable(true, false);
-        configDir.setWritable(true, false);
-        //configDir.mkdir();
-
-        //Set resource evn data
-        JSONObject prodEnv = getProdEnv();
-        JSONObject newJsonObj = new JSONObject();
-        JSONObject folderObj = (JSONObject) prodEnv.get("folder");
-        JSONObject databaseObj = (JSONObject) prodEnv.get("database");
-
-        //Setting newJsonObj
-        folderObj.put("install", configDir.getPath());
-        newJsonObj.put("folder", folderObj);
-        newJsonObj.put("database", databaseObj);
-
-        //Write to file
-        try {
-            java.nio.file.Path path = Paths.get(jsonURL.toURI());
-            BufferedWriter bufferedWriter = Files.newBufferedWriter(path);
-            bufferedWriter.write(newJsonObj.toJSONString());
-            bufferedWriter.close();
-        } catch ( IOException e ) {
-            e.printStackTrace();
-        } catch ( URISyntaxException e ) {
-            e.printStackTrace();
-        }
+    public static String getInstallPath(){
+        return prefs.get("installPath",null);
     }
 
     public boolean userAgreeWithTerms(){
+        return licenseModule.userChoice();
+    }
 
-        return license.userChoice();
+    public void initFinish() {
+        try{
+            File installPath = new File(pathModule.getPath());
+            installPath.setExecutable(true, false);
+            installPath.setReadable(true, false);
+            installPath.setWritable(true, false);
+            installPath.mkdir();
 
+            prefs.put("installPath",pathModule.getPath());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
 
