@@ -6,6 +6,7 @@ import headhunt.preloader.Preloader;
 import headhunt.setup.Setup;
 import headhunt.setup.SetupModel;
 import org.docopt.Docopt;
+import com.jcabi.manifests.Manifests;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +29,9 @@ public class Main {
             + "  -v --version  Wizard version.\n"
             + "  -h --help     Show this screen.\n"
             + "\n"
-        ).withVersion("Headhunt v0.1.0").parse(args);
+        ).withVersion("Headhunt " + Manifests.read("Implementation-Version")).parse(args);
+
+	System.out.println(Manifests.read("Implementation-Version"));
 
         if (SetupModel.getInstallPath() != null) {
             LauncherImpl.launchApplication(App.class, Preloader.class, args);
