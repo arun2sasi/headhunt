@@ -2,24 +2,17 @@ package headhunt.app;
 
 import com.orientechnologies.orient.core.exception.OStorageException;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
-import headhunt.Main;
-import headhunt.setup.SetupModel;
-import javafx.application.Preloader;
-import javafx.scene.control.Alert;
+import headhunt.schemas.TwitterUser;
 import lombok.Getter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.prefs.Preferences;
-
-import headhunt.schemas.TwitterUser;
 
 public class AppModel {
 
@@ -73,13 +66,12 @@ public class AppModel {
         user.setLocation("Ljubljana");
         user.setBio("This is my bio\nand this is new line.");
         user.setAccount("Pro account");
-        user.setPortrait("http://newshour.s3.amazonaws.com/photos/2011/01/05/portrait-walken_slideshow.jpg");
+        user.setCreatedTime("Todo...");
 
-        List<String> websites = new ArrayList<String>();
-        websites.add("websites0");
-        websites.add("websites1");
-        websites.add("websites2");
-        user.setWebsites(websites);
+        //Todo: Make portrait, websites define schema...
+        user.setPortrait("aldfkj");
+        user.setWebsites("lasjkdf");
+        //----------------------------------------------
 
         Map<String,Integer> stats = new HashMap<String, Integer>();
         stats.put("stats0", 34);
