@@ -2,6 +2,7 @@ package headhunt.schemas;
 
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
 import headhunt.app.AppModel;
+import headhunt.schemas.twitter.TwitterUser;
 
 import java.util.List;
 

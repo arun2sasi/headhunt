@@ -2,7 +2,7 @@ package headhunt.app.modules.result;
 
 import com.airhacks.afterburner.views.FXMLView;
 import headhunt.schemas.Schema;
-import headhunt.schemas.TwitterUser;
+import headhunt.schemas.twitter.TwitterUser;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;

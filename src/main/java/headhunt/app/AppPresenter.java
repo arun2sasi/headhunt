@@ -3,17 +3,12 @@ package headhunt.app;
 //INJECTING-CHILD
 //INJECTING-END
 
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-import java.util.function.Consumer;
-
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import headhunt.app.modules.loadDialog.LoadDialogView;
 import headhunt.app.modules.result.ResultView;
 import headhunt.app.modules.searchDialog.SearchDialogView;
 import headhunt.schemas.Schema;
-import headhunt.schemas.TwitterUser;
+import headhunt.schemas.twitter.TwitterUser;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -22,7 +17,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -32,6 +28,14 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Date;
+import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public class AppPresenter implements Initializable {
 
