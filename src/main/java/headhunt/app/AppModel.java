@@ -2,24 +2,16 @@ package headhunt.app;
 
 import com.orientechnologies.orient.core.exception.OStorageException;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
-import headhunt.Main;
-import headhunt.setup.SetupModel;
-import javafx.application.Preloader;
-import javafx.scene.control.Alert;
+import headhunt.schemas.records.Portrait;
+import headhunt.schemas.records.Website;
+import headhunt.schemas.twitter.TwitterUser;
 import lombok.Getter;
-import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
 import javax.annotation.PostConstruct;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.prefs.Preferences;
-
-import headhunt.schemas.TwitterUser;
 
 public class AppModel {
 
@@ -36,7 +28,7 @@ public class AppModel {
     public static Object getConfig(String env) throws Exception{
         JSONParser parser = new JSONParser();
         InputStream is = AppModel.class.getResourceAsStream("/env/"+env+".json");
-        return (JSONObject) parser.parse(new InputStreamReader(is));
+        return parser.parse(new InputStreamReader(is));
     }
 
     public static void openDB(String dbType,String dbUrl) {
@@ -58,6 +50,8 @@ public class AppModel {
         }
 
         //Register tables
+        db.getEntityManager().registerEntityClass(Website.class);
+        db.getEntityManager().registerEntityClass(Portrait.class);
         db.getEntityManager().registerEntityClass(TwitterUser.class);
     }
 
@@ -73,18 +67,11 @@ public class AppModel {
         user.setLocation("Ljubljana");
         user.setBio("This is my bio\nand this is new line.");
         user.setAccount("Pro account");
-        user.setPortrait("http://newshour.s3.amazonaws.com/photos/2011/01/05/portrait-walken_slideshow.jpg");
-
-        List<String> websites = new ArrayList<String>();
-        websites.add("websites0");
-        websites.add("websites1");
-        websites.add("websites2");
-        user.setWebsites(websites);
-
-        Map<String,Integer> stats = new HashMap<String, Integer>();
-        stats.put("stats0", 34);
-        stats.put("stats1", 200);
-        user.setStatistics(stats);
+        user.setCreatedTime("Todo...");
+        user.addPortrait(new Portrait("http://www.accentblinds.ca/wp-content/uploads/2015/06/ncEEjypai.gif",12,12));
+        user.addWebsite(new Website("alkjfd","lsjdf","alsjdf"));
+        user.addStat("test",21);
+        user.addStat("test1",21);
 
         user.save();
 
