@@ -2,13 +2,13 @@
  * Build setup
  */
 buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'org.flywaydb:flyway-gradle-plugin:3.2.1'
-	classpath 'net.nemerosa:versioning:1.5.0'
-    }
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath 'org.flywaydb:flyway-gradle-plugin:3.2.1'
+		classpath 'net.nemerosa:versioning:1.5.0'
+	}
 }
 
 apply plugin: 'java'
@@ -17,65 +17,66 @@ apply plugin: 'org.flywaydb.flyway'
 apply plugin: 'net.nemerosa.versioning'
 
 repositories {
-    jcenter()
+	jcenter()
 }
 
 /**
  * Compile setup
  */
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-    compile(
-            [group: 'com.airhacks', name: 'afterburner.fx', version: '1.6.2'],
-            [group: 'javax.inject', name: 'javax.inject', version: '1'],
+	compile fileTree(dir: 'libs', include: '*.jar')
+	compile(
+		[group: 'com.airhacks', name: 'afterburner.fx', version: '1.6.2'],
+		[group: 'javax.inject', name: 'javax.inject', version: '1'],
 
-            [group: 'com.orientechnologies', name:'orientdb-core', version:'2.1.6'],
-            [group: 'com.orientechnologies', name:'orientdb-object', version:'2.1.6'],
+		[group: 'com.orientechnologies', name: 'orientdb-core', version: '2.1.6'],
+		[group: 'com.orientechnologies', name: 'orientdb-object', version: '2.1.6'],
 
-            [group: 'com.offbytwo', name: 'docopt', version: '0.6.0.20150202'],
-            [group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'],
-            [group: 'org.projectlombok', name: 'lombok', version: '1.16.6'],
-            [group: 'org.apache.commons', name: 'commons-io', version : '1.3.2'],
+		[group: 'com.offbytwo', name: 'docopt', version: '0.6.0.20150202'],
+		[group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'],
+		[group: 'org.projectlombok', name: 'lombok', version: '1.16.6'],
+		[group: 'org.apache.commons', name: 'commons-io', version: '1.3.2'],
+		[group: 'com.mashape.unirest', name: 'unirest-java', version: '1.4.7'],
+		[group: 'com.jcabi', name: 'jcabi-manifests', version: '1.1']
+	)
 
-	    [group: 'com.jcabi', name: 'jcabi-manifests', version: '1.1']
-    )
-
-    testCompile(
-            [group: 'junit', name: 'junit', version: '4.12']
-    )
+	testCompile(
+		[group: 'junit', name: 'junit', version: '4.12']
+	)
 }
 
 sourceSets {
-    main {
-        resources.srcDirs = [
-            "src/main/java",
-            "src/main/resources"
-        ]
-    }
+	main {
+		resources.srcDirs = [
+			"src/main/java",
+			"src/main/resources"
+		]
+	}
 }
 
-mainClassName = 'headhunt.app.App'
+mainClassName = 'headhunt.services.Vimeo';
+//mainClassName = 'headhunt.app.App'
 version = versioning.info.full
 
 /**
  * Migration
  */
 flyway {
-    url = null
-    locations = null
+	url = null
+	locations = null
 }
 
 /**
  * Run configuration
  */
 run {
-    if (project.hasProperty('ENV')) {
-        systemProperties['ENV'] = getProperty('ENV')
-    } else {
-        systemProperties['ENV'] = 'development'
-    }
+	if (project.hasProperty('ENV')) {
+		systemProperties['ENV'] = getProperty('ENV')
+	} else {
+		systemProperties['ENV'] = 'development'
+	}
 
-    println "ENV: ${systemProperties['ENV']}"
+	println "ENV: ${systemProperties['ENV']}"
 }
 
 /**
@@ -83,22 +84,22 @@ run {
  */
 task fatJar(type: Jar) {
 
-    libsDirName = 'jar'
+	libsDirName = 'jar'
 
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
+	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+	with jar
 
-    manifest {
-        attributes 'Implementation-Title': 'Headhunt application'
-        attributes 'Implementation-Version': version
-        attributes 'Main-Class': 'headhunt.Main'
-    }
+	manifest {
+		attributes 'Implementation-Title': 'Headhunt application'
+		attributes 'Implementation-Version': version
+		attributes 'Main-Class': 'headhunt.Main'
+	}
 }
 
-jar(){ 
-    manifest {
-        attributes 'Implementation-Title': 'Headhunt application'
-        attributes 'Implementation-Version': version
-        attributes 'Main-Class': 'headhunt.Main'
-    }
+jar() {
+	manifest {
+		attributes 'Implementation-Title': 'Headhunt application'
+		attributes 'Implementation-Version': version
+		attributes 'Main-Class': 'headhunt.Main'
+	}
 }
