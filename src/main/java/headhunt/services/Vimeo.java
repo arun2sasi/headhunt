@@ -53,7 +53,7 @@ package headhunt.services;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -63,29 +63,91 @@ import java.util.Map;
 public class Vimeo {
 
 	private String apiRoot = "https://api.vimeo.com";
+	private String apiVersion = "application/vnd.vimeo.*+json;version=3.2";
+	private String contentType = "application/json";
 	private String token = "96f56eff59f76a764196f8a3a1f9e9d2";
+	private int page = 2;
+	private int itemsPerPage = 50;
+	private String query = "abc";
+	private String sortBy = "relevant";
+	private String sortDirection = "desc";
+
+	private int callsRemain = 100;
+	private int callsLimit = 100;
 
 	public static void main(String[] args) {
 
 		Vimeo vimeo = new Vimeo();
-		JSONArray resArr = vimeo.getVimeoUsers();
 
-		System.out.println(resArr);
+		for(int i = 0; i < 10; i++){
+			JSONObject res = vimeo.getVimeoUsers();
+			System.out.println(i + " = " + res);
+		}
 	}
 
-	private JSONArray getVimeoUsers() {
+	public JSONObject getVimeoUsers(){
 
-		HttpResponse<String> response = null;
-		JSONArray res = null;
+		int calls = 0;
+
+		if(callsRemain <= 1){
+			for(int i=10; i>-1;i--){
+				System.out.println("Reseting X-RateLimit: " + i + " *sec");
+				//Todo: Thread sleep for some time.
+			}
+			callsRemain = callsLimit;
+		}
+
+		while(true) try {
+			//Todo: Thread sleep for random.randint(60*2,60*5)
+
+			Map<String, Object> res = reqUsers();
+			calls += 1;
+
+			int status = (int) res.get("status");
+
+			if ((int) res.get("status") != 200) {
+				for(int i=0;i<20;i++){
+					System.out.printf("%d* status %d: try again after ~ %d *min", calls, status, 20-i);
+					//Todo: Thread sleep for 60 sec.
+				}
+			} else {
+				return (JSONObject) res.get("body");
+			}
+		} catch (Exception e){
+			//Todo: This could be request timeout....
+			e.printStackTrace();
+		}
+
+	}
+
+	private Map<String, Object> reqUsers() {
+
+		Map<String,Object> resMap = new HashMap();
+
+		HttpResponse<String> res = null;
+		JSONObject resJson = null;
+
 		try {
-			response = Unirest.get(apiRoot + "/me")
-			.header("Content-Type","application/json")
-			.header("Authorization","Bearer " + token)
-			.asString();
+			res = Unirest.get(apiRoot + "/users")
+                .header("Content-Type",contentType)
+                .header("Authorization","Bearer " + token)
+				.header("Accept",apiVersion)
+                .queryString("per_page",Integer.toString(itemsPerPage))
+                .queryString("sort",sortBy)
+                //Important
+                .queryString("query",query)
+                .queryString("page", Integer.toString(page))
+                .queryString("direction",sortDirection)
+                //---------
+            .asString();
 
 			JSONParser jsonParser = new JSONParser();
 
-			res = (JSONArray) jsonParser.parse('['+response.getBody()+']');
+			resJson = (JSONObject) jsonParser.parse(res.getBody());
+			int status = res.getStatus();
+
+			resMap.put("body",resJson);
+			resMap.put("status", res.getStatus());
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -93,9 +155,7 @@ public class Vimeo {
 			e.printStackTrace();
 		}
 
-		System.out.println(response.getBody());
-
-		return res;
+		return resMap;
 	}
 
 }
