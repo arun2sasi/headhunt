@@ -57,15 +57,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Vimeo {
 
-	private String api = "https://api.vimeo.com";
-	private String acceptHeader = "application/vnd.vimeo.*;version=3.2";
-	private String userAgent = "pyvimeo 0.1; (http://developer.vimeo.com/api/docs)";
-
-	private String token = "<token>";
-	private String key = "<key>";
-	private String secret = "<secret>";
+	private String apiRoot = "https://api.vimeo.com";
+	private String token = "96f56eff59f76a764196f8a3a1f9e9d2";
 
 	public static void main(String[] args) {
 
@@ -73,7 +71,6 @@ public class Vimeo {
 		JSONArray resArr = vimeo.getVimeoUsers();
 
 		System.out.println(resArr);
-
 	}
 
 	private JSONArray getVimeoUsers() {
@@ -81,14 +78,13 @@ public class Vimeo {
 		HttpResponse<String> response = null;
 		JSONArray res = null;
 		try {
-			response = Unirest.post("http://httpbin.org/post")
-			.header("accept", "application/json")
-			.queryString("apiKey", "123")
-			.field("parameter", "value")
-			.field("foo", "bar")
+			response = Unirest.get(apiRoot + "/me")
+			.header("Content-Type","application/json")
+			.header("Authorization","Bearer " + token)
 			.asString();
 
 			JSONParser jsonParser = new JSONParser();
+
 			res = (JSONArray) jsonParser.parse('['+response.getBody()+']');
 
 		} catch (ParseException e) {
@@ -96,6 +92,8 @@ public class Vimeo {
 		} catch (UnirestException e) {
 			e.printStackTrace();
 		}
+
+		System.out.println(response.getBody());
 
 		return res;
 	}
