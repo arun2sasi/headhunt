@@ -54,7 +54,7 @@ sourceSets {
 	}
 }
 
-mainClassName = 'headhunt.services.ApiScrape';
+mainClassName = 'headhunt.app.App';
 //mainClassName = 'headhunt.app.App'
 version = versioning.info.full
 

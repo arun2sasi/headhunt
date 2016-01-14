@@ -9,6 +9,7 @@ import headhunt.app.modules.result.ResultView;
 import headhunt.app.modules.searchDialog.SearchDialogView;
 import headhunt.schemas.Schema;
 import headhunt.schemas.twitter.TwitterUser;
+import headhunt.services.ApiScraper;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -17,8 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -57,11 +57,21 @@ public class AppPresenter implements Initializable {
     @FXML
     private TableColumn<Schema, Integer> resultsRank;
 
+	@FXML
+	private TreeTableView<Object> scrapersTable;
+	@FXML
+	private TreeTableColumn<Object, Object> scraperName;
+	@FXML
+	private TreeTableColumn<Object, Object> scraperProgress;
+	@FXML
+	private TreeTableColumn<ApiScraper, ApiScraper> scraperInfo;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("WizardPresenter.initialize()");
 
         initResultsTable();
+		initScraperTable();
 
         //INJECTING-VIEW
         //INJECTING-END
@@ -77,6 +87,42 @@ public class AppPresenter implements Initializable {
         resultsCreated.setCellValueFactory(new PropertyValueFactory<Schema, Date>("createdTime"));
         resultsTable.setItems(FXCollections.observableArrayList(TwitterUser.getAll()));
     }
+
+	private void initScraperTable() {
+
+		ApiScraper vimeo = new ApiScraper.VimeoUsers("scraper0");
+
+		//Creating the root element
+		final TreeItem<Object> root = new TreeItem<Object>("API's");
+		root.setExpanded(true);
+
+		final TreeItem<Object> vimeoItem = new TreeItem<Object>("Vimeo");
+		vimeoItem.setExpanded(true);
+
+		//Adding tree items to the root
+		root.getChildren().setAll(vimeoItem);
+		vimeoItem.getChildren().setAll(new TreeItem<Object>(vimeo));
+
+		//Defining cell content
+		scraperName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
+			if(p.getValue().getValue() instanceof ApiScraper) {
+				return new ReadOnlyObjectWrapper<Object>(((ApiScraper) p.getValue().getValue()).getName());
+			} else {
+				return new ReadOnlyObjectWrapper<Object>(p.getValue().getValue());
+			}
+		});
+
+		//Creating a tree table view
+		scrapersTable.setRoot(root);
+
+		scraperProgress.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
+			if(p.getValue().getValue() instanceof ApiScraper) {
+				return new ReadOnlyObjectWrapper<Object>(((ApiScraper) p.getValue().getValue()).getProgress());
+			} else {
+				return null;
+			}
+		});
+	}
 
     public void showResult(MouseEvent event){
         if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
