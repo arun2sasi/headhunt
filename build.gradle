@@ -54,7 +54,7 @@ sourceSets {
 	}
 }
 
-mainClassName = 'headhunt.services.Vimeo';
+mainClassName = 'headhunt.services.ApiScrape';
 //mainClassName = 'headhunt.app.App'
 version = versioning.info.full
 
