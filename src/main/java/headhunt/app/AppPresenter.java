@@ -9,7 +9,7 @@ import headhunt.app.modules.result.ResultView;
 import headhunt.app.modules.searchDialog.SearchDialogView;
 import headhunt.schemas.Schema;
 import headhunt.schemas.twitter.TwitterUser;
-import headhunt.services.Vimeo;
+import headhunt.services.ScrapeTask;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -34,6 +34,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
@@ -90,60 +91,59 @@ public class AppPresenter implements Initializable {
 
 	private void initScraperTable() {
 
-		Vimeo vimeo = new Vimeo();
-		Task<Void> scraper = new Task<Void>() {
-			@Override
-			protected Void call() throws Exception {
-				int i = 0;
-				while(true){
-					updateProgress(i*0.1,10);
-					i++;
-					Thread.sleep(100);
-				}
-			}
-		};
+		List<ScrapeTask> scrapeTasks = appModel.initScraping();
 
-		//Creating the root element
+		/**
+		 * TODO: Get all api scraper classes
+		 */
+		final TreeItem<Object> apiItem0 = new TreeItem<Object>("Vimeo");
+		apiItem0.getChildren().setAll(new TreeItem<Object>(scrapeTasks.get(0)));
+
+		/**
+		 * TREE STRUCTURE
+		 */
 		final TreeItem<Object> root = new TreeItem<Object>("API's");
 		root.setExpanded(true);
+		root.getChildren().setAll(apiItem0);
+		apiItem0.setExpanded(true);
+		scrapersTable.setRoot(root);
 
-		final TreeItem<Object> vimeoItem = new TreeItem<Object>("Vimeo");
-		vimeoItem.setExpanded(true);
-
-		//Adding tree items to the root
-		root.getChildren().setAll(vimeoItem);
-		vimeoItem.getChildren().setAll(new TreeItem<Object>(vimeo));
-
-		//Defining cell content
+		/**
+		 * COLUMN: NAME
+		 */
 		scraperName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
-			if(p.getValue().getValue() instanceof Vimeo) {
-				return new ReadOnlyObjectWrapper<Object>(((Vimeo) p.getValue().getValue()).getQuery());
+			Object object = p.getValue().getValue();
+			if(object instanceof ScrapeTask) {
+				return new ReadOnlyObjectWrapper<Object>(((ScrapeTask) object).getName());
 			} else {
-				return new ReadOnlyObjectWrapper<Object>(p.getValue().getValue());
+				return new ReadOnlyObjectWrapper<Object>(object);
 			}
 		});
 
-		//Creating a tree table view
-		scrapersTable.setRoot(root);
-
+		/**
+		 * COLUMN: PROGRESS
+		 */
 		scraperProgress.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
-			if (p.getValue().getValue() instanceof Vimeo) {
+			Object object = p.getValue().getValue();
+			if (object instanceof ScrapeTask) {
 				ProgressBar progressBar = new ProgressBar();
 				progressBar.progressProperty().unbind();
-				progressBar.progressProperty().bind(scraper.progressProperty());
+				progressBar.progressProperty().bind(((ScrapeTask) object).progressProperty());
 				return new ReadOnlyObjectWrapper<Object>(progressBar);
 			} else {
 				return null;
 			}
 		});
 
-		new Thread(scraper).start();
-
+		/**
+		 * COLUMN: INFO
+		 */
 		scraperInfo.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
-			if (p.getValue().getValue() instanceof Task) {
-				return new ReadOnlyObjectWrapper<Object>(((Task) p.getValue().getValue()).getValue());
+			Object object = p.getValue().getValue();
+			if(object instanceof ScrapeTask) {
+				return new ReadOnlyObjectWrapper<Object>(((ScrapeTask) object).getValue());
 			} else {
-				return new ReadOnlyObjectWrapper<Object>("");
+				return new ReadOnlyObjectWrapper<Object>(null);
 			}
 		});
 

@@ -5,12 +5,16 @@ import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import headhunt.schemas.records.Portrait;
 import headhunt.schemas.records.Website;
 import headhunt.schemas.twitter.TwitterUser;
+import headhunt.services.ApiScrape;
+import headhunt.services.ScrapeTask;
 import lombok.Getter;
 import org.json.simple.parser.JSONParser;
 
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.prefs.Preferences;
 
 public class AppModel {
@@ -30,6 +34,20 @@ public class AppModel {
         InputStream is = AppModel.class.getResourceAsStream("/env/"+env+".json");
         return parser.parse(new InputStreamReader(is));
     }
+
+	public List<ScrapeTask> initScraping(){
+		List<ScrapeTask> scrapersTasks = new ArrayList<>();
+
+		scrapersTasks.add(ApiScrape.vimeoUsers("Scraper 0"));
+
+		scrapersTasks.get(0).setOnScrapeSuccess(param -> {
+			System.out.println("SUCCESS: " + param);
+			return null;
+		});
+		new Thread(scrapersTasks.get(0)).start();
+
+		return scrapersTasks;
+	}
 
     public static void openDB(String dbType,String dbUrl) {
 
