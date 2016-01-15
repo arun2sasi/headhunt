@@ -9,14 +9,9 @@ import headhunt.app.modules.result.ResultView;
 import headhunt.app.modules.searchDialog.SearchDialogView;
 import headhunt.schemas.Schema;
 import headhunt.schemas.twitter.TwitterUser;
-import headhunt.services.ApiScraper;
+import headhunt.services.Vimeo;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ObservableDoubleValue;
-import javafx.beans.value.ObservableNumberValue;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -28,7 +23,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -39,7 +33,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -97,8 +90,18 @@ public class AppPresenter implements Initializable {
 
 	private void initScraperTable() {
 
-		ApiScraper vimeo = new ApiScraper.VimeoUsers("scraper0");
-		vimeo.start();
+		Vimeo vimeo = new Vimeo();
+		Task<Void> scraper = new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				int i = 0;
+				while(true){
+					updateProgress(i*0.1,10);
+					i++;
+					Thread.sleep(100);
+				}
+			}
+		};
 
 		//Creating the root element
 		final TreeItem<Object> root = new TreeItem<Object>("API's");
@@ -113,8 +116,8 @@ public class AppPresenter implements Initializable {
 
 		//Defining cell content
 		scraperName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
-			if(p.getValue().getValue() instanceof ApiScraper) {
-				return new ReadOnlyObjectWrapper<Object>(((ApiScraper) p.getValue().getValue()).getName());
+			if(p.getValue().getValue() instanceof Vimeo) {
+				return new ReadOnlyObjectWrapper<Object>(((Vimeo) p.getValue().getValue()).getQuery());
 			} else {
 				return new ReadOnlyObjectWrapper<Object>(p.getValue().getValue());
 			}
@@ -124,16 +127,21 @@ public class AppPresenter implements Initializable {
 		scrapersTable.setRoot(root);
 
 		scraperProgress.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
-			if (p.getValue().getValue() instanceof ApiScraper) {
-				return new ReadOnlyObjectWrapper<Object>(new ProgressBar());
+			if (p.getValue().getValue() instanceof Vimeo) {
+				ProgressBar progressBar = new ProgressBar();
+				progressBar.progressProperty().unbind();
+				progressBar.progressProperty().bind(scraper.progressProperty());
+				return new ReadOnlyObjectWrapper<Object>(progressBar);
 			} else {
 				return null;
 			}
 		});
 
+		new Thread(scraper).start();
+
 		scraperInfo.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
-			if (p.getValue().getValue() instanceof ApiScraper) {
-				return new ReadOnlyObjectWrapper<Object>(((ApiScraper) p.getValue().getValue()).getInfo());
+			if (p.getValue().getValue() instanceof Task) {
+				return new ReadOnlyObjectWrapper<Object>(((Task) p.getValue().getValue()).getValue());
 			} else {
 				return new ReadOnlyObjectWrapper<Object>("");
 			}
@@ -230,21 +238,4 @@ public class AppPresenter implements Initializable {
         Platform.exit();
     }
 
-}
-
-
-class ProgressCell extends TreeTableCell<Object, Object> {
-
-	final ProgressBar progress = new ProgressBar();
-
-	ProgressCell() {
-	}
-
-	@Override
-	protected void updateItem(Object t, boolean empty) {
-		super.updateItem(t, empty);
-		if (!empty) {
-			setGraphic(progress);
-		}
-	}
 }
