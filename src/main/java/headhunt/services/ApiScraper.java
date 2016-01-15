@@ -1,8 +1,9 @@
 package headhunt.services;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.util.Callback;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -27,8 +28,37 @@ public class ApiScraper extends Thread {
 		vimeoScraper.start();
 	}
 
-	public Object getProgress(){
-		return 322;
+	public ObservableValue<Object> getProgress(){
+		return new ObservableValue<Object>() {
+			@Override
+			public void addListener(InvalidationListener listener) {
+
+			}
+
+			@Override
+			public void removeListener(InvalidationListener listener) {
+
+			}
+
+			@Override
+			public void addListener(ChangeListener<? super Object> listener) {
+
+			}
+
+			@Override
+			public void removeListener(ChangeListener<? super Object> listener) {
+
+			}
+
+			@Override
+			public Object getValue() {
+				return null;
+			}
+		};
+	}
+
+	public String getInfo(){
+		return "Info";
 	}
 
 	private Callback<Object,Void> onSuccess;
@@ -56,7 +86,7 @@ public class ApiScraper extends Thread {
 				if (status != 200) {
 					TimeUnit.MINUTES.sleep(20);
 				} else {
-					super.onSuccess.call(res.get("body"));
+					//super.onSuccess.call(res.get("body"));
 					TimeUnit.MINUTES.sleep(1);
 				}
 			} catch (Exception e) {

@@ -12,6 +12,11 @@ import headhunt.schemas.twitter.TwitterUser;
 import headhunt.services.ApiScraper;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableDoubleValue;
+import javafx.beans.value.ObservableNumberValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -23,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -33,6 +39,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collection;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
@@ -60,11 +67,11 @@ public class AppPresenter implements Initializable {
 	@FXML
 	private TreeTableView<Object> scrapersTable;
 	@FXML
-	private TreeTableColumn<Object, Object> scraperName;
+	private TreeTableColumn<Object,Object> scraperName;
 	@FXML
-	private TreeTableColumn<Object, Object> scraperProgress;
+	private TreeTableColumn<Object,Object> scraperProgress;
 	@FXML
-	private TreeTableColumn<ApiScraper, ApiScraper> scraperInfo;
+	private TreeTableColumn<Object,Object> scraperInfo;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -91,6 +98,7 @@ public class AppPresenter implements Initializable {
 	private void initScraperTable() {
 
 		ApiScraper vimeo = new ApiScraper.VimeoUsers("scraper0");
+		vimeo.start();
 
 		//Creating the root element
 		final TreeItem<Object> root = new TreeItem<Object>("API's");
@@ -116,12 +124,21 @@ public class AppPresenter implements Initializable {
 		scrapersTable.setRoot(root);
 
 		scraperProgress.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
-			if(p.getValue().getValue() instanceof ApiScraper) {
-				return new ReadOnlyObjectWrapper<Object>(((ApiScraper) p.getValue().getValue()).getProgress());
+			if (p.getValue().getValue() instanceof ApiScraper) {
+				return new ReadOnlyObjectWrapper<Object>(new ProgressBar());
 			} else {
 				return null;
 			}
 		});
+
+		scraperInfo.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
+			if (p.getValue().getValue() instanceof ApiScraper) {
+				return new ReadOnlyObjectWrapper<Object>(((ApiScraper) p.getValue().getValue()).getInfo());
+			} else {
+				return new ReadOnlyObjectWrapper<Object>("");
+			}
+		});
+
 	}
 
     public void showResult(MouseEvent event){
@@ -213,4 +230,21 @@ public class AppPresenter implements Initializable {
         Platform.exit();
     }
 
+}
+
+
+class ProgressCell extends TreeTableCell<Object, Object> {
+
+	final ProgressBar progress = new ProgressBar();
+
+	ProgressCell() {
+	}
+
+	@Override
+	protected void updateItem(Object t, boolean empty) {
+		super.updateItem(t, empty);
+		if (!empty) {
+			setGraphic(progress);
+		}
+	}
 }
