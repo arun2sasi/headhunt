@@ -3,7 +3,6 @@ package headhunt.services;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import lombok.Getter;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -11,24 +10,22 @@ import org.json.simple.parser.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by urosjarc on 14.1.2016.
- */
 public class VimeoApi {
 
-	private String apiRoot = "https://api.vimeo.com";
-	private String apiVersion = "application/vnd.vimeo.*+json;version=3.2";
-	private String contentType = "application/json";
-	private String token = "96f56eff59f76a764196f8a3a1f9e9d2";
+	final private String apiRoot = "https://api.vimeo.com";
+	final private String apiVersion = "application/vnd.vimeo.*+json;version=3.2";
+	final private String contentType = "application/json";
+	final private String sortBy = "alphabetical";
+	final private String sortDirection = "desc";
+	final private int itemsPerPage = 50;
 
-	private int page = 2;
-	private int itemsPerPage = 50;
-	@Getter
-	private String query = "abc";
-	private String sortBy = "relevant";
-	private String sortDirection = "desc";
+	private String token;// = "96f56eff59f76a764196f8a3a1f9e9d2";
 
-	public Map<String, Object> reqUsers() {
+	public VimeoApi(String token){
+		this.token = token;
+	}
+
+	public Map<String, Object> reqUsers(String query, int page) {
 
 		Map<String,Object> resMap = new HashMap();
 

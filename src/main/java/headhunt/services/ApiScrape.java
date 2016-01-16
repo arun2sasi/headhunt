@@ -7,10 +7,10 @@ import java.util.concurrent.TimeUnit;
 
 public class ApiScrape {
 
-	public static ScrapeTask vimeoUsers(String taskName){
+	public static ScrapeTask vimeoUsers(String taskName,String apiToken,String query,int page){
         return new ScrapeTask(taskName) {
 
-			private VimeoApi vimeoApi = new VimeoApi();
+			private VimeoApi vimeoApi = new VimeoApi(apiToken);
 
 			@Override
 			protected Object call() throws Exception {
@@ -24,7 +24,7 @@ public class ApiScrape {
 
 				while (true) try {
 
-					Map<String, Object> res = vimeoApi.reqUsers();
+					Map<String, Object> res = vimeoApi.reqUsers(query,page);
 
 					int status = (int) res.get("status");
 					JSONObject body = (JSONObject) res.get("body");

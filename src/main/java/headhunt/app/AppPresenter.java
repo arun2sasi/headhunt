@@ -8,7 +8,7 @@ import headhunt.app.modules.loadDialog.LoadDialogView;
 import headhunt.app.modules.result.ResultView;
 import headhunt.app.modules.searchDialog.SearchDialogView;
 import headhunt.schemas.Schema;
-import headhunt.schemas.twitter.TwitterUser;
+import headhunt.schemas.classes.VimeoUser;
 import headhunt.services.ScrapeTask;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -86,7 +86,7 @@ public class AppPresenter implements Initializable {
         resultsLocation.setCellValueFactory(new PropertyValueFactory<Schema, String>("location"));
         resultsAccount.setCellValueFactory(new PropertyValueFactory<Schema, String>("account"));
         resultsCreated.setCellValueFactory(new PropertyValueFactory<Schema, Date>("createdTime"));
-        resultsTable.setItems(FXCollections.observableArrayList(TwitterUser.getAll()));
+        resultsTable.setItems(FXCollections.observableArrayList(VimeoUser.getAll()));
     }
 
 	private void initScraperTable() {
@@ -193,7 +193,7 @@ public class AppPresenter implements Initializable {
                                     return;
                                 }
 
-                                TwitterUser.insertOrUpdate(object);
+                                VimeoUser.insertOrUpdate(object);
                                 updateProgress((double) index,size);
                                 index++;
                                 updateMessage("Importing twitter users: " + index + "/" + size);
@@ -201,7 +201,7 @@ public class AppPresenter implements Initializable {
                         });
 
                         updateMessage("Importing twitter users: " + index + "/" + size + " SUCCESS");
-                        resultsTable.setItems(FXCollections.observableArrayList(TwitterUser.getAll()));
+                        resultsTable.setItems(FXCollections.observableArrayList(VimeoUser.getAll()));
 
                         return null;
                     }
@@ -226,7 +226,7 @@ public class AppPresenter implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 resultsTable.setItems(FXCollections.observableArrayList(
-                        TwitterUser.search(searchDialog.getLocation(),searchDialog.getKeyword())
+                        VimeoUser.search(searchDialog.getLocation(),searchDialog.getKeyword())
                 ));
             }
 

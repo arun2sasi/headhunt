@@ -1,4 +1,4 @@
-package headhunt.schemas.twitter;
+package headhunt.schemas.classes;
 
 import headhunt.schemas.Schema;
 import headhunt.schemas.records.Portrait;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TwitterUser extends Schema {
+public class VimeoUser extends Schema {
 
     @Getter @Setter private String uri;
     @Getter @Setter private String name;
@@ -29,7 +29,7 @@ public class TwitterUser extends Schema {
     @Getter @Setter private List<Portrait> portraits = new ArrayList<>();
 
 
-    public TwitterUser() {
+    public VimeoUser() {
     }
 
     public Integer getPoints(){
@@ -51,13 +51,13 @@ public class TwitterUser extends Schema {
 
     public static void insertOrUpdate(Object o) {
 
-        TwitterUser user;
+        VimeoUser user;
 
         JSONObject json = (JSONObject) o;
         String uri = (String) json.get("uri");
 
-        List<TwitterUser> users = query(
-            "select * from TwitterUser where uri = '" + uri + "'"
+        List<VimeoUser> users = (List<VimeoUser>) query(
+            "select * from VimeoUser where uri = '" + uri + "'"
         );
 
         if(users.size() == 1){
@@ -69,7 +69,7 @@ public class TwitterUser extends Schema {
             return;
         } else {
             //New
-            user = new TwitterUser();
+            user = new VimeoUser();
         }
 
         JSONArray portraits = (JSONArray) json.get("portrait");
@@ -109,12 +109,19 @@ public class TwitterUser extends Schema {
         user.save();
     }
 
-    public static List<TwitterUser> getAll(){
-        return query("select * from TwitterUser");
+    public static List<VimeoUser> getAll(){
+        return (List<VimeoUser>) query("select * from VimeoUser");
     }
 
-    public static List<TwitterUser> search(String location, String keyword) {
-        return query("select * from TwitterUser where bio like '" + keyword + "' and location like '" + location + "'");
+    public static List<VimeoUser> search(String location, String keyword) {
+        return (List<VimeoUser>) query("select * from VimeoUser where bio like '" + keyword + "' and location like '" + location + "'");
     }
+
+	public static void insertOrUpdateAllReqUsers(Object vimeoReq){
+
+		JSONObject json = (JSONObject) vimeoReq;
+		//Todo: Parse and call insertOrUpdate...
+
+	}
 
 }
