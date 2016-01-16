@@ -3,9 +3,9 @@ package headhunt.app.modules.result;
 //INJECTING-CHILD
 //INJECTING-END
 
+import headhunt.schemas.classes.VimeoUser;
 import headhunt.schemas.records.Portrait;
 import headhunt.schemas.records.Website;
-import headhunt.schemas.twitter.TwitterUser;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 public class ResultPresenter implements Initializable {
 
     @Setter
-    static private TwitterUser user;
+    static private VimeoUser user;
     @Setter
     static private int rankPosition;
 
