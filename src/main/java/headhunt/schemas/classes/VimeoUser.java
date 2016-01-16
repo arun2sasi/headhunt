@@ -32,6 +32,31 @@ public class VimeoUser extends Schema {
     public VimeoUser() {
     }
 
+	public VimeoUser(
+				String uri,
+				String name,
+				String link,
+				String location,
+				String bio,
+				String createdTime,
+				String account,
+				Map<String,Integer> statistics,
+				List<Website> websites,
+				List<Portrait> portraits){
+
+		this.uri = uri;
+		this.name = name;
+		this.link = link;
+		this.location = location;
+		this.bio = bio;
+		this.createdTime = createdTime;
+		this.account = account;
+		this.statistics = statistics;
+		this.websites = websites;
+		this.portraits = portraits;
+
+	}
+
     public Integer getPoints(){
         //Todo: Make this happend...
         int points = 3;
@@ -119,7 +144,17 @@ public class VimeoUser extends Schema {
 
 	public static void insertOrUpdateAllReqUsers(Object vimeoReq){
 
-		JSONObject json = (JSONObject) vimeoReq;
+		JSONObject jsonReq = (JSONObject) vimeoReq;
+		JSONArray data = (JSONArray) jsonReq.get("data");
+
+		for(Object dataEle: data){
+
+			JSONObject userObj = (JSONObject) dataEle;
+			VimeoUser vimeoUser = new VimeoUser();
+
+//			vimeoUser.setCreatedTime((String) userObj.get("created_time"));
+
+		}
 		//Todo: Parse and call insertOrUpdate...
 
 	}
