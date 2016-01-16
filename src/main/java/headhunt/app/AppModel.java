@@ -1,5 +1,6 @@
 package headhunt.app;
 
+import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import com.orientechnologies.orient.core.exception.OStorageException;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import headhunt.schemas.Schema;
@@ -54,7 +55,7 @@ public class AppModel {
 			);
 
 			scrapeTask.setOnScrapeSuccess(param -> {
-				//Todo: Make contract between scrape task response and database schema.
+				ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
 				System.out.println("SUCCESS -> " + param);
 				VimeoUser.insertOrUpdateAllReqUsers(param);
 				return null;

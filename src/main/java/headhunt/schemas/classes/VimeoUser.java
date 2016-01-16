@@ -3,6 +3,8 @@ package headhunt.schemas.classes;
 import headhunt.schemas.Schema;
 import headhunt.schemas.records.Portrait;
 import headhunt.schemas.records.Website;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONArray;
@@ -13,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class VimeoUser extends Schema {
 
     @Getter @Setter private String uri;
@@ -28,34 +31,8 @@ public class VimeoUser extends Schema {
     @Getter @Setter private List<Website> websites = new ArrayList<>();
     @Getter @Setter private List<Portrait> portraits = new ArrayList<>();
 
-
     public VimeoUser() {
     }
-
-	public VimeoUser(
-				String uri,
-				String name,
-				String link,
-				String location,
-				String bio,
-				String createdTime,
-				String account,
-				Map<String,Integer> statistics,
-				List<Website> websites,
-				List<Portrait> portraits){
-
-		this.uri = uri;
-		this.name = name;
-		this.link = link;
-		this.location = location;
-		this.bio = bio;
-		this.createdTime = createdTime;
-		this.account = account;
-		this.statistics = statistics;
-		this.websites = websites;
-		this.portraits = portraits;
-
-	}
 
     public Integer getPoints(){
         //Todo: Make this happend...
@@ -97,17 +74,16 @@ public class VimeoUser extends Schema {
             user = new VimeoUser();
         }
 
-        JSONArray portraits = (JSONArray) json.get("portrait");
-        JSONArray websites = (JSONArray) json.get("websites");
-
-
         user.setUri(uri);
         user.setName((String) json.get("name"));
         user.setLink((String) json.get("link"));
         user.setLocation((String) json.get("location"));
         user.setBio((String) json.get("bio"));
         user.setAccount((String) json.get("account"));
+		user.setCreatedTime((String) json.get("createdTime"));
+		user.setStatistics((Map<String, Integer>) json.get("statistics"));
 
+		JSONArray portraits = (JSONArray) json.get("portrait");
         user.setPortraits(new ArrayList<>());
         for(int i = 0; i < portraits.size(); i++){
             JSONObject portraitObj = (JSONObject) portraits.get(i);
@@ -118,6 +94,7 @@ public class VimeoUser extends Schema {
             ));
         }
 
+		JSONArray websites = (JSONArray) json.get("websites");
         user.setWebsites(new ArrayList<>());
         for(int i = 0; i < websites.size(); i++){
             JSONObject webObj = (JSONObject) websites.get(i);
@@ -127,9 +104,6 @@ public class VimeoUser extends Schema {
                     (String) webObj.get("description")
             ));
         }
-
-        user.setCreatedTime((String) json.get("createdTime"));
-        user.setStatistics((Map<String, Integer>) json.get("statistics"));
 
         user.save();
     }
@@ -144,18 +118,84 @@ public class VimeoUser extends Schema {
 
 	public static void insertOrUpdateAllReqUsers(Object vimeoReq){
 
-		JSONObject jsonReq = (JSONObject) vimeoReq;
-		JSONArray data = (JSONArray) jsonReq.get("data");
+		JSONArray dataArrJson = (JSONArray) ((JSONObject) vimeoReq).get("data");
 
-		for(Object dataEle: data){
+		for(Object dataArrObj: dataArrJson){
+			JSONObject userJson = (JSONObject) dataArrObj;
 
-			JSONObject userObj = (JSONObject) dataEle;
-			VimeoUser vimeoUser = new VimeoUser();
+			/**
+			 * STATISTICS
+			 */
+			JSONObject statsJson = (JSONObject) ((JSONObject) userJson.get("metadata")).get("connections");
+			Map<String,Integer> statistics = new HashMap<>();
+			statistics.put("shared", ((Long) ((JSONObject) statsJson.get("shared")).get("total")).intValue());
+			statistics.put("albums",((Long) ((JSONObject) statsJson.get("albums")).get("total")).intValue());
+			statistics.put("followers",((Long) ((JSONObject) statsJson.get("followers")).get("total")).intValue());
+			statistics.put("channels",((Long) ((JSONObject) statsJson.get("channels")).get("total")).intValue());
+			statistics.put("following",((Long) ((JSONObject) statsJson.get("following")).get("total")).intValue());
+			statistics.put("groups",((Long) ((JSONObject) statsJson.get("groups")).get("total")).intValue());
+			statistics.put("videos",((Long) ((JSONObject) statsJson.get("videos")).get("total")).intValue());
+			statistics.put("pictures",((Long) ((JSONObject) statsJson.get("pictures")).get("total")).intValue());
+			statistics.put("likes",((Long) ((JSONObject) statsJson.get("likes")).get("total")).intValue());
 
-//			vimeoUser.setCreatedTime((String) userObj.get("created_time"));
+			/**
+			 * WEBSITES
+			 */
+			List<Website> websites = new ArrayList<>();
+			for(Object websiteObj: (JSONArray) userJson.get("websites")){
+				JSONObject websiteJson = (JSONObject) websiteObj;
+				websites.add(new Website(
+                    (String) websiteJson.get("link"),
+                    (String) websiteJson.get("name"),
+                    (String) websiteJson.get("description")
+				));
+			}
+
+			/**
+			 * PORTRAITS
+			 */
+			List<Portrait> portraits = new ArrayList<>();
+			JSONObject picturesJson = (JSONObject) userJson.get("pictures");
+			if(picturesJson != null){
+				for(Object portraitObj: (JSONArray) picturesJson.get("sizes")){
+					JSONObject portraitJson = (JSONObject) portraitObj;
+					portraits.add(new Portrait(
+                        (String) portraitJson.get("link"),
+                        ((Long) portraitJson.get("height")).intValue(),
+                        ((Long) portraitJson.get("width")).intValue()
+					));
+				}
+			}
+			/**
+			 * SAVE OR UPDATE OBJECT
+			 */
+			List<VimeoUser> existingUsers = (List<VimeoUser>) query(
+                "select * from VimeoUser where uri = '" + userJson.get("uri") + "'"
+			);
+
+			//Update
+			if(existingUsers.size() == 1){
+				VimeoUser user = existingUsers.get(0);
+
+            //Create
+			} else if(existingUsers.size() == 0){
+				new VimeoUser(
+                    (String) userJson.get("uri"),
+                    (String) userJson.get("name"),
+                    (String) userJson.get("link"),
+                    (String) userJson.get("location"),
+                    (String) userJson.get("bio"),
+                    (String) userJson.get("time"),
+                    (String) userJson.get("account"),
+                    statistics,
+                    websites,
+                    portraits
+				).save();
+
+			}
 
 		}
-		//Todo: Parse and call insertOrUpdate...
+
 
 	}
 

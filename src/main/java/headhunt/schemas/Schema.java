@@ -12,7 +12,6 @@ public class Schema {
     }
 
     public static List<?> query(String queryString){
-        System.out.println(queryString);
         return AppModel.getDb().query(new OSQLSynchQuery<Schema>(queryString));
     }
 
