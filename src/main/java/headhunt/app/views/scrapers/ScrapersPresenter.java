@@ -4,11 +4,16 @@ package headhunt.app.views.scrapers;
 //INJECTING-END
 
 import headhunt.app.AppModel;
+import headhunt.app.dialogs.scraperTask.ScraperTaskFx;
 import headhunt.services.ScrapeTask;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.List;
@@ -62,7 +67,16 @@ public class ScrapersPresenter implements Initializable {
 		scraperName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
 			Object object = p.getValue().getValue();
 			if (object instanceof ScrapeTask) {
-				return new ReadOnlyObjectWrapper<Object>(((ScrapeTask) object).getName());
+				String taskName = ((ScrapeTask) object).getName();
+				Label nameLabel = new Label(taskName);
+				nameLabel.setOnMouseClicked(event -> {
+					if (event.getButton().equals(MouseButton.PRIMARY)) {
+						if (event.getClickCount() == 2) {
+							ScraperTaskFx scraperTaskFx = new ScraperTaskFx("Edit scraper");
+						}
+					}
+				});
+				return new ReadOnlyObjectWrapper<Object>(nameLabel);
 			} else {
 				return new ReadOnlyObjectWrapper<Object>(object);
 			}
@@ -74,9 +88,9 @@ public class ScrapersPresenter implements Initializable {
 		scraperProgress.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
 			Object object = p.getValue().getValue();
 			if (object instanceof ScrapeTask) {
+				ScrapeTask scrapeTask = (ScrapeTask) object;
 				ProgressBar progressBar = new ProgressBar();
-				progressBar.progressProperty().unbind();
-				progressBar.progressProperty().bind(((ScrapeTask) object).progressProperty());
+				progressBar.progressProperty().bind(scrapeTask.progressProperty());
 				return new ReadOnlyObjectWrapper<Object>(progressBar);
 			} else {
 				return null;
