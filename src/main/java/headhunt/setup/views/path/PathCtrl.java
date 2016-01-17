@@ -6,11 +6,11 @@ import javafx.scene.Parent;
 /**
  * Created by urosjarc on 12/30/15.
  */
-public class Path {
+public class PathCtrl {
     private PathPresenter ctrl;
     private FXMLView fxmlView;
 
-    public Path(){
+    public PathCtrl(){
         fxmlView = new PathView();
         ctrl = (PathPresenter) fxmlView.getPresenter();
     }

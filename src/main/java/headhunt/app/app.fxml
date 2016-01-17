@@ -11,18 +11,13 @@
          <top>
             <MenuBar BorderPane.alignment="CENTER">
               <menus>
-                <Menu mnemonicParsing="false" text="Database">
+                <Menu mnemonicParsing="false" text="File">
                   <items>
-                        <Menu mnemonicParsing="false" text="Open...">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Database" />
-                          </items>
-                        </Menu>
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <Menu mnemonicParsing="false" text="Import...">
-                          <items>
-                            <MenuItem mnemonicParsing="false" onAction="#importTwitterUsers" text="Twitter users" />
-                          </items>
+                        <Menu mnemonicParsing="false" text="Database">
+                           <items>
+                            <MenuItem mnemonicParsing="false" text="Import..." />
+                            <MenuItem mnemonicParsing="false" text="Export..." />
+                           </items>
                         </Menu>
                         <SeparatorMenuItem mnemonicParsing="false" />
                     <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
@@ -47,37 +42,10 @@
             </MenuBar>
          </top>
          <center>
-            <TabPane BorderPane.alignment="CENTER">
+            <TabPane>
                <tabs>
-                  <Tab text="Scrapers">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <TreeTableView fx:id="scrapersTable" layoutX="88.0" layoutY="-17.0" prefHeight="694.0" prefWidth="1082.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                <columns>
-                                  <TreeTableColumn fx:id="scraperName" prefWidth="245.00003051757812" text="Name" />
-                                  <TreeTableColumn fx:id="scraperProgress" prefWidth="531.0" text="Progress" />
-                                    <TreeTableColumn fx:id="scraperInfo" prefWidth="305.0" text="Info" />
-                                </columns>
-                              </TreeTableView>
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </Tab>
-                  <Tab text="Results">
-                     <content>
-                        <TableView fx:id="resultsTable" editable="true" onMousePressed="#showResult">
-                          <columns>
-                            <TableColumn fx:id="resultsRank" prefWidth="93.00003051757812" text="Rank" />
-                              <TableColumn fx:id="resultsPoints" prefWidth="149.0" text="Points" />
-                              <TableColumn fx:id="resultsUsername" prefWidth="164.0" text="Username" />
-                              <TableColumn fx:id="resultsLocation" minWidth="5.0" prefWidth="230.0" text="Location" />
-                              <TableColumn fx:id="resultsCreated" prefWidth="190.0" text="Created" />
-                              <TableColumn fx:id="resultsAccount" maxWidth="628.0" minWidth="-1.0" prefWidth="193.0" text="Account" />
-                          </columns>
-                        </TableView>
-                     </content>
-                  </Tab>
+                  <Tab fx:id="scrapersTab" closable="false" text="Scrapers" />
+                  <Tab fx:id="resultsTab" closable="false" text="Headhunt" />
                </tabs>
             </TabPane>
          </center>

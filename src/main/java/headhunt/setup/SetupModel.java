@@ -1,10 +1,10 @@
 package headhunt.setup;
 
 import headhunt.app.AppModel;
-import headhunt.setup.views.finish.Finish;
-import headhunt.setup.views.intro.Intro;
-import headhunt.setup.views.license.License;
-import headhunt.setup.views.path.Path;
+import headhunt.setup.views.finish.FinishCtrl;
+import headhunt.setup.views.intro.IntroCtrl;
+import headhunt.setup.views.license.LicenseCtrl;
+import headhunt.setup.views.path.PathCtrl;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,13 +19,13 @@ public class SetupModel {
     private static Preferences prefs = Preferences.userNodeForPackage(AppModel.class);
 
     @Setter
-    private Path pathModule;
+    private PathCtrl pathModule;
     @Setter @Getter
-    private Finish finishModule;
+    private FinishCtrl finishModule;
     @Setter
-    private License licenseModule;
+    private LicenseCtrl licenseModule;
     @Setter
-    private Intro introModule;
+    private IntroCtrl introModule;
 
     @PostConstruct
     public void init() {

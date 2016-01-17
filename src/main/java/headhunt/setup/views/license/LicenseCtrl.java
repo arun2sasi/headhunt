@@ -7,11 +7,11 @@ import javafx.scene.Parent;
 /**
  * Created by urosjarc on 12/30/15.
  */
-public class License {
+public class LicenseCtrl {
     private LicensePresenter ctrl;
     private FXMLView fxmlView;
 
-    public License(){
+    public LicenseCtrl(){
         fxmlView = new LicenseView();
         ctrl = (LicensePresenter) fxmlView.getPresenter();
     }
