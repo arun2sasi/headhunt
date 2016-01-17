@@ -3,68 +3,197 @@ package headhunt.app;
 //INJECTING-CHILD
 //INJECTING-END
 
+import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
+import headhunt.app.modules.loadDialog.LoadDialogView;
 import headhunt.app.modules.results.ResultsCtrl;
 import headhunt.app.modules.scrapers.ScrapersCtrl;
 import headhunt.app.modules.searchDialog.SearchDialogFx;
-import headhunt.app.modules.searchDialog.SearchDialogView;
 import headhunt.schemas.classes.VimeoUser;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
-import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import javax.inject.Inject;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 public class AppPresenter implements Initializable {
 
-    @Inject
-    AppModel appModel;
+	@Inject
+	AppModel appModel;
 
-	@FXML private Tab scrapersTab;
-	@FXML private Tab resultsTab;
+	@FXML
+	private Tab scrapersTab;
+	@FXML
+	private Tab resultsTab;
 
 	private ResultsCtrl resultsCtrl;
 	private ScrapersCtrl scrapersCtrl;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("WizardPresenter.initialize()");
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
+		System.out.println("WizardPresenter.initialize()");
 
 		scrapersCtrl = new ScrapersCtrl();
 		resultsCtrl = new ResultsCtrl();
 
-        //INJECTING-VIEW
+		//INJECTING-VIEW
 		resultsTab.setContent(resultsCtrl.getView());
 		scrapersTab.setContent(scrapersCtrl.getView());
-        //INJECTING-END
+		//INJECTING-END
 
-    }
+	}
 
-	public void findUsers(){
+	public void findUsers() {
 		SearchDialogFx searchDialogFx = new SearchDialogFx("Find users");
 
 		searchDialogFx.onSearchEvent(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				resultsCtrl.setTableItems(FXCollections.observableArrayList(
-					VimeoUser.search(searchDialogFx.getLocation(), searchDialogFx.getKeyword())
+                    VimeoUser.search(searchDialogFx.getLocation(), searchDialogFx.getKeyword())
 				));
 			}
 		});
 	}
 
-	public void showResult(){
+	public void showResult() {
 		System.out.println("Show result");
 	}
 
-    public void exit(){
-        Platform.exit();
-    }
+	public void exportDatabase(){
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle("Export database file");
+		File file = directoryChooser.showDialog(new Stage());
+		LoadDialogView loadDialogView = new LoadDialogView("Export database");
+		loadDialogView.setTask("Exporting database...", new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
+				appModel.exportDB(file.getAbsolutePath(), param -> {
+					String infoText = (String) param;
+					System.out.println(infoText);
+					infoText = infoText.replace("\n","").replace(".","");
+					if(infoText!= null && !infoText.isEmpty()){
+						try {
+							updateMessage(infoText);
+							Thread.sleep(new Long("200"));
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					return null;
+				});
+				return null;
+			}
+		});
+	}
+
+	public void importDatabase(){
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Import database file");
+		fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("*.json", "*.json"),
+            new FileChooser.ExtensionFilter("All", "*.*")
+		);
+		File file = fileChooser.showOpenDialog(new Stage());
+		LoadDialogView loadDialogView = new LoadDialogView("Import database");
+		loadDialogView.setTask("Importing database...", new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
+				appModel.importDB(file.getAbsolutePath(), param -> {
+					String infoText = (String) param;
+					infoText = infoText.replace("\n", "").replace(".", "");
+					if (infoText != null && !infoText.isEmpty()) {
+						try {
+							updateMessage(infoText);
+							Thread.sleep(new Long("200"));
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					return null;
+				});
+				return null;
+			}
+		});
+	}
+
+	public void loadUsers() {
+
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		fileChooser.getExtensionFilters().addAll(
+		new FileChooser.ExtensionFilter("*.json", "*.json"),
+		new FileChooser.ExtensionFilter("All", "*.*"));
+		File file = fileChooser.showOpenDialog(new Stage());
+
+		JSONParser parser = new JSONParser();
+		try {
+			JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(file));
+
+			LoadDialogView loadingDialog = new LoadDialogView("Loading...");
+
+			loadingDialog.setTask(
+			"Importing users: " + jsonArray.size() + " users...",
+			new Task<Void>() {
+				private int index = 0;
+				private final int size = jsonArray.size();
+
+				@Override
+				protected Void call() throws Exception {
+					ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
+
+					jsonArray.forEach((Consumer) object -> {
+
+                        if (isCancelled()) {
+                            return;
+                        }
+
+                        VimeoUser.insertOrUpdate(object);
+                        index++;
+
+						updateProgress((double) index, size);
+                        updateMessage("Importing users: " + index + "/" + size);
+                    });
+
+					updateMessage("Importing users: " + index + "/" + size + " SUCCESS");
+					resultsCtrl.setTableItems(FXCollections.observableArrayList(VimeoUser.getAll()));
+
+					return null;
+				}
+			});
+
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void exit() {
+		Platform.exit();
+	}
 
 }
