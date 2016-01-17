@@ -5,7 +5,12 @@ package headhunt.app;
 
 import headhunt.app.modules.results.ResultsCtrl;
 import headhunt.app.modules.scrapers.ScrapersCtrl;
+import headhunt.app.modules.searchDialog.SearchDialogView;
+import headhunt.schemas.classes.VimeoUser;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
@@ -23,12 +28,15 @@ public class AppPresenter implements Initializable {
 	@FXML private Tab scrapersTab;
 	@FXML private Tab resultsTab;
 
+	private ResultsCtrl resultsCtrl;
+	private ScrapersCtrl scrapersCtrl;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("WizardPresenter.initialize()");
 
-		ScrapersCtrl scrapersCtrl = new ScrapersCtrl();
-		ResultsCtrl resultsCtrl = new ResultsCtrl();
+		scrapersCtrl = new ScrapersCtrl();
+		resultsCtrl = new ResultsCtrl();
 
         //INJECTING-VIEW
 		resultsTab.setContent(resultsCtrl.getView());
@@ -38,7 +46,16 @@ public class AppPresenter implements Initializable {
     }
 
 	public void findUsers(){
-		System.out.println("Find users.");
+		SearchDialogView searchDialog = new SearchDialogView("Find users");
+
+		searchDialog.onSearchEvent(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				resultsCtrl.setTableItems(FXCollections.observableArrayList(
+					VimeoUser.search(searchDialog.getLocation(), searchDialog.getKeyword())
+				));
+			}
+		});
 	}
 
 	public void showResult(){

@@ -17,6 +17,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import lombok.Getter;
 
 import java.net.URL;
 import java.util.Date;
@@ -25,7 +26,7 @@ import java.util.ResourceBundle;
 public class ResultsPresenter implements Initializable {
 
 	@FXML
-	private TableView<Schema> resultsTable;
+	@Getter private TableView<Schema> resultsTable;
 	@FXML
 	private TableColumn<Schema, Integer> resultsPoints;
 	@FXML
@@ -66,18 +67,5 @@ public class ResultsPresenter implements Initializable {
 		resultsAccount.setCellValueFactory(new PropertyValueFactory<Schema, String>("account"));
 		resultsCreated.setCellValueFactory(new PropertyValueFactory<Schema, Date>("createdTime"));
 		resultsTable.setItems(FXCollections.observableArrayList(VimeoUser.getAll()));
-	}
-
-	public void findUsers() {
-		SearchDialogView searchDialog = new SearchDialogView("Find users");
-
-		searchDialog.onSearchEvent(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				resultsTable.setItems(FXCollections.observableArrayList(
-				VimeoUser.search(searchDialog.getLocation(), searchDialog.getKeyword())
-				));
-			}
-		});
 	}
 }
