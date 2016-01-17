@@ -15,6 +15,11 @@
                   <items>
                         <Menu mnemonicParsing="false" text="Database">
                            <items>
+                              <Menu mnemonicParsing="false" text="Load">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#loadUsers" text="Users" />
+                                </items>
+                              </Menu>
                             <MenuItem mnemonicParsing="false" text="Import..." />
                             <MenuItem mnemonicParsing="false" text="Export..." />
                            </items>
