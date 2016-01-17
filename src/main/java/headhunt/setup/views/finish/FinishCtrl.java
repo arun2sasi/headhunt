@@ -6,11 +6,11 @@ import javafx.scene.Parent;
 /**
  * Created by urosjarc on 12/30/15.
  */
-public class Finish {
+public class FinishCtrl {
     private FinishPresenter ctrl;
     private FXMLView fxmlView;
 
-    public Finish(){
+    public FinishCtrl(){
         fxmlView = new FinishView();
         ctrl = (FinishPresenter) fxmlView.getPresenter();
     }

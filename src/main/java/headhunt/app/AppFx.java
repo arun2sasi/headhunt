@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
-public class App extends Application {
+public class AppFx extends Application {
 
     private static @Getter String env;
     private static @Getter JSONObject config;
@@ -97,7 +97,7 @@ public class App extends Application {
 
         if (installPath == null) {
             pass = false;
-            errStr += " - App is not installed!";
+            errStr += " - AppFx is not installed!";
 
         } else if (new File(installPath).exists() == false) {
             pass = false;

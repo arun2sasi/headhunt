@@ -1,17 +1,13 @@
 package headhunt;
 
 import com.sun.javafx.application.LauncherImpl;
-import headhunt.app.App;
-import headhunt.preloader.Preloader;
-import headhunt.setup.Setup;
+import headhunt.app.AppFx;
+import headhunt.preloader.PreloaderFx;
+import headhunt.setup.SetupFx;
 import headhunt.setup.SetupModel;
 import org.docopt.Docopt;
 import com.jcabi.manifests.Manifests;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class Main {
@@ -34,9 +30,9 @@ public class Main {
 	System.out.println(Manifests.read("Implementation-Version"));
 
         if (SetupModel.getInstallPath() != null) {
-            LauncherImpl.launchApplication(App.class, Preloader.class, args);
+            LauncherImpl.launchApplication(AppFx.class, PreloaderFx.class, args);
         } else {
-            LauncherImpl.launchApplication(Setup.class,args);
+            LauncherImpl.launchApplication(SetupFx.class,args);
         }
     }
 }

@@ -1,8 +1,8 @@
-package headhunt.app.modules.result;
+package headhunt.app.modules.resultDialog;
 
 import javax.annotation.PostConstruct;
 
-public class ResultModel{
+public class ResultDialogModel {
 
     @PostConstruct
     public void init() {

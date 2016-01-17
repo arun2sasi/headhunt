@@ -38,7 +38,7 @@ public class AppModel {
         return parser.parse(new InputStreamReader(is));
     }
 
-	public List<ScrapeTask> initScraping(){
+	public static List<ScrapeTask> initScraping(){
 
 		//Get all scrapers
 		List<VimeoUsersScraper> vimeoScrapers = (List<VimeoUsersScraper>) Schema.query("select * from VimeoUsersScraper");

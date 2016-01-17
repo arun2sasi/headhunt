@@ -23,7 +23,7 @@ public class LicensePresenter implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("License.initialize()");
+        System.out.println("LicenseCtrl.initialize()");
 
         try{
             String lic = IOUtils.toString(

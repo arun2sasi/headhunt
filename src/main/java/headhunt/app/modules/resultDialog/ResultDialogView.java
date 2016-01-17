@@ -1,4 +1,4 @@
-package headhunt.app.modules.result;
+package headhunt.app.modules.resultDialog;
 
 import com.airhacks.afterburner.views.FXMLView;
 import headhunt.schemas.Schema;
@@ -7,11 +7,11 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ResultView extends FXMLView {
+public class ResultDialogView extends FXMLView {
 
-    public ResultView(int rank, Schema user) {
-        ResultPresenter.setRankPosition(rank);
-        ResultPresenter.setUser((VimeoUser) user);
+    public ResultDialogView(int rank, Schema user) {
+        ResultDialogPresenter.setRankPosition(rank);
+        ResultDialogPresenter.setUser((VimeoUser) user);
 
         Stage stage = new Stage();
         Scene scene = new Scene(this.getView());

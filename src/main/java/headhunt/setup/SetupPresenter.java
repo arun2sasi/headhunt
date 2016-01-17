@@ -3,10 +3,10 @@ package headhunt.setup;
 //INJECTING-CHILD
 //INJECTING-END
 
-import headhunt.setup.views.finish.Finish;
-import headhunt.setup.views.intro.Intro;
-import headhunt.setup.views.license.License;
-import headhunt.setup.views.path.Path;
+import headhunt.setup.views.finish.FinishCtrl;
+import headhunt.setup.views.intro.IntroCtrl;
+import headhunt.setup.views.license.LicenseCtrl;
+import headhunt.setup.views.path.PathCtrl;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -49,10 +49,10 @@ public class SetupPresenter implements Initializable {
 
         model.viewIndex = 0;
 
-        Intro intro = new Intro();
-        License license = new License();
-        Path path = new Path();
-        Finish finish = new Finish();
+        IntroCtrl intro = new IntroCtrl();
+        LicenseCtrl license = new LicenseCtrl();
+        PathCtrl path = new PathCtrl();
+        FinishCtrl finish = new FinishCtrl();
 
         view.getChildren().addAll(
             intro.getView(),
@@ -93,7 +93,7 @@ public class SetupPresenter implements Initializable {
         if(model.viewIndex == 1 && !model.userAgreeWithTerms()){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("WARNING");
-            alert.setHeaderText("License agreement.");
+            alert.setHeaderText("LicenseCtrl agreement.");
             alert.setContentText("You must agree with the application terms to procede further.");
             alert.showAndWait();
             return;

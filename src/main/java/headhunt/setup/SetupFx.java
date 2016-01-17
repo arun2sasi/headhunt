@@ -1,13 +1,13 @@
 package headhunt.setup;
 
 import com.airhacks.afterburner.injection.Injector;
-import headhunt.setup.views.finish.Finish;
+import headhunt.setup.views.finish.FinishCtrl;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
-public class Setup extends Application {
+public class SetupFx extends Application {
 
     private SetupPresenter ctrl;
     private SetupView view;
@@ -45,7 +45,7 @@ public class Setup extends Application {
          * STAGE env
          */
         stage.setScene(scene);
-        stage.setTitle("Setup");
+        stage.setTitle("SetupFx");
         stage.show();
 
     }
@@ -54,7 +54,7 @@ public class Setup extends Application {
     @Override
     public void stop() throws Exception {
 
-        Finish finish = ctrl.model.getFinishModule();
+        FinishCtrl finish = ctrl.model.getFinishModule();
         if(finish.showReadme()){
             System.out.println("Show readme...");
         }

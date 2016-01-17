@@ -8,7 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 
-public class Preloader extends javafx.application.Preloader {
+public class PreloaderFx extends javafx.application.Preloader {
 
     private Stage stage;
     private PreloaderView view;
@@ -32,7 +32,7 @@ public class Preloader extends javafx.application.Preloader {
          * STAGE env
          */
         stage.setScene(scene);
-        stage.setTitle("Setup application");
+        stage.setTitle("SetupFx application");
         stage.show();
     }
 
