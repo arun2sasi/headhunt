@@ -15,13 +15,14 @@
                   <items>
                         <Menu mnemonicParsing="false" text="Database">
                            <items>
-                              <Menu mnemonicParsing="false" text="Load">
+                            <MenuItem mnemonicParsing="false" onAction="#importDatabase" text="Import..." />
+                            <MenuItem mnemonicParsing="false" onAction="#exportDatabase" text="Export..." />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <Menu mnemonicParsing="false" text="Load file">
                                 <items>
                                   <MenuItem mnemonicParsing="false" onAction="#loadUsers" text="Users" />
                                 </items>
                               </Menu>
-                            <MenuItem mnemonicParsing="false" text="Import..." />
-                            <MenuItem mnemonicParsing="false" text="Export..." />
                            </items>
                         </Menu>
                         <SeparatorMenuItem mnemonicParsing="false" />

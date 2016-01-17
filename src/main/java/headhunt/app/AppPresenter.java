@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.json.simple.JSONArray;
@@ -74,6 +75,65 @@ public class AppPresenter implements Initializable {
 
 	public void showResult() {
 		System.out.println("Show result");
+	}
+
+	public void exportDatabase(){
+		DirectoryChooser directoryChooser = new DirectoryChooser();
+		directoryChooser.setTitle("Export database file");
+		File file = directoryChooser.showDialog(new Stage());
+		LoadDialogView loadDialogView = new LoadDialogView("Export database");
+		loadDialogView.setTask("Exporting database...", new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
+				appModel.exportDB(file.getAbsolutePath(), param -> {
+					String infoText = (String) param;
+					System.out.println(infoText);
+					infoText = infoText.replace("\n","").replace(".","");
+					if(infoText!= null && !infoText.isEmpty()){
+						try {
+							updateMessage(infoText);
+							Thread.sleep(new Long("200"));
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					return null;
+				});
+				return null;
+			}
+		});
+	}
+
+	public void importDatabase(){
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Import database file");
+		fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("*.json", "*.json"),
+            new FileChooser.ExtensionFilter("All", "*.*")
+		);
+		File file = fileChooser.showOpenDialog(new Stage());
+		LoadDialogView loadDialogView = new LoadDialogView("Import database");
+		loadDialogView.setTask("Importing database...", new Task<Void>() {
+			@Override
+			protected Void call() throws Exception {
+				ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
+				appModel.importDB(file.getAbsolutePath(), param -> {
+					String infoText = (String) param;
+					infoText = infoText.replace("\n", "").replace(".", "");
+					if (infoText != null && !infoText.isEmpty()) {
+						try {
+							updateMessage(infoText);
+							Thread.sleep(new Long("200"));
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+					return null;
+				});
+				return null;
+			}
+		});
 	}
 
 	public void loadUsers() {

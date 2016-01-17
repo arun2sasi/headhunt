@@ -1,19 +1,24 @@
 package headhunt.app;
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
+import com.orientechnologies.orient.core.db.tool.ODatabaseExport;
+import com.orientechnologies.orient.core.db.tool.ODatabaseExportException;
+import com.orientechnologies.orient.core.db.tool.ODatabaseImport;
 import com.orientechnologies.orient.core.exception.OStorageException;
 import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
 import headhunt.schemas.Schema;
-import headhunt.schemas.classes.VimeoUsersScraper;
 import headhunt.schemas.classes.VimeoUser;
+import headhunt.schemas.classes.VimeoUsersScraper;
 import headhunt.schemas.records.Portrait;
 import headhunt.schemas.records.Website;
 import headhunt.services.ApiScrape;
 import headhunt.services.ScrapeTask;
+import javafx.util.Callback;
 import lombok.Getter;
 import org.json.simple.parser.JSONParser;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -81,6 +86,34 @@ public class AppModel {
 
 
 		return scrapersTasks;
+	}
+
+	public static void exportDB(String path, Callback log){
+		try {
+			ODatabaseExport export = new ODatabaseExport(db.getUnderlying(), path, iText -> {
+				log.call(iText);
+            });
+			export.exportDatabase();
+			export.close();
+		} catch (ODatabaseExportException e){
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void importDB(String path, Callback log){
+		try {
+			ODatabaseImport importDb = new ODatabaseImport(db.getUnderlying(), path, iText -> {
+				log.call(iText);
+			});
+			importDb.importDatabase();
+			importDb.close();
+		} catch (ODatabaseExportException e){
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
     public static void openDB(String dbType,String dbUrl) {
