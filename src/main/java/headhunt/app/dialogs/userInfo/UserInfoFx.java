@@ -1,4 +1,4 @@
-package headhunt.app.modules.resultDialog;
+package headhunt.app.dialogs.userInfo;
 
 import headhunt.schemas.Schema;
 import headhunt.schemas.classes.VimeoUser;
@@ -6,14 +6,14 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ResultDialogFx {
+public class UserInfoFx {
 
-	public ResultDialogFx(int rank, Schema user) {
-		ResultDialogPresenter.setRankPosition(rank);
-		ResultDialogPresenter.setUser((VimeoUser) user);
+	public UserInfoFx(int rank, Schema user) {
+		UserInfoPresenter.setRankPosition(rank);
+		UserInfoPresenter.setUser((VimeoUser) user);
 
 		Stage stage = new Stage();
-		Scene scene = new Scene(new ResultDialogView().getView());
+		Scene scene = new Scene(new UserInfoView().getView());
 
 		stage.setScene(scene);
 		stage.setResizable(false);

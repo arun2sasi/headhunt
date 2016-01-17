@@ -1,17 +1,13 @@
-package headhunt.app.modules.results;
+package headhunt.app.views.results;
 
 //INJECTING-CHILD
 //INJECTING-END
 
-import headhunt.app.modules.resultDialog.ResultDialogFx;
-import headhunt.app.modules.resultDialog.ResultDialogView;
-import headhunt.app.modules.searchDialog.SearchDialogView;
+import headhunt.app.dialogs.userInfo.UserInfoFx;
 import headhunt.schemas.Schema;
 import headhunt.schemas.classes.VimeoUser;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -55,7 +51,7 @@ public class ResultsPresenter implements Initializable {
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 			Schema user = resultsTable.getSelectionModel().getSelectedItem();
 			if (user != null) {
-				new ResultDialogFx(1, user);
+				new UserInfoFx(1, user);
 			}
 		}
 	}

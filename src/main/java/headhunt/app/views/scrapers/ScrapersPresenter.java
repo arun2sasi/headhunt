@@ -1,32 +1,17 @@
-package headhunt.app.modules.scrapers;
+package headhunt.app.views.scrapers;
 
 //INJECTING-CHILD
 //INJECTING-END
 
 import headhunt.app.AppModel;
-import headhunt.schemas.classes.VimeoUser;
-import headhunt.schemas.records.Portrait;
-import headhunt.schemas.records.Website;
 import headhunt.services.ScrapeTask;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.util.Callback;
-import lombok.Setter;
 
-import javax.inject.Inject;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ScrapersPresenter implements Initializable {

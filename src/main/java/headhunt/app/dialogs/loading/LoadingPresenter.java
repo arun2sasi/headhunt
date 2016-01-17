@@ -1,4 +1,4 @@
-package headhunt.app.modules.loadDialog;
+package headhunt.app.dialogs.loading;
 
 //INJECTING-CHILD
 //INJECTING-END
@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LoadDialogPresenter implements Initializable {
+public class LoadingPresenter implements Initializable {
 
     //INJECTING-NODE
     @FXML
@@ -32,7 +32,7 @@ public class LoadDialogPresenter implements Initializable {
     //INJECTING-END
 
     @Inject
-    LoadDialogModel model;
+	LoadingModel model;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

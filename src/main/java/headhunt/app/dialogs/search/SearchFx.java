@@ -1,4 +1,4 @@
-package headhunt.app.modules.searchDialog;
+package headhunt.app.dialogs.search;
 
 import com.airhacks.afterburner.views.FXMLView;
 import javafx.event.EventHandler;
@@ -8,18 +8,18 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 
-public class SearchDialogFx {
+public class SearchFx {
 
-	private SearchDialogPresenter presenter;
+	private SearchPresenter presenter;
 	private FXMLView view;
 
 	@Getter
-	private SearchDialogPresenter ctrl;
+	private SearchPresenter ctrl;
 
-	public SearchDialogFx(String title) {
+	public SearchFx(String title) {
 
-		view = new SearchDialogView();
-		ctrl = (SearchDialogPresenter) view.getPresenter();
+		view = new SearchView();
+		ctrl = (SearchPresenter) view.getPresenter();
 
 		Scene scene = new Scene(view.getView());
 		Stage stage = new Stage();

@@ -1,4 +1,4 @@
-package headhunt.app.modules.resultDialog;
+package headhunt.app.dialogs.userInfo;
 
 //INJECTING-CHILD
 //INJECTING-END
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class ResultDialogPresenter implements Initializable {
+public class UserInfoPresenter implements Initializable {
 
     @Setter
     static private VimeoUser user;
@@ -63,7 +63,7 @@ public class ResultDialogPresenter implements Initializable {
     //INJECTING-END
 
     @Inject
-	ResultDialogFx resultModel;
+	UserInfoFx resultModel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

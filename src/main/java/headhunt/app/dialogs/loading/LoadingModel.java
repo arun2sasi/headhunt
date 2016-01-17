@@ -1,4 +1,4 @@
-package headhunt.app.modules.loadDialog;
+package headhunt.app.dialogs.loading;
 
 import javafx.concurrent.Task;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import javax.annotation.PostConstruct;
 
-public class LoadDialogModel {
+public class LoadingModel {
 
     @Setter @Getter private Task<Void> task;
 

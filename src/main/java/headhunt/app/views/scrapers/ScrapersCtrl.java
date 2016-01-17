@@ -1,8 +1,6 @@
-package headhunt.app.modules.scrapers;
+package headhunt.app.views.scrapers;
 
 import com.airhacks.afterburner.views.FXMLView;
-import headhunt.setup.views.finish.FinishPresenter;
-import headhunt.setup.views.finish.FinishView;
 import javafx.scene.Parent;
 
 //Todo: Make every partial view like this...

@@ -1,4 +1,4 @@
-package headhunt.app.modules.searchDialog;
+package headhunt.app.dialogs.search;
 
 //INJECTING-CHILD
 //INJECTING-END
@@ -10,11 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import javax.inject.Inject;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class SearchDialogPresenter implements Initializable {
+public class SearchPresenter implements Initializable {
 
     //INJECTING-NODE
     @FXML
