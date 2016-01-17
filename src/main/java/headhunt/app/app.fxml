@@ -45,7 +45,7 @@
             <TabPane>
                <tabs>
                   <Tab fx:id="scrapersTab" closable="false" text="Scrapers" />
-                  <Tab fx:id="resultsTab" closable="false" text="Results" />
+                  <Tab fx:id="resultsTab" closable="false" text="Headhunt" />
                </tabs>
             </TabPane>
          </center>

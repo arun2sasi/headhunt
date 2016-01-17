@@ -5,6 +5,7 @@ package headhunt.app;
 
 import headhunt.app.modules.results.ResultsCtrl;
 import headhunt.app.modules.scrapers.ScrapersCtrl;
+import headhunt.app.modules.searchDialog.SearchDialogFx;
 import headhunt.app.modules.searchDialog.SearchDialogView;
 import headhunt.schemas.classes.VimeoUser;
 import javafx.application.Platform;
@@ -46,13 +47,13 @@ public class AppPresenter implements Initializable {
     }
 
 	public void findUsers(){
-		SearchDialogView searchDialog = new SearchDialogView("Find users");
+		SearchDialogFx searchDialogFx = new SearchDialogFx("Find users");
 
-		searchDialog.onSearchEvent(new EventHandler<ActionEvent>() {
+		searchDialogFx.onSearchEvent(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 				resultsCtrl.setTableItems(FXCollections.observableArrayList(
-					VimeoUser.search(searchDialog.getLocation(), searchDialog.getKeyword())
+					VimeoUser.search(searchDialogFx.getLocation(), searchDialogFx.getKeyword())
 				));
 			}
 		});

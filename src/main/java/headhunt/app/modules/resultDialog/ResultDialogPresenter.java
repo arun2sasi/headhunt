@@ -63,7 +63,7 @@ public class ResultDialogPresenter implements Initializable {
     //INJECTING-END
 
     @Inject
-	ResultDialogModel resultModel;
+	ResultDialogFx resultModel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

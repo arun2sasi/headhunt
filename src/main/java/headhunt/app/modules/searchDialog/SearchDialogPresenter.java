@@ -27,9 +27,6 @@ public class SearchDialogPresenter implements Initializable {
     public Button cancelButton;
     //INJECTING-END
 
-    @Inject
-    SearchDialogModel model;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("SearchDialog init");

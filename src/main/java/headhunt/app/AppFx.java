@@ -89,7 +89,6 @@ public class AppFx extends Application {
         Injector.forgetAll();
     }
 
-
     public void preCheckErrNotification() throws Exception {
         boolean pass = true;
         String errStr = "ERRORS:\n";

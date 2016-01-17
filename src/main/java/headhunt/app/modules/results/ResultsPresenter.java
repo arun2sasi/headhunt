@@ -3,6 +3,7 @@ package headhunt.app.modules.results;
 //INJECTING-CHILD
 //INJECTING-END
 
+import headhunt.app.modules.resultDialog.ResultDialogFx;
 import headhunt.app.modules.resultDialog.ResultDialogView;
 import headhunt.app.modules.searchDialog.SearchDialogView;
 import headhunt.schemas.Schema;
@@ -54,7 +55,7 @@ public class ResultsPresenter implements Initializable {
 		if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 			Schema user = resultsTable.getSelectionModel().getSelectedItem();
 			if (user != null) {
-				new ResultDialogView(1, user);
+				new ResultDialogFx(1, user);
 			}
 		}
 	}
