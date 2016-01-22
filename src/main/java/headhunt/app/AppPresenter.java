@@ -4,7 +4,8 @@ package headhunt.app;
 //INJECTING-END
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
-import headhunt.app.dialogs.loading.LoadingView;
+import headhunt.app.dialogs.loading.LoadingFx;
+import headhunt.app.dialogs.settings.SettingsFx;
 import headhunt.app.views.results.ResultsCtrl;
 import headhunt.app.views.scrapers.ScrapersCtrl;
 import headhunt.app.dialogs.search.SearchFx;
@@ -95,8 +96,8 @@ public class AppPresenter implements Initializable {
 		/**
 		 * Show loading
 		 */
-		LoadingView loadDialogView = new LoadingView("Export database");
-		loadDialogView.setTask("Exporting database...", new Task<Void>() {
+		LoadingFx loadingFx = new LoadingFx("Export database");
+		loadingFx.setTask("Exporting database...", new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
 				ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
@@ -133,8 +134,8 @@ public class AppPresenter implements Initializable {
 		/**
 		 * Show loading
 		 */
-		LoadingView loadView = new LoadingView("Import database");
-		loadView.setTask("Importing database...", new Task<Void>() {
+		LoadingFx loadingFx = new LoadingFx("Import database");
+		loadingFx.setTask("Importing database...", new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
 				ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
@@ -169,9 +170,9 @@ public class AppPresenter implements Initializable {
 		try {
 			JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(file));
 
-			LoadingView loadingDialog = new LoadingView("Loading...");
+			LoadingFx loadingFx = new LoadingFx("Loading...");
 
-			loadingDialog.setTask(
+			loadingFx.setTask(
 			"Importing users: " + jsonArray.size() + " users...",
 			new Task<Void>() {
 				private int index = 0;
@@ -210,6 +211,10 @@ public class AppPresenter implements Initializable {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void settings(){
+		SettingsFx settingsFx = new SettingsFx("Headhunt settings");
 	}
 
 	public void exit() {

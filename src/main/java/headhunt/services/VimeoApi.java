@@ -9,8 +9,24 @@ import org.json.simple.parser.ParseException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.prefs.Preferences;
 
 public class VimeoApi {
+
+	static private Preferences preferences = Preferences.userNodeForPackage(VimeoApi.class);
+
+	static public int getSleepTimeOnFail(){
+		preferences = Preferences.userNodeForPackage(VimeoApi.class);
+		return preferences.getInt("waitTimeOnFail",20);
+	}
+	static public int getSleepTimeOnSuccess(){
+		preferences = Preferences.userNodeForPackage(VimeoApi.class);
+		return preferences.getInt("waitTimeOnSuccess",1);
+	}
+	static public void setSleepTimeOnFail(int minutes){
+		preferences.putInt("waitTimeOnFail",minutes);
+	}
+	static public void setSleepTimeOnSuccess(int minutes){ preferences.putInt("waitTimeOnSuccess",minutes); }
 
 	final private String apiRoot = "https://api.vimeo.com";
 	final private String apiVersion = "application/vnd.vimeo.*+json;version=3.2";

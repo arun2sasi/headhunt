@@ -4,10 +4,12 @@ import org.json.simple.JSONObject;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.prefs.Preferences;
 
 public class ApiScrape {
 
 	public static ScrapeTask vimeoUsers(String taskName,String apiToken,String query,int page){
+
         return new ScrapeTask(taskName) {
 
 			private VimeoApi vimeoApi = new VimeoApi(apiToken);
@@ -31,7 +33,7 @@ public class ApiScrape {
 
 					if (status != 200) {
 						getOnScrapeFail().call(body);
-						TimeUnit.MINUTES.sleep(20);
+						TimeUnit.MINUTES.sleep(VimeoApi.getSleepTimeOnFail());
 					} else {
 
 						long lastPage = (long) body.get("total") / (long) body.get("per_page");
@@ -40,7 +42,7 @@ public class ApiScrape {
 						updateProgress(page, lastPage);
 
 						getOnScrapeSuccess().call(body);
-						TimeUnit.MINUTES.sleep(1);
+						TimeUnit.MINUTES.sleep(VimeoApi.getSleepTimeOnSuccess());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

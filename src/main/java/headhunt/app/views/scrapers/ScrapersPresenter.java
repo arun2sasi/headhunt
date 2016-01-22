@@ -72,7 +72,7 @@ public class ScrapersPresenter implements Initializable {
 				nameLabel.setOnMouseClicked(event -> {
 					if (event.getButton().equals(MouseButton.PRIMARY)) {
 						if (event.getClickCount() == 2) {
-							ScraperTaskFx scraperTaskFx = new ScraperTaskFx("Edit scraper");
+							ScraperTaskFx scraperTaskFx = new ScraperTaskFx((ScrapeTask) object);
 						}
 					}
 				});

@@ -26,6 +26,8 @@
                            </items>
                         </Menu>
                         <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#settings" text="Settings" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
                     <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit" />
                   </items>
                 </Menu>
