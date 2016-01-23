@@ -4,10 +4,12 @@ package headhunt.app;
 //INJECTING-END
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
-import headhunt.app.modules.loadDialog.LoadDialogView;
-import headhunt.app.modules.results.ResultsCtrl;
-import headhunt.app.modules.scrapers.ScrapersCtrl;
-import headhunt.app.modules.searchDialog.SearchDialogFx;
+import headhunt.app.dialogs.loading.LoadingFx;
+import headhunt.app.dialogs.scraper.ScraperFx;
+import headhunt.app.dialogs.settings.SettingsFx;
+import headhunt.app.views.results.ResultsCtrl;
+import headhunt.app.views.scrapers.ScrapersCtrl;
+import headhunt.app.dialogs.search.SearchFx;
 import headhunt.schemas.classes.VimeoUser;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -30,6 +32,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
@@ -61,7 +65,7 @@ public class AppPresenter implements Initializable {
 	}
 
 	public void findUsers() {
-		SearchDialogFx searchDialogFx = new SearchDialogFx("Find users");
+		SearchFx searchDialogFx = new SearchFx("Find users");
 
 		searchDialogFx.onSearchEvent(new EventHandler<ActionEvent>() {
 			@Override
@@ -73,23 +77,34 @@ public class AppPresenter implements Initializable {
 		});
 	}
 
-	public void showResult() {
-		System.out.println("Show result");
-	}
-
 	public void exportDatabase(){
+		/**
+		 * Directory chooser
+		 */
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		directoryChooser.setTitle("Export database file");
-		File file = directoryChooser.showDialog(new Stage());
-		LoadDialogView loadDialogView = new LoadDialogView("Export database");
-		loadDialogView.setTask("Exporting database...", new Task<Void>() {
+		File dir = directoryChooser.showDialog(new Stage());
+
+		/**
+		 * File to be created
+		 */
+		String curentDate = new SimpleDateFormat("HH:mm_dd:MM").format(new Date());
+		String exportFile = new File(
+			dir.getAbsolutePath(),
+			"headhuntDb-" + curentDate + ".json.gz"
+		).getAbsolutePath();
+
+		/**
+		 * Show loading
+		 */
+		LoadingFx loadingFx = new LoadingFx("Export database");
+		loadingFx.setTask("Exporting database...", new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
 				ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
-				appModel.exportDB(file.getAbsolutePath(), param -> {
-					String infoText = (String) param;
-					System.out.println(infoText);
-					infoText = infoText.replace("\n","").replace(".","");
+
+				appModel.exportDB(exportFile,param -> {
+					String infoText = ((String) param).replace("\n","").replace(".","");
 					if(infoText!= null && !infoText.isEmpty()){
 						try {
 							updateMessage(infoText);
@@ -106,19 +121,26 @@ public class AppPresenter implements Initializable {
 	}
 
 	public void importDatabase(){
+		/**
+		 * Db file chooser
+		 */
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Import database file");
 		fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("*.json", "*.json"),
+            new FileChooser.ExtensionFilter("*.json.gz", "*.json.gz"),
             new FileChooser.ExtensionFilter("All", "*.*")
 		);
-		File file = fileChooser.showOpenDialog(new Stage());
-		LoadDialogView loadDialogView = new LoadDialogView("Import database");
-		loadDialogView.setTask("Importing database...", new Task<Void>() {
+		File dbFile = fileChooser.showOpenDialog(new Stage());
+
+		/**
+		 * Show loading
+		 */
+		LoadingFx loadingFx = new LoadingFx("Import database");
+		loadingFx.setTask("Importing database...", new Task<Void>() {
 			@Override
 			protected Void call() throws Exception {
 				ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
-				appModel.importDB(file.getAbsolutePath(), param -> {
+				appModel.importDB(dbFile.getAbsolutePath(), param -> {
 					String infoText = (String) param;
 					infoText = infoText.replace("\n", "").replace(".", "");
 					if (infoText != null && !infoText.isEmpty()) {
@@ -149,9 +171,9 @@ public class AppPresenter implements Initializable {
 		try {
 			JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(file));
 
-			LoadDialogView loadingDialog = new LoadDialogView("Loading...");
+			LoadingFx loadingFx = new LoadingFx("Loading...");
 
-			loadingDialog.setTask(
+			loadingFx.setTask(
 			"Importing users: " + jsonArray.size() + " users...",
 			new Task<Void>() {
 				private int index = 0;
@@ -190,6 +212,14 @@ public class AppPresenter implements Initializable {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void settings(){
+		SettingsFx settingsFx = new SettingsFx("Headhunt settings");
+	}
+
+	public void newScraper(){
+		ScraperFx.create();
 	}
 
 	public void exit() {

@@ -46,18 +46,13 @@ public class AppModel {
 	public static List<ScrapeTask> initScraping(){
 
 		//Get all scrapers
-		List<VimeoUsersScraper> vimeoScrapers = (List<VimeoUsersScraper>) Schema.query("select * from VimeoUsersScraper");
+		List<VimeoUsersScraper> vimeoUsersScrapers = (List<VimeoUsersScraper>) Schema.query("select * from VimeoUsersScraper");
 
 		//Filling scraper informations
 		List<ScrapeTask> scrapersTasks = new ArrayList<>();
-		for(VimeoUsersScraper scraper: vimeoScrapers){
+		for(VimeoUsersScraper vimeoUsersScraper: vimeoUsersScrapers){
 
-			ScrapeTask scrapeTask = ApiScrape.vimeoUsers(
-				scraper.getName(),
-				scraper.getToken(),
-				scraper.getQuery(),
-				scraper.getPage()
-			);
+			ScrapeTask scrapeTask = ApiScrape.vimeoUsers(vimeoUsersScraper);
 
 			scrapeTask.setOnScrapeSuccess(param -> {
 				ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
@@ -83,7 +78,6 @@ public class AppModel {
 			//Todo: Save threads in model...
 			new Thread(scrapeTask).start();
 		}
-
 
 		return scrapersTasks;
 	}
@@ -158,8 +152,18 @@ public class AppModel {
             user.addStat("test1",21);
         user.save();
 
-		VimeoUsersScraper scraper = new VimeoUsersScraper("Scrape vimeo","96f56eff59f76a764196f8a3a1f9e9d2","a");
-		scraper.save();
+		VimeoUsersScraper scraper0 = new VimeoUsersScraper("Scrape0 vimeo","96f56eff59f76a764196f8a3a1f9e9d2","a");
+		VimeoUsersScraper scraper1 = new VimeoUsersScraper("Scrape1 vimeo","96f56eff59f76a764196f8a3a1f9e9d2","a");
+		VimeoUsersScraper scraper2 = new VimeoUsersScraper("Scrape2 vimeo","96f56eff59f76a764196f8a3a1f9e9d2","a");
+		VimeoUsersScraper scraper3 = new VimeoUsersScraper("Scrape3 vimeo","96f56eff59f76a764196f8a3a1f9e9d2","a");
+		VimeoUsersScraper scraper4 = new VimeoUsersScraper("Scrape4 vimeo","96f56eff59f76a764196f8a3a1f9e9d2","a");
+		VimeoUsersScraper scraper5 = new VimeoUsersScraper("Scrape5 vimeo","96f56eff59f76a764196f8a3a1f9e9d2","a");
+		scraper0.save();
+		scraper1.save();
+		scraper2.save();
+		scraper3.save();
+		scraper4.save();
+		scraper5.save();
 		//--------
 
     }
