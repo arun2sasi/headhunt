@@ -3,9 +3,10 @@ package headhunt.services;
 import headhunt.schemas.classes.VimeoUsersScraper;
 import org.json.simple.JSONObject;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.prefs.Preferences;
 
 public class ApiScrape {
 
@@ -23,11 +24,7 @@ public class ApiScrape {
 			protected Object call() throws Exception {
 
 				updateProgress(-1, 0);
-
-				//Todo: Make this interact with table.
-				updateTitle("Title");
-				updateMessage("Message");
-				updateValue("Value");
+				updateMessage("Init...");
 
 				while (true) try {
 
@@ -38,6 +35,7 @@ public class ApiScrape {
 
 					if (status != 200) {
 						getOnScrapeFail().call(body);
+						updateMessage(body.toString());
 						TimeUnit.MINUTES.sleep(VimeoApi.getSleepTimeOnFail());
 					} else {
 
@@ -45,8 +43,17 @@ public class ApiScrape {
 						long page = (long) body.get("page");
 
 						updateProgress(page, lastPage);
-
 						getOnScrapeSuccess().call(body);
+
+						updateMessage(
+                            String.format("Left: %.3f ", 100 - ((double) page / lastPage ) * 100) + "%" +
+                            String.format(" => %.3f ",
+                                (VimeoApi.getSleepTimeOnSuccess() * (lastPage - page))
+									/
+								(double) (60 * 24)
+							) + " days"
+						);
+
 						TimeUnit.MINUTES.sleep(VimeoApi.getSleepTimeOnSuccess());
 					}
 				} catch (Exception e) {

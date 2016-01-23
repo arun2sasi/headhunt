@@ -35,7 +35,7 @@ public class VimeoApi {
 	final private String sortDirection = "desc";
 	final private int itemsPerPage = 50;
 
-	private String token;// = "96f56eff59f76a764196f8a3a1f9e9d2";
+	private String token;
 
 	public VimeoApi(String token){
 		this.token = token;
