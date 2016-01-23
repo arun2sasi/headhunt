@@ -6,9 +6,9 @@
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="headhunt.app.views.scrapers.ScrapersPresenter">
    <children>
-      <TreeTableView fx:id="scrapersTable" layoutX="41.0" layoutY="-136.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TreeTableView fx:id="scrapersTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columns>
-            <TreeTableColumn fx:id="scraperName" editable="false" maxWidth="387.0" minWidth="0.0" prefWidth="202.0" text="Name" />
+            <TreeTableColumn fx:id="scraperName" editable="false" maxWidth="200.0" minWidth="0.0" prefWidth="200.0" text="Name" />
             <TreeTableColumn fx:id="scraperProgress" maxWidth="401.0" minWidth="0.0" prefWidth="185.0" text="Progress" />
             <TreeTableColumn fx:id="scraperInfo" maxWidth="401.0" minWidth="0.0" prefWidth="214.0" text="Info" />
          </columns>
