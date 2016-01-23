@@ -4,16 +4,13 @@ package headhunt.app.views.scrapers;
 //INJECTING-END
 
 import headhunt.app.AppModel;
-import headhunt.app.dialogs.scraperTask.ScraperTaskFx;
+import headhunt.app.dialogs.scraper.ScraperFx;
 import headhunt.services.ScrapeTask;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 
 import java.net.URL;
 import java.util.List;
@@ -67,12 +64,12 @@ public class ScrapersPresenter implements Initializable {
 		scraperName.setCellValueFactory((TreeTableColumn.CellDataFeatures<Object, Object> p) -> {
 			Object object = p.getValue().getValue();
 			if (object instanceof ScrapeTask) {
-				String taskName = ((ScrapeTask) object).getName();
+				String taskName = ((ScrapeTask) object).getScraper().getName();
 				Label nameLabel = new Label(taskName);
 				nameLabel.setOnMouseClicked(event -> {
 					if (event.getButton().equals(MouseButton.PRIMARY)) {
 						if (event.getClickCount() == 2) {
-							ScraperTaskFx scraperTaskFx = new ScraperTaskFx((ScrapeTask) object);
+							ScraperFx scraperTaskFx = new ScraperFx(((ScrapeTask) object).getScraper());
 						}
 					}
 				});

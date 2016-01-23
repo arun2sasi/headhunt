@@ -1,21 +1,20 @@
 package headhunt.schemas.classes;
 
-import headhunt.schemas.Schema;
+import headhunt.schemas.ScraperSchema;
 import lombok.Getter;
 import lombok.Setter;
 
-public class VimeoUsersScraper extends Schema {
+public class VimeoUsersScraper extends ScraperSchema {
 
-	@Getter @Setter private String name;
 	@Getter @Setter private int page = 1;
-	@Getter @Setter private String token;
 	@Getter @Setter private String query;
 
-	public VimeoUsersScraper(){}
+	public VimeoUsersScraper(){
+		super(null,null);
+	}
 
 	public VimeoUsersScraper(String name, String token, String query){
-		this.name = name;
-		this.token = token;
+		super(name,token);
 		this.query = query;
 	}
 

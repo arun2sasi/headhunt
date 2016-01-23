@@ -1,5 +1,6 @@
 package headhunt.services;
 
+import headhunt.schemas.classes.VimeoUsersScraper;
 import org.json.simple.JSONObject;
 
 import java.util.Map;
@@ -8,9 +9,13 @@ import java.util.prefs.Preferences;
 
 public class ApiScrape {
 
-	public static ScrapeTask vimeoUsers(String taskName,String apiToken,String query,int page){
+	public static ScrapeTask vimeoUsers(VimeoUsersScraper vimeoUsersScraper){
 
-        return new ScrapeTask(taskName) {
+		String apiToken = vimeoUsersScraper.getToken();
+		String query = vimeoUsersScraper.getQuery();
+		int page = vimeoUsersScraper.getPage();
+
+        return new ScrapeTask(vimeoUsersScraper) {
 
 			private VimeoApi vimeoApi = new VimeoApi(apiToken);
 

@@ -31,8 +31,7 @@ public class VimeoUser extends Schema {
     @Getter @Setter private List<Website> websites = new ArrayList<>();
     @Getter @Setter private List<Portrait> portraits = new ArrayList<>();
 
-    public VimeoUser() {
-    }
+    public VimeoUser() { }
 
     public Integer getPoints(){
         //Todo: Make this happend...

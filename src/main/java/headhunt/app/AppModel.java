@@ -46,18 +46,13 @@ public class AppModel {
 	public static List<ScrapeTask> initScraping(){
 
 		//Get all scrapers
-		List<VimeoUsersScraper> vimeoScrapers = (List<VimeoUsersScraper>) Schema.query("select * from VimeoUsersScraper");
+		List<VimeoUsersScraper> vimeoUsersScrapers = (List<VimeoUsersScraper>) Schema.query("select * from VimeoUsersScraper");
 
 		//Filling scraper informations
 		List<ScrapeTask> scrapersTasks = new ArrayList<>();
-		for(VimeoUsersScraper scraper: vimeoScrapers){
+		for(VimeoUsersScraper vimeoUsersScraper: vimeoUsersScrapers){
 
-			ScrapeTask scrapeTask = ApiScrape.vimeoUsers(
-				scraper.getName(),
-				scraper.getToken(),
-				scraper.getQuery(),
-				scraper.getPage()
-			);
+			ScrapeTask scrapeTask = ApiScrape.vimeoUsers(vimeoUsersScraper);
 
 			scrapeTask.setOnScrapeSuccess(param -> {
 				ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
@@ -83,7 +78,6 @@ public class AppModel {
 			//Todo: Save threads in model...
 			new Thread(scrapeTask).start();
 		}
-
 
 		return scrapersTasks;
 	}
