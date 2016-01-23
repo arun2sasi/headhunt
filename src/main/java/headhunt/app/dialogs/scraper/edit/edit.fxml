@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="headhunt.app.dialogs.scraper.ScraperPresenter">
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="headhunt.app.dialogs.scraper.edit.EditPresenter">
    <children>
       <VBox spacing="10.0">
          <children>
@@ -31,12 +31,13 @@
             </GridPane>
             <HBox alignment="TOP_RIGHT" spacing="5.0">
                <children>
-                  <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" text="Delete" />
-                  <Button fx:id="okButton" mnemonicParsing="false" onAction="#ok" text="Ok">
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+                  <Button fx:id="updateButton" mnemonicParsing="false" onAction="#update" text="Update">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Button>
+                  <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#delete" text="Delete" />
                </children>
             </HBox>
          </children>

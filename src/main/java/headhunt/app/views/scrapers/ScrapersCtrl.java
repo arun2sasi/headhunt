@@ -7,16 +7,20 @@ import javafx.scene.Parent;
 
 public class ScrapersCtrl {
 
-	private ScrapersPresenter presenter;
+	private static ScrapersPresenter press;
 	private FXMLView view;
 
 	public ScrapersCtrl() {
 		view = new ScrapersView();
-		presenter = (ScrapersPresenter) view.getPresenter();
+		press = (ScrapersPresenter) view.getPresenter();
 	}
 
 	public Parent getView() {
 		return view.getView();
+	}
+
+	public static void updateScrapersTable(){
+		press.initScraperTable();
 	}
 
 }

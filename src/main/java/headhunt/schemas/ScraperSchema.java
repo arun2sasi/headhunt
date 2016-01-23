@@ -1,5 +1,6 @@
 package headhunt.schemas;
 
+import headhunt.app.AppModel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,5 +17,9 @@ public class ScraperSchema extends Schema {
 		this.name = name;
 		this.token = token;
 
+	}
+
+	public void delete(){
+		AppModel.getDb().delete(this);
 	}
 }

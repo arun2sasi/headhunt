@@ -10,7 +10,7 @@ import lombok.Getter;
 
 public class SearchFx {
 
-	private SearchPresenter presenter;
+	private SearchPresenter press;
 	private FXMLView view;
 
 	@Getter

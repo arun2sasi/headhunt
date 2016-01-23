@@ -5,6 +5,7 @@ package headhunt.app;
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import headhunt.app.dialogs.loading.LoadingFx;
+import headhunt.app.dialogs.scraper.ScraperFx;
 import headhunt.app.dialogs.settings.SettingsFx;
 import headhunt.app.views.results.ResultsCtrl;
 import headhunt.app.views.scrapers.ScrapersCtrl;
@@ -215,6 +216,10 @@ public class AppPresenter implements Initializable {
 
 	public void settings(){
 		SettingsFx settingsFx = new SettingsFx("Headhunt settings");
+	}
+
+	public void newScraper(){
+		ScraperFx.create();
 	}
 
 	public void exit() {

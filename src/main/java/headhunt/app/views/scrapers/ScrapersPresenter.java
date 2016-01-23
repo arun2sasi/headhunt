@@ -39,7 +39,7 @@ public class ScrapersPresenter implements Initializable {
 
     }
 
-	private void initScraperTable() {
+	public void initScraperTable() {
 
 		List<ScrapeTask> scrapeTasks = AppModel.initScraping();
 
@@ -47,7 +47,11 @@ public class ScrapersPresenter implements Initializable {
 		 * TODO: Get all api scraper classes
 		 */
 		final TreeItem<Object> apiItem0 = new TreeItem<Object>("Vimeo");
-		apiItem0.getChildren().setAll(new TreeItem<Object>(scrapeTasks.get(0)));
+
+		apiItem0.getChildren().setAll();
+		for(ScrapeTask scrapeTask: scrapeTasks){
+			apiItem0.getChildren().add(new TreeItem<Object>(scrapeTask));
+		}
 
 		/**
 		 * TREE STRUCTURE
@@ -69,7 +73,7 @@ public class ScrapersPresenter implements Initializable {
 				nameLabel.setOnMouseClicked(event -> {
 					if (event.getButton().equals(MouseButton.PRIMARY)) {
 						if (event.getClickCount() == 2) {
-							ScraperFx scraperTaskFx = new ScraperFx(((ScrapeTask) object).getScraper());
+							ScraperFx.edit(((ScrapeTask) object).getScraper());
 						}
 					}
 				});
@@ -107,5 +111,4 @@ public class ScrapersPresenter implements Initializable {
 		});
 
 	}
-
 }

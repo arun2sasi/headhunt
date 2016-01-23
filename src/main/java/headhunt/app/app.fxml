@@ -13,6 +13,11 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
+                        <Menu mnemonicParsing="false" text="New...">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#newScraper" text="Scraper" />
+                          </items>
+                        </Menu>
                         <Menu mnemonicParsing="false" text="Database">
                            <items>
                             <MenuItem mnemonicParsing="false" onAction="#importDatabase" text="Import..." />
