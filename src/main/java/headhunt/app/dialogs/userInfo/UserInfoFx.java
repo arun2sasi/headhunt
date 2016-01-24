@@ -11,15 +11,22 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import lombok.Setter;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +55,7 @@ public class UserInfoFx {
 		stage.setResizable(true);
 		stage.setTitle("New task");
 		stage.initModality(Modality.WINDOW_MODAL);
-		stage.showAndWait();
+		stage.show();
 
 	}
 
@@ -69,15 +76,18 @@ public class UserInfoFx {
 		press.getPoints().setText(String.valueOf(user.getPoints()));
 		press.getLocation().setText(user.getLocation());
 		press.getAccountType().setText(user.getAccount());
-		press.getHyUri().setText(user.getUri());
-		press.getHyLink().setText(user.getLink());
+		press.getUri().setText(user.getUri());
 		press.getBio().setText(user.getBio());
+		press.getLink().setText(user.getLink());
 
 		//Set websites
 		updateWebsiteList(user.getWebsites());
 
 		//Set activities
 		updateActivityTable(user.getStatistics());
+
+		//Set userPagebutton
+
 	}
 
 	private void updateWebsiteList(List<Website> websites) {

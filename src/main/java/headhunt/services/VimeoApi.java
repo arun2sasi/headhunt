@@ -23,10 +23,15 @@ public class VimeoApi {
 		preferences = Preferences.userNodeForPackage(VimeoApi.class);
 		return preferences.getInt("waitTimeOnSuccess",1);
 	}
+	static public int getSleepTimeOnError(){
+		preferences = Preferences.userNodeForPackage(VimeoApi.class);
+		return preferences.getInt("waitTimeOnError",1);
+	}
 	static public void setSleepTimeOnFail(int minutes){
 		preferences.putInt("waitTimeOnFail",minutes);
 	}
 	static public void setSleepTimeOnSuccess(int minutes){ preferences.putInt("waitTimeOnSuccess",minutes); }
+	static public void setSleepTimeOnError(int minutes){ preferences.putInt("waitTimeOnError",minutes); }
 
 	static final public String apiRoot = "https://api.vimeo.com";
 	final private String apiVersion = "application/vnd.vimeo.*+json;version=3.2";

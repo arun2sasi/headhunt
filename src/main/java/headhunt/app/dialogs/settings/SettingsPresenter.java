@@ -23,6 +23,7 @@ public class SettingsPresenter implements Initializable {
     //INJECTING-NODE
 	@FXML private TextField vimeoOnFailWaitLabel;
 	@FXML private TextField vimeoOnSuccessWaitLabel;
+	@FXML private TextField vimeoOnErrorWaitLabel;
 	@FXML private Button cancelButton;
 	@FXML private Button okButton;
     //INJECTING-END
@@ -37,6 +38,7 @@ public class SettingsPresenter implements Initializable {
         //INJECTING-VIEW
 		vimeoOnSuccessWaitLabel.setText(Integer.toString(VimeoApi.getSleepTimeOnSuccess()));
 		vimeoOnFailWaitLabel.setText(Integer.toString(VimeoApi.getSleepTimeOnFail()));
+		vimeoOnErrorWaitLabel.setText(Integer.toString(VimeoApi.getSleepTimeOnError()));
         //INJECTING-END
 
     }
@@ -49,6 +51,7 @@ public class SettingsPresenter implements Initializable {
 		String error = "";
 		int vimeoOnFailWait = 0;
 		int vimeoOnSuccessWait = 0;
+		int vimeoOnErrorWait = 0;
 
 		try{
 			vimeoOnFailWait = Integer.parseInt(vimeoOnFailWaitLabel.getText());
@@ -64,12 +67,20 @@ public class SettingsPresenter implements Initializable {
 			error += "\n - " + e.getLocalizedMessage();
 		}
 
+		try{
+			vimeoOnErrorWait = Integer.parseInt(vimeoOnErrorWaitLabel.getText());
+			if(vimeoOnSuccessWait <= 0) throw new NumberFormatException("Invalid number \"input\" <= 0");
+		} catch (NumberFormatException e){
+			error += "\n - " + e.getLocalizedMessage();
+		}
+
 		if(!error.isEmpty()){
 			Alert alert = new Alert(Alert.AlertType.ERROR,"Number format exception:" + error, ButtonType.CLOSE);
 			alert.showAndWait();
 		} else {
 			VimeoApi.setSleepTimeOnFail(vimeoOnFailWait);
 			VimeoApi.setSleepTimeOnSuccess(vimeoOnSuccessWait);
+			VimeoApi.setSleepTimeOnError(vimeoOnErrorWait);
 
 			((Stage) okButton.getScene().getWindow()).close();
 			Injector.forgetAll();

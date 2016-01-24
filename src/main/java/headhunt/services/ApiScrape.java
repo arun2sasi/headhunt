@@ -77,14 +77,14 @@ public class ApiScrape {
                         "FAIL => " + e.getLocalizedMessage()
 					);
 					getOnScrapeFail().call(e);
-					TimeUnit.MINUTES.sleep(VimeoApi.getSleepTimeOnFail());
+					TimeUnit.MINUTES.sleep(VimeoApi.getSleepTimeOnError());
 				} catch (ParseException e) {
 					e.printStackTrace();
 					updateMessage(
                         "FAIL => " + e.getLocalizedMessage()
 					);
 					getOnScrapeFail().call(e);
-					TimeUnit.MINUTES.sleep(VimeoApi.getSleepTimeOnFail());
+					TimeUnit.MINUTES.sleep(VimeoApi.getSleepTimeOnError());
 				}
 			}
 		};
