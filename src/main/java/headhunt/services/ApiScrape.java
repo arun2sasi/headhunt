@@ -14,7 +14,7 @@ public class ApiScrape {
 
 		String apiToken = vimeoUsersScraper.getToken();
 		String query = vimeoUsersScraper.getQuery();
-		int page = vimeoUsersScraper.getPage();
+		final int[] page = {vimeoUsersScraper.getPage()};
 
         return new ScrapeTask(vimeoUsersScraper) {
 
@@ -28,7 +28,7 @@ public class ApiScrape {
 
 				while (true) try {
 
-					Map<String, Object> res = vimeoApi.reqUsers(query,page);
+					Map<String, Object> res = vimeoApi.reqUsers(query, page[0]);
 
 					int status = (int) res.get("status");
 					JSONObject body = (JSONObject) res.get("body");
@@ -40,25 +40,34 @@ public class ApiScrape {
 					} else {
 
 						long lastPage = (long) body.get("total") / (long) body.get("per_page");
-						long page = (long) body.get("page");
 
-						updateProgress(page, lastPage);
+						updateProgress(page[0], lastPage);
 						getOnScrapeSuccess().call(body);
 
 						updateMessage(
-                            String.format("Left: %.3f ", 100 - ((double) page / lastPage ) * 100) + "%" +
+                            String.format("Left: %.3f ", 100 - ((double) page[0] / lastPage ) * 100) + "%" +
                             String.format(" => %.3f ",
-                                (VimeoApi.getSleepTimeOnSuccess() * (lastPage - page))
+                                (VimeoApi.getSleepTimeOnSuccess() * (lastPage - page[0]))
 									/
 								(double) (60 * 24)
 							) + " days"
 						);
+
+						page[0]++;
+
+						if(page[0] > lastPage){
+							page[0] = 1;
+						}
+
+						vimeoUsersScraper.setPage(page[0]);
+						vimeoUsersScraper.save();
 
 						TimeUnit.MINUTES.sleep(VimeoApi.getSleepTimeOnSuccess());
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 					getOnScrapeError().call(e);
+					TimeUnit.MINUTES.sleep(VimeoApi.getSleepTimeOnFail());
 				}
 			}
 		};

@@ -13,6 +13,7 @@ import headhunt.schemas.records.Portrait;
 import headhunt.schemas.records.Website;
 import headhunt.services.ApiScrape;
 import headhunt.services.ScrapeTask;
+import javafx.application.Platform;
 import javafx.util.Callback;
 import lombok.Getter;
 import org.json.simple.parser.JSONParser;
@@ -27,30 +28,31 @@ import java.util.prefs.Preferences;
 
 public class AppModel {
 
-    @Getter
-    private static OObjectDatabaseTx db;
+	@Getter
+	private static OObjectDatabaseTx db;
 
-    @Getter private static Preferences prefs = Preferences.userNodeForPackage(AppModel.class);
+	@Getter
+	private static Preferences prefs = Preferences.userNodeForPackage(AppModel.class);
 
-    @PostConstruct
-    public void init() {
-        System.out.println("AppModel.init()");
-    }
+	@PostConstruct
+	public void init() {
+		System.out.println("AppModel.init()");
+	}
 
-    public static Object getConfig(String env) throws Exception{
-        JSONParser parser = new JSONParser();
-        InputStream is = AppModel.class.getResourceAsStream("/env/"+env+".json");
-        return parser.parse(new InputStreamReader(is));
-    }
+	public static Object getConfig(String env) throws Exception {
+		JSONParser parser = new JSONParser();
+		InputStream is = AppModel.class.getResourceAsStream("/env/" + env + ".json");
+		return parser.parse(new InputStreamReader(is));
+	}
 
-	public static List<ScrapeTask> initScraping(){
+	public static List<ScrapeTask> initScraping() {
 
 		//Get all scrapers
 		List<VimeoUsersScraper> vimeoUsersScrapers = (List<VimeoUsersScraper>) Schema.query("select * from VimeoUsersScraper");
 
 		//Filling scraper informations
 		List<ScrapeTask> scrapersTasks = new ArrayList<>();
-		for(VimeoUsersScraper vimeoUsersScraper: vimeoUsersScrapers){
+		for (VimeoUsersScraper vimeoUsersScraper : vimeoUsersScrapers) {
 
 			ScrapeTask scrapeTask = ApiScrape.vimeoUsers(vimeoUsersScraper);
 
@@ -58,6 +60,7 @@ public class AppModel {
 				ODatabaseRecordThreadLocal.INSTANCE.set(AppModel.getDb().getUnderlying());
 				System.out.println("SUCCESS -> " + param);
 				VimeoUser.insertOrUpdateAllReqUsers(param);
+				Platform.runLater(VimeoUser::updateCountProperty);
 				return null;
 			});
 
@@ -82,77 +85,77 @@ public class AppModel {
 		return scrapersTasks;
 	}
 
-	public static void exportDB(String path, Callback log){
+	public static void exportDB(String path, Callback log) {
 		try {
 			ODatabaseExport export = new ODatabaseExport(db.getUnderlying(), path, iText -> {
 				log.call(iText);
-            });
+			});
 			export.exportDatabase();
 			export.close();
-		} catch (ODatabaseExportException e){
+		} catch (ODatabaseExportException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void importDB(String path, Callback log){
+	public static void importDB(String path, Callback log) {
 		try {
 			ODatabaseImport importDb = new ODatabaseImport(db.getUnderlying(), path, iText -> {
 				log.call(iText);
 			});
 			importDb.importDatabase();
 			importDb.close();
-		} catch (ODatabaseExportException e){
+		} catch (ODatabaseExportException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-    public static void openDB(String dbType,String dbUrl) {
+	public static void openDB(String dbType, String dbUrl) {
 
-        //Open connection
-        String dbInfo = dbType + ":";
-        if(dbType.equals("plocal")){
-            dbInfo = dbInfo + prefs.get("installPath",null) + "/" + dbUrl;
-        } else {
-            dbInfo = dbInfo + dbUrl;
-        }
+		//Open connection
+		String dbInfo = dbType + ":";
+		if (dbType.equals("plocal")) {
+			dbInfo = dbInfo + prefs.get("installPath", null) + "/" + dbUrl;
+		} else {
+			dbInfo = dbInfo + dbUrl;
+		}
 
-        System.out.println(dbInfo);
-        try{
-            db = new OObjectDatabaseTx(dbInfo).open("admin","admin");
-        } catch (OStorageException e){
-            db = new OObjectDatabaseTx(dbInfo).create();
-        }
+		System.out.println(dbInfo);
+		try {
+			db = new OObjectDatabaseTx(dbInfo).open("admin", "admin");
+		} catch (OStorageException e) {
+			db = new OObjectDatabaseTx(dbInfo).create();
+		}
 
-        //Register tables
-        db.getEntityManager().registerEntityClass(Website.class);
-        db.getEntityManager().registerEntityClass(Portrait.class);
-        db.getEntityManager().registerEntityClass(VimeoUser.class);
+		//Register tables
+		db.getEntityManager().registerEntityClass(Website.class);
+		db.getEntityManager().registerEntityClass(Portrait.class);
+		db.getEntityManager().registerEntityClass(VimeoUser.class);
 		db.getEntityManager().registerEntityClass(VimeoUsersScraper.class);
-    }
+	}
 
-    public static void seed(){
-        System.out.println("SEEDING");
+	public static void seed() {
+		System.out.println("SEEDING");
 
-        //Seeding
-        VimeoUser user = new VimeoUser();
-            user.setUri("http://google.com");
-            user.setName("Uros Jarc");
-            user.setLink("http://google.com");
-            user.setLocation("Ljubljana");
-            user.setBio("This is my bio\nand this is new line.");
-            user.setAccount("Pro account");
-            user.setCreatedTime("Todo...");
-            user.addPortrait(new Portrait("http://www.accentblinds.ca/wp-content/uploads/2015/06/ncEEjypai.gif",12,12));
-            user.addWebsite(new Website("alkjfd","lsjdf","alsjdf"));
-            user.addStat("test",21);
-            user.addStat("test1",21);
-        user.save();
+		//Seeding
+		VimeoUser user = new VimeoUser();
+		user.setUri("http://google.com");
+		user.setName("Uros Jarc");
+		user.setLink("http://google.com");
+		user.setLocation("Ljubljana");
+		user.setBio("This is my bio\nand this is new line.");
+		user.setAccount("Pro account");
+		user.setCreatedTime("Todo...");
+		user.addPortrait(new Portrait("http://www.accentblinds.ca/wp-content/uploads/2015/06/ncEEjypai.gif", 12, 12));
+		user.addWebsite(new Website("alkjfd", "lsjdf", "alsjdf"));
+		user.addStat("test", 21);
+		user.addStat("test1", 21);
+		user.save();
 
-		VimeoUsersScraper scraper0 = new VimeoUsersScraper("Scrape0 vimeo","96f56eff59f76a764196f8a3a1f9e9d2","b");
+		VimeoUsersScraper scraper0 = new VimeoUsersScraper("Scrape0 vimeo", "96f56eff59f76a764196f8a3a1f9e9d2", "b");
 //		VimeoUsersScraper scraper1 = new VimeoUsersScraper("Scrape1 vimeo","96f56eff59f76a764196f8a3a1f9e9d2","a");
 //		VimeoUsersScraper scraper2 = new VimeoUsersScraper("Scrape2 vimeo","96f56eff59f76a764196f8a3a1f9e9d2","a");
 //		VimeoUsersScraper scraper3 = new VimeoUsersScraper("Scrape3 vimeo","96f56eff59f76a764196f8a3a1f9e9d2","a");
@@ -166,9 +169,9 @@ public class AppModel {
 //		scraper5.save();
 		//--------
 
-    }
+	}
 
-    public static void closeDB() {
-        db.close();
-    }
+	public static void closeDB() {
+		db.close();
+	}
 }

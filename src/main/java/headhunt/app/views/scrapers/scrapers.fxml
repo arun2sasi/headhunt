@@ -8,9 +8,9 @@
    <children>
       <TreeTableView fx:id="scrapersTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columns>
-            <TreeTableColumn fx:id="scraperName" editable="false" maxWidth="200.0" minWidth="0.0" prefWidth="200.0" text="Name" />
-            <TreeTableColumn fx:id="scraperProgress" maxWidth="401.0" minWidth="0.0" prefWidth="185.0" text="Progress" />
-            <TreeTableColumn fx:id="scraperInfo" maxWidth="401.0" minWidth="0.0" prefWidth="214.0" text="Info" />
+            <TreeTableColumn fx:id="scraperName" editable="false" maxWidth="200.0" prefWidth="200.0" text="Name" />
+            <TreeTableColumn fx:id="scraperProgress" maxWidth="401.0" prefWidth="185.0" text="Progress" />
+            <TreeTableColumn fx:id="scraperInfo" maxWidth="401.0" prefWidth="214.0" text="Info" />
          </columns>
          <columnResizePolicy>
             <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

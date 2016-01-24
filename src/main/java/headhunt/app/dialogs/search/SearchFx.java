@@ -26,7 +26,7 @@ public class SearchFx {
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.setTitle(title);
-		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.initModality(Modality.WINDOW_MODAL);
 		stage.show();
 	}
 

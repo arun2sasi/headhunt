@@ -33,7 +33,7 @@
             <TextField fx:id="keyword" promptText="Keyword..." GridPane.columnIndex="1" />
             <HBox alignment="TOP_RIGHT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancel" text="Cancel">
+                  <Button fx:id="exitButton" mnemonicParsing="false" onAction="#exit" text="Exit">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin></Button>

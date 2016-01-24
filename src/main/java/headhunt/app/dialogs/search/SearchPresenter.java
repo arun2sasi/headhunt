@@ -23,7 +23,7 @@ public class SearchPresenter implements Initializable {
     @FXML
     public Button searchButton;
     @FXML
-    public Button cancelButton;
+    public Button exitButton;
     //INJECTING-END
 
     @Override
@@ -39,8 +39,8 @@ public class SearchPresenter implements Initializable {
         System.out.println("Search");
     }
 
-    public void cancel(){
-        ((Stage) cancelButton.getScene().getWindow()).close();
+    public void exit(){
+        ((Stage) exitButton.getScene().getWindow()).close();
         Injector.forgetAll();
     }
 

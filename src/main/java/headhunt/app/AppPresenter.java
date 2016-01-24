@@ -85,6 +85,8 @@ public class AppPresenter implements Initializable {
 		directoryChooser.setTitle("Export database file");
 		File dir = directoryChooser.showDialog(new Stage());
 
+		if(dir==null) return;
+
 		/**
 		 * File to be created
 		 */
@@ -131,6 +133,8 @@ public class AppPresenter implements Initializable {
             new FileChooser.ExtensionFilter("All", "*.*")
 		);
 		File dbFile = fileChooser.showOpenDialog(new Stage());
+
+		if(dbFile==null) return;
 
 		/**
 		 * Show loading

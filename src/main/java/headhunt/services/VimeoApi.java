@@ -28,7 +28,7 @@ public class VimeoApi {
 	}
 	static public void setSleepTimeOnSuccess(int minutes){ preferences.putInt("waitTimeOnSuccess",minutes); }
 
-	final private String apiRoot = "https://api.vimeo.com";
+	static final public String apiRoot = "https://api.vimeo.com";
 	final private String apiVersion = "application/vnd.vimeo.*+json;version=3.2";
 	final private String contentType = "application/json";
 	final private String sortBy = "alphabetical";

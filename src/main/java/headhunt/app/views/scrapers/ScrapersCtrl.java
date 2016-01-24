@@ -3,8 +3,13 @@ package headhunt.app.views.scrapers;
 import com.airhacks.afterburner.views.FXMLView;
 import headhunt.app.AppModel;
 import headhunt.app.dialogs.scraper.ScraperFx;
+import headhunt.schemas.classes.VimeoUser;
 import headhunt.services.ScrapeTask;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
@@ -41,7 +46,7 @@ public class ScrapersCtrl {
 		/**
 		 * TODO: Get all api scraper classes
 		 */
-		final TreeItem<Object> apiItem0 = new TreeItem<Object>("Vimeo");
+		final TreeItem<Object> apiItem0 = new TreeItem<Object>(VimeoUser.class);
 
 		apiItem0.getChildren().setAll();
 		for (ScrapeTask scrapeTask : scrapeTasks) {
@@ -73,6 +78,8 @@ public class ScrapersCtrl {
 					}
 				});
 				return new ReadOnlyObjectWrapper<Object>(nameLabel);
+			} else if (object == VimeoUser.class) {
+				return new ReadOnlyObjectWrapper<Object>("Vimeo users");
 			} else {
 				return new ReadOnlyObjectWrapper<Object>(object);
 			}
@@ -94,8 +101,12 @@ public class ScrapersCtrl {
 				vbox.getChildren().add(progressBar);
 
 				return new ReadOnlyObjectWrapper<Object>(vbox);
+			} else if(object == VimeoUser.class) {
+				Label label = new Label();
+				label.textProperty().bind(VimeoUser.getCountProperty());
+				return new ReadOnlyObjectWrapper<Object>(label);
 			} else {
-				return null;
+                return null;
 			}
 		});
 
