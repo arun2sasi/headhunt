@@ -41,40 +41,33 @@ public class VimeoApi {
 		this.token = token;
 	}
 
-	public Map<String, Object> reqUsers(String query, int page) {
+	public Map<String, Object> reqUsers(String query, int page) throws UnirestException, ParseException {
 
 		Map<String,Object> resMap = new HashMap();
 
 		HttpResponse<String> res = null;
 		JSONObject resJson = null;
 
-		try {
-			res = Unirest.get(apiRoot + "/users")
-			.header("Content-Type",contentType)
-			.header("Authorization","Bearer " + token)
-			.header("Accept",apiVersion)
-			.queryString("per_page",Integer.toString(itemsPerPage))
-			.queryString("sort",sortBy)
-			//Important
-			.queryString("query",query)
-			.queryString("page", Integer.toString(page))
-			.queryString("direction",sortDirection)
-			//---------
-			.asString();
+        res = Unirest.get(apiRoot + "/users")
+            .header("Content-Type",contentType)
+            .header("Authorization","Bearer " + token)
+            .header("Accept",apiVersion)
+            .queryString("per_page",Integer.toString(itemsPerPage))
+            .queryString("sort",sortBy)
+            //Important
+            .queryString("query",query)
+            .queryString("page", Integer.toString(page))
+            .queryString("direction",sortDirection)
+            //---------
+        .asString();
 
-			JSONParser jsonParser = new JSONParser();
+		JSONParser jsonParser = new JSONParser();
 
-			resJson = (JSONObject) jsonParser.parse(res.getBody());
-			int status = res.getStatus();
+        resJson = (JSONObject) jsonParser.parse(res.getBody());
+		int status = res.getStatus();
 
-			resMap.put("body",resJson);
-			resMap.put("status", res.getStatus());
-
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} catch (UnirestException e) {
-			e.printStackTrace();
-		}
+        resMap.put("body",resJson);
+        resMap.put("status", res.getStatus());
 
 		return resMap;
 	}

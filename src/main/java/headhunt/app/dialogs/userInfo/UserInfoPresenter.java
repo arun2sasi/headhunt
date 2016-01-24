@@ -55,5 +55,9 @@ public class UserInfoPresenter implements Initializable {
 
     }
 
+	public void hyLinkClicked(){
+		System.out.println(hyLink.getText());
+	}
+
 
 }
