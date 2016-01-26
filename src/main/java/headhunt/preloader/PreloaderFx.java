@@ -33,6 +33,7 @@ public class PreloaderFx extends javafx.application.Preloader {
          */
         stage.setScene(scene);
         stage.setTitle("SetupFx application");
+		stage.setResizable(false);
         stage.show();
     }
 
@@ -46,8 +47,8 @@ public class PreloaderFx extends javafx.application.Preloader {
     @Override
     public void handleApplicationNotification(PreloaderNotification info){
         if (info instanceof Update) {
-            ctrl.progressBar.setProgress(((Update) info).getProgress());
-            ctrl.textLabel.setText(((Update) info).getMessage());
+            ctrl.getProgressBar().setProgress(((Update) info).getProgress());
+            ctrl.getLoadingText().setText(((Update) info).getMessage());
             try {
                 Thread.sleep(300);
             } catch (InterruptedException e) {

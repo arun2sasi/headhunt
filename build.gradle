@@ -54,7 +54,7 @@ sourceSets {
 	}
 }
 
-mainClassName = 'headhunt.app.AppFx';
+mainClassName = 'headhunt.preloader.PreloaderFx';
 version = versioning.info.full
 
 /**
@@ -89,16 +89,18 @@ task fatJar(type: Jar) {
 	with jar
 
 	manifest {
-		attributes 'Implementation-Title': 'Headhunt application'
+		attributes 'Implementation-Title': 'Headhunt'
 		attributes 'Implementation-Version': version
-		attributes 'Main-Class': 'headhunt.Main'
+		attributes 'Implementation-Date': new Date().format('dd.MM.yyyy')
+		attributes 'Main-Class': 'headhunt.preloader.PreloaderFx'
 	}
 }
 
 jar() {
 	manifest {
-		attributes 'Implementation-Title': 'Headhunt application'
+		attributes 'Implementation-Title': 'Headhunt'
 		attributes 'Implementation-Version': version
+		attributes 'Implementation-Date': new Date().format('dd.MM.yyyy')
 		attributes 'Main-Class': 'headhunt.Main'
 	}
 }
