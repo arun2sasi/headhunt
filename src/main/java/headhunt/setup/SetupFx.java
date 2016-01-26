@@ -27,7 +27,7 @@ public class SetupFx extends Application {
                             "Missing path: \"" + SetupModel.getInstallPath() + "\""
             );
             alert.showAndWait();
-            return;
+			System.exit(0);
         }
 
         /**
@@ -46,6 +46,7 @@ public class SetupFx extends Application {
          */
         stage.setScene(scene);
         stage.setTitle("SetupFx");
+		stage.setResizable(false);
         stage.show();
 
     }

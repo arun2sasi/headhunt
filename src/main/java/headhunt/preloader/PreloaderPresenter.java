@@ -30,9 +30,6 @@ public class PreloaderPresenter implements Initializable {
 	@FXML
 	private Text infoText;
 
-    @Inject
-    PreloaderModel model;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("LoadingDialog init");
