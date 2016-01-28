@@ -7,6 +7,7 @@ import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 import headhunt.app.dialogs.loading.LoadingFx;
 import headhunt.app.dialogs.scraper.ScraperFx;
 import headhunt.app.dialogs.settings.SettingsFx;
+import headhunt.app.dialogs.help.HelpFx;
 import headhunt.app.views.results.ResultsCtrl;
 import headhunt.app.views.scrapers.ScrapersCtrl;
 import headhunt.app.dialogs.search.SearchFx;
@@ -230,4 +231,17 @@ public class AppPresenter implements Initializable {
 		Platform.exit();
 	}
 
+	public void tutorials(){
+		HelpFx helpFx = new HelpFx();
+		helpFx.showTutorial();
+	}
+
+	public void about(){
+
+	}
+
+	public void documentation(){
+		HelpFx helpFx = new HelpFx();
+		helpFx.showDocumentation();
+	}
 }
