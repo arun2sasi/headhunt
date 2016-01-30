@@ -4,6 +4,7 @@ package headhunt.app;
 //INJECTING-END
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
+import headhunt.app.dialogs.about.AboutFx;
 import headhunt.app.dialogs.loading.LoadingFx;
 import headhunt.app.dialogs.scraper.ScraperFx;
 import headhunt.app.dialogs.settings.SettingsFx;
@@ -237,7 +238,7 @@ public class AppPresenter implements Initializable {
 	}
 
 	public void about(){
-
+		AboutFx aboutFx = new AboutFx();
 	}
 
 	public void documentation(){

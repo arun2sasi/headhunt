@@ -1,9 +1,13 @@
 package headhunt.app.dialogs.help;
 
 import com.airhacks.afterburner.views.FXMLView;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.util.Callback;
+import jdk.nashorn.internal.codegen.CompilerConstants;
 
 public class HelpFx {
 
@@ -32,7 +36,7 @@ public class HelpFx {
 		stage.setResizable(false);
 		stage.setTitle("Tutorial");
 		stage.initModality(Modality.WINDOW_MODAL);
-		stage.show();
+		stage.showAndWait();
 	}
 
 }

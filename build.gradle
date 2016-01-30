@@ -55,7 +55,7 @@ sourceSets {
 	}
 }
 
-mainClassName = 'headhunt.app.AppFx';
+mainClassName = 'headhunt.Main';
 version = versioning.info.full
 
 /**
