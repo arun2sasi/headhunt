@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 public class FinishPresenter implements Initializable {
 
     @FXML public CheckBox readmeCheckBox;
+	@FXML public CheckBox tutorialCheckBox;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

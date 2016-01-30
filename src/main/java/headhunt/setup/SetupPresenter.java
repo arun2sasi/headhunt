@@ -94,7 +94,7 @@ public class SetupPresenter implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("WARNING");
             alert.setHeaderText("LicenseCtrl agreement.");
-            alert.setContentText("You must agree with the application terms to procede further.");
+            alert.setContentText("You must agree with the application terms\nto procede further.");
             alert.showAndWait();
             return;
         }
@@ -103,7 +103,7 @@ public class SetupPresenter implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("WARNING");
             alert.setHeaderText("ERR: Selected directory");
-            alert.setContentText("One or more folders with the name 'headhunt' already exist,\nselect other directory!");
+            alert.setContentText("One or more folders with the name 'headhunt'\nalready exist, select other directory!");
             alert.show();
             return;
         }

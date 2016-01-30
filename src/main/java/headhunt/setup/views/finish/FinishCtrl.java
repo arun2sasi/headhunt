@@ -22,5 +22,8 @@ public class FinishCtrl {
     public boolean showReadme(){
         return ctrl.readmeCheckBox.isSelected();
     }
+	public boolean showTutorial(){
+		return ctrl.tutorialCheckBox.isSelected();
+	}
 
 }

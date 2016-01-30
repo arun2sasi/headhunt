@@ -9,21 +9,27 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="headhunt.setup.views.intro.IntroPresenter">
    <children>
-      <HBox layoutX="59.0" layoutY="120.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox layoutX="59.0" layoutY="120.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <AnchorPane>
                <children>
-                  <ImageView fx:id="setupImage" fitHeight="310.0" fitWidth="200.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="setupImage" fitHeight="350.0" fitWidth="170.0" layoutX="-5.0" layoutY="21.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="/media/setup.jpg" />
+                        <Image url="@/media/duke.png" />
                      </image>
                   </ImageView>
                </children>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
             </AnchorPane>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
-            <VBox prefHeight="400.0" prefWidth="436.0" spacing="30.0">
+            <VBox spacing="10.0" HBox.hgrow="NEVER">
                <children>
-                  <TextFlow fx:id="header" accessibleRole="TEXT_AREA" prefHeight="200.0" prefWidth="200.0">
+                  <TextFlow fx:id="header" accessibleRole="TEXT_AREA" prefHeight="97.0" prefWidth="369.0" VBox.vgrow="NEVER">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to the Headhunt Setup Wizard">
                            <font>
@@ -31,20 +37,23 @@
                            </font>
                         </Text>
                      </children></TextFlow>
-                  <TextFlow prefHeight="200.0" prefWidth="200.0">
+                  <TextFlow prefHeight="57.0" prefWidth="369.0" VBox.vgrow="NEVER">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This wizard will guide you through the installation of Headhunt application." />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This wizard will guide you through the installation of Headhunt application." wrappingWidth="345.10302734375" />
                      </children>
                   </TextFlow>
-                  <TextFlow prefHeight="200.0" prefWidth="200.0">
+                  <TextFlow prefHeight="132.0" prefWidth="369.0" VBox.vgrow="NEVER">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="It is recommended that you close all other applications before starting Setup. This will make it possible to update relevant system files without having to reboot your computer." />
                      </children>
                   </TextFlow>
-                  <TextFlow fx:id="info" prefHeight="385.0" prefWidth="400.0">
+                  <TextFlow fx:id="info" VBox.vgrow="NEVER">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Click Next to continue." />
                      </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </TextFlow>
                </children>
                <HBox.margin>

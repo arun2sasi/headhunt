@@ -4,9 +4,11 @@ package headhunt.app;
 //INJECTING-END
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
+import headhunt.app.dialogs.about.AboutFx;
 import headhunt.app.dialogs.loading.LoadingFx;
 import headhunt.app.dialogs.scraper.ScraperFx;
 import headhunt.app.dialogs.settings.SettingsFx;
+import headhunt.app.dialogs.help.HelpFx;
 import headhunt.app.views.results.ResultsCtrl;
 import headhunt.app.views.scrapers.ScrapersCtrl;
 import headhunt.app.dialogs.search.SearchFx;
@@ -85,6 +87,8 @@ public class AppPresenter implements Initializable {
 		directoryChooser.setTitle("Export database file");
 		File dir = directoryChooser.showDialog(new Stage());
 
+		if(dir==null) return;
+
 		/**
 		 * File to be created
 		 */
@@ -131,6 +135,8 @@ public class AppPresenter implements Initializable {
             new FileChooser.ExtensionFilter("All", "*.*")
 		);
 		File dbFile = fileChooser.showOpenDialog(new Stage());
+
+		if(dbFile==null) return;
 
 		/**
 		 * Show loading
@@ -226,4 +232,17 @@ public class AppPresenter implements Initializable {
 		Platform.exit();
 	}
 
+	public void tutorials(){
+		HelpFx helpFx = new HelpFx();
+		helpFx.showTutorial();
+	}
+
+	public void about(){
+		AboutFx aboutFx = new AboutFx();
+	}
+
+	public void documentation(){
+		HelpFx helpFx = new HelpFx();
+		helpFx.showDocumentation();
+	}
 }

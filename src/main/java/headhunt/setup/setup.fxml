@@ -5,17 +5,18 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="headhunt.setup.SetupPresenter">
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="headhunt.setup.SetupPresenter">
    <children>
-      <VBox layoutX="166.0" layoutY="54.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="400" prefWidth="600" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane fx:id="view" prefHeight="401.0" prefWidth="600.0">
+            <AnchorPane fx:id="view">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </AnchorPane>
-            <Separator prefWidth="200.0" />
-            <HBox alignment="CENTER_RIGHT" spacing="5.0" VBox.vgrow="NEVER">
+            <Separator VBox.vgrow="NEVER" />
+            <HBox alignment="CENTER_RIGHT" prefWidth="500.0" spacing="5.0" VBox.vgrow="NEVER">
                <children>
                   <Button fx:id="previousButton" mnemonicParsing="false" onAction="#previous" text="Previous" />
                   <Button fx:id="nextButton" mnemonicParsing="false" onAction="#next" text="Next" />

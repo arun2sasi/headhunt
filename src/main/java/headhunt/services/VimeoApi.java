@@ -23,58 +23,56 @@ public class VimeoApi {
 		preferences = Preferences.userNodeForPackage(VimeoApi.class);
 		return preferences.getInt("waitTimeOnSuccess",1);
 	}
+	static public int getSleepTimeOnError(){
+		preferences = Preferences.userNodeForPackage(VimeoApi.class);
+		return preferences.getInt("waitTimeOnError",1);
+	}
 	static public void setSleepTimeOnFail(int minutes){
 		preferences.putInt("waitTimeOnFail",minutes);
 	}
 	static public void setSleepTimeOnSuccess(int minutes){ preferences.putInt("waitTimeOnSuccess",minutes); }
+	static public void setSleepTimeOnError(int minutes){ preferences.putInt("waitTimeOnError",minutes); }
 
-	final private String apiRoot = "https://api.vimeo.com";
+	static final public String apiRoot = "https://api.vimeo.com";
 	final private String apiVersion = "application/vnd.vimeo.*+json;version=3.2";
 	final private String contentType = "application/json";
 	final private String sortBy = "alphabetical";
 	final private String sortDirection = "desc";
 	final private int itemsPerPage = 50;
 
-	private String token;// = "96f56eff59f76a764196f8a3a1f9e9d2";
+	private String token;
 
 	public VimeoApi(String token){
 		this.token = token;
 	}
 
-	public Map<String, Object> reqUsers(String query, int page) {
+	public Map<String, Object> reqUsers(String query, int page) throws UnirestException, ParseException {
 
 		Map<String,Object> resMap = new HashMap();
 
 		HttpResponse<String> res = null;
 		JSONObject resJson = null;
 
-		try {
-			res = Unirest.get(apiRoot + "/users")
-			.header("Content-Type",contentType)
-			.header("Authorization","Bearer " + token)
-			.header("Accept",apiVersion)
-			.queryString("per_page",Integer.toString(itemsPerPage))
-			.queryString("sort",sortBy)
-			//Important
-			.queryString("query",query)
-			.queryString("page", Integer.toString(page))
-			.queryString("direction",sortDirection)
-			//---------
-			.asString();
+        res = Unirest.get(apiRoot + "/users")
+            .header("Content-Type",contentType)
+            .header("Authorization","Bearer " + token)
+            .header("Accept",apiVersion)
+            .queryString("per_page",Integer.toString(itemsPerPage))
+            .queryString("sort",sortBy)
+            //Important
+            .queryString("query",query)
+            .queryString("page", Integer.toString(page))
+            .queryString("direction",sortDirection)
+            //---------
+        .asString();
 
-			JSONParser jsonParser = new JSONParser();
+		JSONParser jsonParser = new JSONParser();
 
-			resJson = (JSONObject) jsonParser.parse(res.getBody());
-			int status = res.getStatus();
+        resJson = (JSONObject) jsonParser.parse(res.getBody());
+		int status = res.getStatus();
 
-			resMap.put("body",resJson);
-			resMap.put("status", res.getStatus());
-
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} catch (UnirestException e) {
-			e.printStackTrace();
-		}
+        resMap.put("body",resJson);
+        resMap.put("status", res.getStatus());
 
 		return resMap;
 	}

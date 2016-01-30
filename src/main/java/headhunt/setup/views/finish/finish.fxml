@@ -19,7 +19,7 @@
                <children>
                   <ImageView fx:id="setupImage" fitHeight="310.0" fitWidth="200.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="/media/setup.jpg" />
+                        <Image url="@/media/duke.png" />
                      </image>
                   </ImageView>
                </children>
@@ -41,11 +41,23 @@
                      </children>
                   </TextFlow>
                   <Label text="Click Finish to close this wizard." />
-                  <CheckBox fx:id="readmeCheckBox" mnemonicParsing="false" text="Show Readme">
-                     <font>
-                        <Font size="12.0" />
-                     </font>
-                  </CheckBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+                     <children>
+                        <CheckBox fx:id="readmeCheckBox" mnemonicParsing="false" text="Show Readme">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </CheckBox>
+                        <CheckBox fx:id="tutorialCheckBox" mnemonicParsing="false" text="Show Tutorial">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </CheckBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="15.0" />
+                     </VBox.margin>
+                  </VBox>
                </children>
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

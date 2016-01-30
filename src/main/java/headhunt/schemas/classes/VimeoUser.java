@@ -1,15 +1,25 @@
 package headhunt.schemas.classes;
 
+import com.orientechnologies.orient.core.record.impl.ODocument;
+import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
+import headhunt.app.AppModel;
 import headhunt.schemas.Schema;
 import headhunt.schemas.records.Portrait;
 import headhunt.schemas.records.Website;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +27,8 @@ import java.util.Map;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class VimeoUser extends Schema {
+
+    @Getter public static StringProperty countProperty = new SimpleStringProperty();
 
     @Getter @Setter private String uri;
     @Getter @Setter private String name;
@@ -31,7 +43,13 @@ public class VimeoUser extends Schema {
     @Getter @Setter private List<Website> websites = new ArrayList<>();
     @Getter @Setter private List<Portrait> portraits = new ArrayList<>();
 
-    public VimeoUser() { }
+    public VimeoUser() {}
+
+	public static void updateCountProperty(){
+		ODocument count = (ODocument) query("SELECT COUNT(*) FROM VimeoUser").get(0);
+
+		countProperty.setValue("Class items: " + count.field("COUNT"));
+	}
 
     public Integer getPoints(){
         //Todo: Make this happend...
@@ -105,6 +123,7 @@ public class VimeoUser extends Schema {
         }
 
         user.save();
+
     }
 
     public static List<VimeoUser> getAll(){
@@ -194,7 +213,6 @@ public class VimeoUser extends Schema {
 			}
 
 		}
-
 
 	}
 
