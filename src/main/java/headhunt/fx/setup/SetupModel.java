@@ -1,5 +1,6 @@
 package headhunt.fx.setup;
 
+import headhunt.Config;
 import headhunt.Main;
 import headhunt.fx.setup.views.finish.FinishCtrl;
 import headhunt.fx.setup.views.intro.IntroCtrl;
@@ -45,7 +46,7 @@ public class SetupModel {
             installPath.setWritable(true, false);
             installPath.mkdir();
 
-			Main.setInstallPath(pathModule.getPath());
+			Config.setInstallPath(pathModule.getPath());
 		} catch (Exception e){
             e.printStackTrace();
         }

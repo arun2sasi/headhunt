@@ -4,7 +4,8 @@ package headhunt.fx.app.dialogs.about;
 //INJECTING-END
 
 import com.airhacks.afterburner.injection.Injector;
-import com.jcabi.manifests.Manifests;
+import headhunt.Config;
+import headhunt.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -38,24 +39,18 @@ public class AboutPresenter implements Initializable {
 
 		title.setFont(titleFont);
 
-		try{
-			version.setText("v" + Manifests.read("Implementation-Version"));
-			title.setText(Manifests.read("Implementation-Name"));
-			created.setText(Manifests.read("Implementation-Date"));
-		} catch (IllegalArgumentException e){
-			SimpleDateFormat date = new SimpleDateFormat("dd.MM.yyyy");
-			title.setText("Headhunt");
-			created.setText(date.format(Calendar.getInstance().getTime()));
-			version.setText("v0.0.1");
-		}
-
-		name.setText(title.getText());
-		description.setText(
-			"Headhunt application is API users scraper which implements custom and optimized" +
-			" search queries which find the right person for your job!"
+        version.setText("v" + Config.PACKAGE.VERSION);
+        title.setText(Config.PACKAGE.NAME);
+        created.setText(Config.PACKAGE.BUILD_DATE);
+		name.setText(Config.PACKAGE.NAME);
+		description.setText(Config.PACKAGE.DESCRIPTION.replaceAll("\n",""));
+		licence.setText(Config.PACKAGE.LICENSE);
+		creator.setText(
+			Config.PACKAGE.AUTHOR + "\n" +
+            Config.PACKAGE.AUTHOR_URL + "\n" +
+            Config.PACKAGE.AUTHOR_EMAIL + "\n" +
+            Config.PACKAGE.AUTHOR_LOCATION + "\n"
 		);
-		licence.setText("GNU General Public License v3.0\nCopyright © 2007 Free Software Foundation");
-		creator.setText("Uroš Jarc\nhttps://github.com/urosjarc\nSlovenia, Ljubljana");
     }
 
 	public void ok(){

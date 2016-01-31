@@ -27,9 +27,6 @@ public class SettingsPresenter implements Initializable {
 	@FXML private Button okButton;
     //INJECTING-END
 
-	@Inject
-	SettingsModel model;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         System.out.println("SearchDialog init");

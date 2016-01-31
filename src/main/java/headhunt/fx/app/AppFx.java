@@ -4,12 +4,10 @@ import com.airhacks.afterburner.injection.Injector;
 
 import com.orientechnologies.orient.core.db.ODatabaseRecordThreadLocal;
 
-import headhunt.Main;
+import headhunt.Config;
 import headhunt.database.Db;
 import headhunt.fx.preloader.notifications.Error;
 import headhunt.fx.preloader.notifications.Update;
-import org.json.simple.JSONObject;
-import lombok.Getter;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -42,17 +40,15 @@ public class AppFx extends Application {
          */
         notifyPreloader(new Update("Init database...",0.5));
         Db.openDB(
-			Main.getDbType(),
-			Main.getDbUrl()
+			Config.ENV.DB_TYPE,
+			Config.ENV.DB_URL
         );
 
         /**
          * SEEDING
          */
         notifyPreloader(new Update("Seeding database...",0.75));
-        if(Main.ENV.equals("development") == true){
-            Db.seed();
-        }
+        if(Config.ENV.DB_SEED) Db.seed();
 
         notifyPreloader(new Update("Finishing...", 1.0));
         Thread.sleep(500);
@@ -89,7 +85,7 @@ public class AppFx extends Application {
     public void preCheckErrNotification() throws Exception {
         boolean pass = true;
         String errStr = "ERRORS:\n";
-        String installPath = Main.getInstallPath();
+        String installPath = Config.getInstallPath();
 
         if (installPath == null) {
             pass = false;

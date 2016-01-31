@@ -61,6 +61,8 @@ public class CreatePresenter implements Initializable {
 			ScrapersCtrl.updateScrapersTable();
 		}
 
+		cancel();
+
 	}
 
 	public void cancel(){

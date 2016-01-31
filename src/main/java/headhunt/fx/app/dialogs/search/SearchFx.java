@@ -13,13 +13,10 @@ public class SearchFx {
 	private SearchPresenter press;
 	private FXMLView view;
 
-	@Getter
-	private SearchPresenter ctrl;
-
 	public SearchFx(String title) {
 
 		view = new SearchView();
-		ctrl = (SearchPresenter) view.getPresenter();
+		press = (SearchPresenter) view.getPresenter();
 
 		Scene scene = new Scene(view.getView());
 		Stage stage = new Stage();
@@ -31,15 +28,15 @@ public class SearchFx {
 	}
 
 	public void onSearchEvent(EventHandler event) {
-		ctrl.searchButton.setOnAction(event);
+		press.searchButton.setOnAction(event);
 	}
 
 	public String getLocation() {
-		return ctrl.location.getText();
+		return press.location.getText();
 	}
 
 	public String getKeyword() {
-		return ctrl.keyword.getText();
+		return press.keyword.getText();
 	}
 
 }

@@ -1,6 +1,7 @@
 package headhunt.fx.setup;
 
 import com.airhacks.afterburner.injection.Injector;
+import headhunt.Config;
 import headhunt.Main;
 import headhunt.fx.app.dialogs.help.HelpFx;
 import headhunt.fx.setup.views.finish.FinishCtrl;
@@ -20,13 +21,13 @@ public class SetupFx extends Application {
         /**
          * APP INSTALLED CHECK
          */
-        if (Main.getInstallPath() != null) {
+        if (Config.getInstallPath() != null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("ERROR");
             alert.setHeaderText("Application is installed!");
             alert.setContentText(
                     "Application install folder has been moved!\n" +
-                            "Missing path: \"" + Main.getInstallPath() + "\""
+                            "Missing path: \"" + Config.getInstallPath() + "\""
             );
             alert.showAndWait();
 			System.exit(0);
