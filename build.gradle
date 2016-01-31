@@ -90,18 +90,18 @@ task fatJar(type: Jar) {
 	with jar
 
 	manifest {
+		attributes 'Main-Class': 'headhunt.Main'
 		attributes 'Implementation-Title': 'Headhunt'
 		attributes 'Implementation-Version': version
-		attributes 'Implementation-Date': new Date().format('dd.MM.yyyy')
-		attributes 'Main-Class': 'headhunt.Main'
+		attributes 'Build-Date': new Date().format('dd.MM.yyyy')
 	}
 }
 
 jar() {
 	manifest {
+		attributes 'Main-Class': 'headhunt.Main'
 		attributes 'Implementation-Title': 'Headhunt'
 		attributes 'Implementation-Version': version
-		attributes 'Implementation-Date': new Date().format('dd.MM.yyyy')
-		attributes 'Main-Class': 'headhunt.Main'
+		attributes 'Build-Date': new Date().format('dd.MM.yyyy')
 	}
 }

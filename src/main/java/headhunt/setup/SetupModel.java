@@ -1,5 +1,6 @@
 package headhunt.setup;
 
+import headhunt.Main;
 import headhunt.app.AppModel;
 import headhunt.setup.views.finish.FinishCtrl;
 import headhunt.setup.views.intro.IntroCtrl;
@@ -15,8 +16,6 @@ import java.util.prefs.Preferences;
 public class SetupModel {
 
     public int viewIndex = 0;
-
-    private static Preferences prefs = Preferences.userNodeForPackage(AppModel.class);
 
     @Setter
     private PathCtrl pathModule;
@@ -36,10 +35,6 @@ public class SetupModel {
         return new File(pathModule.getPath()).exists();
     }
 
-    public static String getInstallPath(){
-        return prefs.get("installPath",null);
-    }
-
     public boolean userAgreeWithTerms(){
         return licenseModule.userChoice();
     }
@@ -52,8 +47,8 @@ public class SetupModel {
             installPath.setWritable(true, false);
             installPath.mkdir();
 
-            prefs.put("installPath",pathModule.getPath());
-        } catch (Exception e){
+			Main.setInstallPath(pathModule.getPath());
+		} catch (Exception e){
             e.printStackTrace();
         }
     }

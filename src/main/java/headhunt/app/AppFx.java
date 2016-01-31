@@ -92,7 +92,7 @@ public class AppFx extends Application {
     public void preCheckErrNotification() throws Exception {
         boolean pass = true;
         String errStr = "ERRORS:\n";
-        String installPath = AppModel.getPrefs().get("installPath", null);
+        String installPath = AppModel.getPrefsInstallPath();
 
         if (installPath == null) {
             pass = false;

@@ -1,6 +1,0 @@
-{
-	"database": {
-		"type": "plocal",
-		"url": "database"
-	}
-}

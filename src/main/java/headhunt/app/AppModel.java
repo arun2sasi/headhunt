@@ -31,12 +31,15 @@ public class AppModel {
 	@Getter
 	private static OObjectDatabaseTx db;
 
-	@Getter
 	private static Preferences prefs = Preferences.userNodeForPackage(AppModel.class);
 
 	@PostConstruct
 	public void init() {
 		System.out.println("AppModel.init()");
+	}
+
+	public static String getPrefsInstallPath(){
+		return prefs.get("installPath",null);
 	}
 
 	public static Object getConfig(String env) throws Exception {
@@ -118,7 +121,7 @@ public class AppModel {
 		//Open connection
 		String dbInfo = dbType + ":";
 		if (dbType.equals("plocal")) {
-			dbInfo = dbInfo + prefs.get("installPath", null) + "/" + dbUrl;
+			dbInfo = dbInfo + AppModel.getPrefsInstallPath() + "/" + dbUrl;
 		} else {
 			dbInfo = dbInfo + dbUrl;
 		}
