@@ -30,7 +30,7 @@ public class HelpFx {
 		Stage stage = new Stage();
 		stage.setScene(scene);
 		stage.setResizable(false);
-		stage.setTitle("Tutorial");
+		stage.setTitle("Help");
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.showAndWait();
 	}

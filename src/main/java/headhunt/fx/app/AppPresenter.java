@@ -178,7 +178,7 @@ public class AppPresenter implements Initializable {
 		try {
 			JSONArray jsonArray = (JSONArray) parser.parse(new FileReader(file));
 
-			LoadingFx loadingFx = new LoadingFx("Loading...");
+			LoadingFx loadingFx = new LoadingFx("Import users");
 
 			loadingFx.setTask(
 			"Importing users: " + jsonArray.size() + " users...",
@@ -222,7 +222,7 @@ public class AppPresenter implements Initializable {
 	}
 
 	public void settings(){
-		SettingsFx settingsFx = new SettingsFx("Headhunt settings");
+		SettingsFx settingsFx = new SettingsFx();
 	}
 
 	public void newScraper(){

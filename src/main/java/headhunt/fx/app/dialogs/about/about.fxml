@@ -32,8 +32,8 @@
                           <rowConstraints>
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="71.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="41.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="89.0" minHeight="10.0" prefHeight="89.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="55.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
@@ -46,7 +46,7 @@
                                     </Label>
                                  </children>
                               </VBox>
-                              <TextFlow prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                              <TextFlow prefHeight="91.0" prefWidth="259.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                  <children>
                                     <Text fx:id="description" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
                                  </children>
@@ -148,18 +148,6 @@
                 </Tab>
               </tabs>
             </TabPane>
-            <Separator prefWidth="200.0" />
-            <HBox alignment="CENTER_RIGHT" prefHeight="28.0" prefWidth="400.0">
-               <children>
-                  <Button fx:id="okButton" mnemonicParsing="false" onAction="#ok" text="OK" />
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </HBox>
          </children>
       </VBox>
    </children>

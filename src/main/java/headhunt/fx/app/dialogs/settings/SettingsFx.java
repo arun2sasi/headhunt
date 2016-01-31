@@ -11,7 +11,7 @@ public class SettingsFx {
 	private SettingsPresenter press;
 	private FXMLView view;
 
-	public SettingsFx(String title) {
+	public SettingsFx() {
 
 		view = new SettingsView();
 		press = (SettingsPresenter) view.getPresenter();
@@ -20,7 +20,7 @@ public class SettingsFx {
 		Stage stage = new Stage();
 		stage.setScene(scene);
 		stage.setResizable(false);
-		stage.setTitle(title);
+		stage.setTitle("Settings");
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.show();
 	}

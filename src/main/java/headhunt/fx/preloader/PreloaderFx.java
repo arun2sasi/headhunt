@@ -31,7 +31,7 @@ public class PreloaderFx extends javafx.application.Preloader {
          * STAGE env
          */
         stage.setScene(scene);
-        stage.setTitle("SetupFx application");
+        stage.setTitle("Loading");
 		stage.setResizable(false);
         stage.show();
     }

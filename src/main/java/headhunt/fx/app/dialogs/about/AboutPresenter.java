@@ -28,7 +28,6 @@ public class AboutPresenter implements Initializable {
 	@FXML private Text licence;
 	@FXML private Text creator;
 	@FXML private Text title;
-	@FXML private Button okButton;
     //INJECTING-END
 
     @Override
@@ -52,9 +51,4 @@ public class AboutPresenter implements Initializable {
             Config.PACKAGE.AUTHOR_LOCATION + "\n"
 		);
     }
-
-	public void ok(){
-		((Stage) okButton.getScene().getWindow()).close();
-		Injector.forgetAll();
-	}
 }

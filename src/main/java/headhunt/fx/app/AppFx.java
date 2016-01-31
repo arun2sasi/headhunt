@@ -72,7 +72,7 @@ public class AppFx extends Application {
          * STAGE env
          */
         stage.setScene(scene);
-        stage.setTitle("Headhunt");
+        stage.setTitle(Config.PACKAGE.NAME);
         stage.show();
     }
 

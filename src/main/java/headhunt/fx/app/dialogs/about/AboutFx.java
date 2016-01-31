@@ -18,7 +18,7 @@ public class AboutFx {
 		Stage stage = new Stage();
 		stage.setScene(scene);
 		stage.setResizable(false);
-		stage.setTitle("Tutorial");
+		stage.setTitle("About");
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.show();
 	}

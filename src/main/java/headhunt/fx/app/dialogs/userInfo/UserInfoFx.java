@@ -46,7 +46,7 @@ public class UserInfoFx {
 
 		stage.setScene(scene);
 		stage.setResizable(true);
-		stage.setTitle("New task");
+		stage.setTitle("User info");
 		stage.initModality(Modality.WINDOW_MODAL);
 		stage.show();
 

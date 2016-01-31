@@ -48,7 +48,7 @@ public class SetupFx extends Application {
          * STAGE env
          */
         stage.setScene(scene);
-        stage.setTitle("SetupFx");
+        stage.setTitle("Setup");
 		stage.setResizable(false);
         stage.show();
 
