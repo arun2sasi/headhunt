@@ -1,13 +1,10 @@
 package headhunt.services;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
-import headhunt.schemas.classes.VimeoUsersScraper;
+import headhunt.database.classes.VimeoUsersScraper;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 
-import java.net.ConnectException;
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 

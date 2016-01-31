@@ -1,7 +1,6 @@
 package headhunt.services;
 
-import headhunt.schemas.Schema;
-import headhunt.schemas.ScraperSchema;
+import headhunt.database.schemas.ScraperSchema;
 import javafx.concurrent.Task;
 import javafx.util.Callback;
 import lombok.Getter;
