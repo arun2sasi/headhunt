@@ -1,10 +1,3 @@
-# Headhunt
-Headhunt application is database scraper for API users
-on which it implements custom and optimized search queries
-to find the right person for your job!
-
-**GNU General Public License v3.0 Copyright 2007 Free Software Foundation**
-
 # Documentation
 
 Here is documentation for application.
@@ -63,3 +56,5 @@ Examples:
 When you make new search query. Items in `Headhunt` tab will update. Double
 click on table item and `Headhunt window` will show which will provide
 with all user information on one place.
+	
+
